@@ -1,0 +1,2823 @@
+% spin12.tex
+%
+% Copyright (C) 2022 José A. Navarro Ramón <janr.devel@gmail.com>
+% 1) Código LuaLatex:
+%    Licencia GPL-2.
+% 2) Producto en pdf, postscript, etc.:
+%    Licencia Creative Commons Recognition Share alike. (CC-BY-SA)
+
+\chapter{Spin 1/2}
+El spin $S$ es \emph{un momento angular} que \emph{rota} estados cuánticos
+de spin alrededor de una cierta dirección espacial. Se trata de un observable
+mecanocuántico que \emph{vive} en nuestro mundo $\symbb{R}^3$, con tres
+componentes, $S_x$, $S_y$, $S_z$ que se representan mediante operadores
+hermíticos. Son hermíticos puesto que los valores que medimos de este
+observable son números reales. En el caso del momento angular de spin,
+estos operadores se representan mediante matrices cuadradas $N\times N$.
+
+En este capítulo nos centraremos en el spin 1/2 y estudiaremos la relación
+entre este, las \emph{matrices de Pauli} y las rotaciones.
+
+\section{Espinores}
+ El estado de spin $S$ de un sistema cuántico se representa mediante elementos
+del espacio vectorial complejo $\symbb{C}^N$, denominados espinores,
+donde $N=2S+1$.
+
+Para el spin 1/2, $N= 2\cdot 1/2 + 1 = 2$ y el estado de spin se representa
+mediante vectores de $\symbb{C}^2$
+\[
+  \symbb{C}^2
+  =
+  \left\{
+    \vvv{z} = \begin{pNiceMatrix}\alpha \\ \beta\end{pNiceMatrix}
+    \,\big/\, \alpha, \beta \in \symbb{C}
+  \right\}
+\]
+
+Estos espinores, en concreto, son \emph{objetos} con spin $1/2$.
+Sus componentes, $\alpha$ y $\beta$, son las amplitudes de probabilidad
+de que al medir la componente del spin en una cierta dirección, esta tenga
+un sentido a favor o en contra de ella.
+
+Los fermiones, como el electrón, son partículas de spin 1/2.
+Por tanto, la probabilidad de que al medir el spin de un electrón
+en una cierta dirección, por ejemplo el eje $z$, nos dé un spin
+\emph{hacia arriba} sería
+\[
+  |\alpha|^2 = \alpha^* \alpha
+\]
+
+La probabilidad de que se encuentre \emph{hacia abajo} sería
+\[
+  |\beta|^2 = \beta^* \beta
+\]
+
+Como no hay más alternativas, la suma de estas probabilidades tiene que
+valer la unidad
+\[
+  |\alpha|^2 + |\beta|^2 = 1
+\]
+
+Como consecuencia, el módulo de un espinor debe valer la unidad
+\[
+  |z|^2
+  = z^\dagger z
+  = \begin{pNiceMatrix}
+    \alpha\\
+    \beta
+  \end{pNiceMatrix}^\dagger
+  \begin{pNiceMatrix}
+    \alpha\\
+    \beta
+  \end{pNiceMatrix}
+  = \begin{pNiceMatrix}
+    \alpha^* & \beta^*
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    \alpha\\
+    \beta
+  \end{pNiceMatrix}
+  = \alpha^* \alpha + \beta^* \beta
+  = |\alpha|^2 + |\beta|^2
+  = 1
+\]
+
+Resumiendo:
+\begin{quote}
+  ``Un spin $1/2$, o espinor, es un objeto con dos componentes complejas que
+  representan amplitudes de probabilidad de que el spin esté \emph{arriba} o
+  \emph{abajo}.''
+\end{quote}
+
+\section{Matrices de Pauli}
+Las matrices de Pauli son tres matrices cuadradas, $2\times 2$, linealmente
+independientes
+\[
+  \mmm{\sigma_1}
+  = \mmm{\sigma_x}
+  = \begin{pNiceMatrix}
+    0 & 1\\
+    1 & 0
+  \end{pNiceMatrix}
+  ;\hspace{1em}
+  \mmm{\sigma_2}
+  = \mmm{\sigma_y}
+  = \begin{pNiceMatrix}
+    0 & -i\\
+    i & 0
+  \end{pNiceMatrix}
+  ;\hspace{1em}
+  \mmm{\sigma_3}
+  = \mmm{\sigma_z}
+  = \begin{pNiceMatrix}
+    1 & 0\\
+    0 & -1
+  \end{pNiceMatrix}  
+\]
+
+Podemos comprobar que sus cuadrados son iguales a la matriz identidad,
+$\mmm{I}$
+\begin{align*}
+  \mmm{\sigma_1}^2
+  &=
+    \begin{pNiceMatrix}
+      0 & 1\\
+      1 & 0
+    \end{pNiceMatrix}
+    \begin{pNiceMatrix}
+      0 & 1\\
+      1 & 0
+    \end{pNiceMatrix}
+    = \begin{pNiceMatrix}
+      1 & 0\\
+      0 & 1
+    \end{pNiceMatrix}
+    = \mmm{I}\\
+  \mmm{\sigma_2}^2
+  &=
+    \begin{pNiceMatrix}
+      0 & -i\\
+      i & 0
+    \end{pNiceMatrix}
+    \begin{pNiceMatrix}
+      0 & -i\\
+      i & 0
+    \end{pNiceMatrix}
+    = \begin{pNiceMatrix}
+      1 & 0\\
+      0 & 1
+    \end{pNiceMatrix}
+    = \mmm{I}\\
+  \mmm{\sigma_3}^2
+  &=
+    \begin{pNiceMatrix}
+      1 & 0\\
+      0 & -1
+    \end{pNiceMatrix}
+    \begin{pNiceMatrix}
+      1 & 0\\
+      0 & -1
+    \end{pNiceMatrix}
+    = \begin{pNiceMatrix}
+      1 & 0\\
+      0 & 1
+    \end{pNiceMatrix}
+    = \mmm{I}
+\end{align*}
+
+Podemos resumir lo anterior en
+\begin{equation}\label{eq:spin12-sigmai-sigmai}
+  \mmm{\sigma_i}^2 = \mmm{I}\hspace{2em}\text{para } i = 1, 2, 3
+\end{equation}
+
+Además, anticonmutan porque son matrices cuadradas
+\begin{equation}\label{eq:spin12-sigmai-sigmaj}
+  \mmm{\sigma_i} \mmm{\sigma_j} = - \mmm{\sigma_j} \mmm{\sigma_i}
+  \hspace{1em}
+  (\text{para } i\neq j)
+\end{equation}
+
+Estas matrices cumplen las propiedades de un \emph{álgebra de Clifford}.
+
+
+\section{Matrices de Pauli y rotaciones}
+Vamos a fijarnos en un vector cualquiera de $\symbb{R}^3$, por ejemplo
+$\vvv{v} = (v_1,v_2,v_3)$. Construimos una combinación lineal de las matrices
+de Pauli donde los coeficientes son las coordenadas del vector
+\[
+  \mmm{A} = v_1\mmm{\sigma_1} + v_2\mmm{\sigma_2} + v_3\mmm{\sigma_3}
+\]
+
+Las matrices de Pauli son linealmente independientes y forman la base de un
+cierto espacio vectorial, que es subespacio de las matrices $2\times 2$
+complejas.
+El resultado de la combinación lineal debe ser otra matriz de ese subespacio.
+
+Pero el cuadrado de esta combinación lineal no cumple las
+propiedades~\eqref{eq:spin12-sigmai-sigmai} y~\eqref{eq:spin12-sigmai-sigmaj}
+\begin{align*}
+  \mmm{A}^2
+  &=
+  (v_1\mmm{\sigma_1} + v_2\mmm{\sigma_2} + v_3\mmm{\sigma_3})^2
+  = {\scriptstyle
+    (v_1\mmm{\sigma_1} + v_2\mmm{\sigma_2} + v_3\mmm{\sigma_3})
+    (v_1\mmm{\sigma_1} + v_2\mmm{\sigma_2} + v_3\mmm{\sigma_3})}\\
+  &=
+    {\scriptstyle
+    v_1^2\mmm{\sigma_1}^2 + v_2^2\mmm{\sigma_2}^2 + v_3^2\mmm{\sigma_3}^2
+    + v_1v_2(\mmm{\sigma_1}\mmm{\sigma_2} + \mmm{\sigma_2}\mmm{\sigma_1})
+  + v_1v_3(\mmm{\sigma_1}\mmm{\sigma_3} + \mmm{\sigma_3}\mmm{\sigma_1})
+  + v_2v_3(\mmm{\sigma_2}\mmm{\sigma_3} + \mmm{\sigma_3}\mmm{\sigma_2})}\\
+  &=
+    {\scriptstyle
+    v_1^2\mmm{I} + v_2^2\mmm{I} + v_3^2\mmm{I}
+  + v_1v_2(\mmm{\sigma_1}\mmm{\sigma_2}-\mmm{\sigma_1}\mmm{\sigma_2})
+  + v_1v_3(\mmm{\sigma_1}\mmm{\sigma_3} - \mmm{\sigma_1}\mmm{\sigma_3})
+  + v_2v_3(\mmm{\sigma_2}\mmm{\sigma_3} - \mmm{\sigma_2}\mmm{\sigma_3})}\\
+  &=
+    (v_1^2 + v_2^2 + v_3^2)\mmm{I} = |\vvv{v}|^2 \mmm{I}
+\end{align*}
+
+La propiedad se cumple si elegimos un vector unitario como
+$\xhat{n} = (n_1, n_2, n_3)$, con $|\xhat{n}|^2 = n_1^2 + n_2^2 + n_3^2 = 1$.
+Entonces
+\[
+  \mmm{A}^2
+  = (n_1\mmm{\sigma_1} + n_2\mmm{\sigma_2} + n_3\mmm{\sigma_3})^2
+  = \left(n_1^2 + n_2^2 + n_3^2\right)^2 \mmm{I}
+  = |\xhat{n}|^2 \mmm{I}
+  = \mmm{I}
+\]
+
+Además, el determinante de $\mmm{A}$ vale -1
+\[
+  \mmm{A}
+  = \left[%
+    n_1\begin{pNiceMatrix} 0 & 1\\ 1 & 0\end{pNiceMatrix}
+    + n_2\begin{pNiceMatrix} 0 & -i\\ i & 0\end{pNiceMatrix}
+    + n_3\begin{pNiceMatrix} 1 & 0\\ 0 & -1\end{pNiceMatrix}
+  \right]
+  = \begin{pNiceMatrix}
+    n_3 & n_1-in_2\\
+    n_1+in_2 & -n_3
+    \end{pNiceMatrix}
+\]
+\[
+  \det(\mmm{A})
+  = \begin{vNiceMatrix}
+    n_3 & n_1-in_2\\
+    n_1+in_2 & -n_3
+  \end{vNiceMatrix}
+  = -n_1^2 - n_2^2 - n_3^2 = -1
+\]
+
+Pero queremos que el cuadrado de la matriz $\mmm{A}$ valga $-\mmm{I}$,
+por analogía con las rotaciones de números complejos \eqref{eq:rot-i2} y
+de vectores de $\symbb{R}^2$ \eqref{eq:rot-A2} y que su determinante valga
+la unidad, también por analogía con \eqref{eq:rot-modi} y \eqref{eq:rot-detA}.
+
+Esto se consigue incluyendo la unidad imaginaria en la combinación lineal
+\begin{equation}\label{eq:rot-generador-rotacion}
+  \mmm{A}
+  = i (n_1\mmm{\sigma_1} + n_2\mmm{\sigma_2} + n_3\mmm{\sigma_3})
+\end{equation}
+
+Ahora, el cuadrado de $\mmm{A}$ tendrá el valor buscado
+\begin{equation}\label{eq:spin12-A2}
+  \mmm{A}^2
+  = i^2 (n_1\mmm{\sigma_1} + n_2\mmm{\sigma_2} + n_3\mmm{\sigma_3})^2
+  = (-1) |\xhat{n}|^2 \mmm{I}
+  = -\mmm{I}
+\end{equation}
+Y su determinante también
+\[
+  \mmm{A}
+  = i\left[%
+    n_1\begin{pNiceMatrix} 0 & 1\\ 1 & 0\end{pNiceMatrix}
+    + n_2\begin{pNiceMatrix} 0 & -i\\ i & 0\end{pNiceMatrix}
+    + n_3\begin{pNiceMatrix} 1 & 0\\ 0 & -1\end{pNiceMatrix}
+  \right]
+  = \begin{pNiceMatrix}
+    in_3 & n_2+in_1\\
+    -n_2+in_1 & -in_3
+    \end{pNiceMatrix}
+\]
+\begin{equation}\label{eq:spin12-detA}
+  \det(\mmm{A})
+  = \begin{vNiceMatrix}
+    in_3 & n_2+in_1\\
+    -n_2+in_1 & -in_3    
+  \end{vNiceMatrix}
+  = n_1^2 + n_2^2 + n_3^2 = 1
+\end{equation}
+
+Lo anterior \eqref{eq:spin12-A2} y \eqref{eq:spin12-detA} nos sugiere que la
+matriz~\eqref{eq:rot-generador-rotacion}
+\[
+  \mmm{A}
+  = i (n_1\mmm{\sigma_1} + n_2\mmm{\sigma_2} + n_3\mmm{\sigma_3})
+  = i (\xhat{n}\cdot\mmm{\sigma})
+\]
+es la generadora de una rotación y, de acuerdo con~\eqref{eq:rot-ethetaA-abr},
+se puede escribir como
+\[
+    e^{i\theta \xhat{n}\cdot\mmm{\sigma}}
+    = \mmm{I} \cos\theta + i (\xhat{n}\cdot\mmm{\sigma}) \sin\theta
+\]
+
+Nótese que $\xhat{n}\cdot\mmm{\sigma}$ se utiliza para abreviar
+la notación y, aunque se representa como un producto escalar, no lo es en
+realidad, porque este solo se define para vectores de un mismo espacio
+vectorial, y resulta que $\xhat{n}$ y $\mmm{\sigma}$ no son elementos del
+mismo espacio. Obsérvese también que el producto escalar se define
+de manera que su resultado es siempre un escalar y en este caso es una
+matriz.
+
+\section{Matrices de Pauli y momento angular}
+Se sabe, de mecánica cuántica, que todo objeto que pretenda llamarse momento
+angular debe tener tres componentes $\vvv{A}_1$, $\vvv{A}_2$ y $\vvv{A}_3$
+que conmutan de la siguiente manera
+\begin{align*}
+  [\vvv{A}_1,\vvv{A}_2] &= i\vvv{A}_3\\
+  [\vvv{A}_2,\vvv{A}_3] &= i\vvv{A}_1\\
+  [\vvv{A}_3,\vvv{A}_1] &= i\vvv{A}_2\\
+  [\vvv{A}_1,\vvv{A}_1] &= [\vvv{A}_2,\vvv{A}_2] = [\vvv{A}_3,\vvv{A}_3] = 0
+\end{align*}
+donde las $\vvv{A}_i$ son las que generan las rotaciones.
+
+Estas condiciones se puede resumir en una, recurriendo al símbolo de
+Levi-Civita
+\begin{equation}
+  [\vvv{A}_i,\vvv{A}_j] = i\epsilon_{ijk}\vvv{A}_k
+\end{equation}
+
+Entonces para ver si las matrices de Pauli son las componentes de un momento
+angular, tenemos que calcular sus conmutadores. Empezamos con uno de ellos
+\[
+  [\mmm{\sigma_1},\mmm{\sigma_2}]
+  =
+    \mmm{\sigma_1}\mmm{\sigma_2} - \mmm{\sigma_2}\mmm{\sigma_1}
+    = 2\mmm{\sigma_1}\mmm{\sigma_2}
+    = 2
+    \begin{pNiceMatrix}
+      0 & 1\\
+      1 & 0
+    \end{pNiceMatrix}
+    \begin{pNiceMatrix}
+      0 & -i\\
+      i & 0
+    \end{pNiceMatrix}
+    = 2i\mmm{\sigma_3}
+\]
+
+Vemos que da el doble de lo que se requiere, por lo que las $\mmm{\sigma_i}$
+no son las componentes de un momento angular. Pero las matrices
+$\mmm{\sigma_i}/2$ sí lo son
+\begin{align*}
+  \left[\frac{\mmm{\sigma_1}}{2},\frac{\mmm{\sigma_2}}{2}\right]
+  &= \frac{1}{4}
+    (\mmm{\sigma_1}\mmm{\sigma_2} - \mmm{\sigma_2}\mmm{\sigma_1})
+    = \frac{1}{4}\mmm{\sigma_1}\mmm{\sigma_2}
+    =
+    \frac{1}{4}
+    \begin{pNiceMatrix}
+      0 & 1\\
+      1 & 0
+    \end{pNiceMatrix}
+    \begin{pNiceMatrix}
+      0 & -i\\
+      i & 0
+    \end{pNiceMatrix}
+    = i\frac{\sigma_3}{2}\\
+  \left[\frac{\mmm{\sigma_2}}{2},\frac{\mmm{\sigma_3}}{2}\right]
+  &=
+    \frac{1}{4}
+    (\mmm{\sigma_2}\mmm{\sigma_3} - \mmm{\sigma_3}\mmm{\sigma_2})
+    = \frac{1}{4}\mmm{\sigma_2}\mmm{\sigma_3}
+    =
+    \frac{1}{4}
+    \begin{pNiceMatrix}
+      0 & -i\\
+      i & 0
+    \end{pNiceMatrix}
+    \begin{pNiceMatrix}
+      1 & 0\\
+      0 & -1
+    \end{pNiceMatrix}
+    = i\frac{\sigma_1}{2}\\
+  \left[\frac{\mmm{\sigma_3}}{2},\frac{\mmm{\sigma_1}}{2}\right]
+  &=
+    \frac{1}{4}
+    (\mmm{\sigma_3}\mmm{\sigma_1} - \mmm{\sigma_1}\mmm{\sigma_3})
+    = \frac{1}{4}\mmm{\sigma_3}\mmm{\sigma_1}
+    =
+    \frac{1}{4}
+    \begin{pNiceMatrix}
+      1 & 0\\
+      0 & -1
+    \end{pNiceMatrix}
+    \begin{pNiceMatrix}
+      0 & 1\\
+      1 & 0
+    \end{pNiceMatrix}
+    = i\frac{\sigma_2}{2}  
+\end{align*}
+
+De manera que las $\mmm{\sigma}/2$ forman un momento angular
+\[
+  \frac{\mmm{\sigma}}{2}
+  = \left(%
+    \frac{\mmm{\sigma_1}}{2},
+    \frac{\mmm{\sigma_2}}{2},
+    \frac{\mmm{\sigma_3}}{2}
+    \right)
+\]
+
+El operador de rotación pasiva correspondiente, es
+\[
+  \mmm{R}(\xhat{n},\theta)
+  =
+  e^{i\theta\left(\xhat{n}\cdot\frac{\mmm{\sigma}}{2}\right)}
+  =
+  e^{i\frac{\theta}{2}(\xhat{n}\cdot\mmm{\sigma})}
+\]
+
+Este operador rota estados de spin 1/2, esto es vectores del espacio vectorial
+complejo $\symbb{C}^2$.
+\begin{quote}
+ Cuando se gira el sistema de coordenadas (rotación pasiva), los estados
+ de spin 1/2 giran según
+  \begin{equation}\label{eq:spin12-e-giro-pasivo-spin}
+    \mmm{R}(\xhat{n},\theta)
+    = e^{i\frac{\theta}{2}(\xhat{n}\cdot\mmm{\sigma})}
+    = \mmm{I} \cos\frac{\theta}{2}
+    + i (\xhat{n}\cdot\mmm{\sigma}) \sin\frac{\theta}{2}
+  \end{equation}
+\end{quote}
+
+Desarrollamos el operador de rotación pasiva (giro de ejes de coordenadas)
+%\NiceMatrixOptions{cell-space-top-limit = 1pt,cell-space-bottom-limit = 1pt}
+\begin{align*}
+  \xhat{n}\cdot\mmm{\sigma}
+  &=
+    n_1\mmm{\sigma_1} + n_2\mmm{\sigma_2} + n_3\mmm{\sigma_3}
+    = n_1\begin{pNiceMatrix}0 & 1\\ 1 & 0\end{pNiceMatrix}
+    + n_2\begin{pNiceMatrix}0 & -i\\ i & 0\end{pNiceMatrix}
+    + n_3\begin{pNiceMatrix}1 & 0\\ 0 & -1\end{pNiceMatrix}\\
+  &=
+    n_1\begin{pNiceMatrix}0 & n_1\\ n_1 & 0\end{pNiceMatrix}
+    + \begin{pNiceMatrix}0 & -in_2\\ n_2i & 0\end{pNiceMatrix}
+    + \begin{pNiceMatrix}n_3 & 0\\ 0 & -n_3\end{pNiceMatrix}\\
+  &=
+    \begin{pNiceMatrix}
+      n_3 & n_1-in_2\\
+      n_1+in_2 & -n_3
+    \end{pNiceMatrix}
+\end{align*}
+\begin{align*}
+  e^{i\frac{\theta}{2}(\xhat{n}\cdot\mmm{\sigma})}
+  &=
+    \cos\frac{\theta}{2}\mmm{I}
+    + i\sin\frac{\theta}{2}(\xhat{n}\cdot\mmm{\sigma})\\
+  &=
+    \cos\frac{\theta}{2}
+    \begin{pNiceMatrix}
+      1 & 0\\
+      0 & 1
+    \end{pNiceMatrix}
+    + i\sin\frac{\theta}{2}
+    \begin{pNiceMatrix}
+      n_3 & n_1-in_2\\
+      n_1+in_2 & -n_3
+    \end{pNiceMatrix}\\
+  &=
+    \begin{pNiceMatrix}
+      \cos\frac{\theta}{2} & 0\\
+      0 & \cos\frac{\theta}{2}
+    \end{pNiceMatrix}
+    + \begin{pNiceMatrix}
+      in_3\sin\frac{\theta}{2} & i (n_1-in_2) \sin\frac{\theta}{2}\\[.5ex]
+      i (n_1+in_2) \sin\frac{\theta}{2} & -in_3\sin\frac{\theta}{2}
+    \end{pNiceMatrix}\\
+  &=
+    \begin{pNiceMatrix}
+      \cos\frac{\theta}{2}+in_3\sin\frac{\theta}{2}
+      & (n_2+in_1)\sin\frac{\theta}{2}\\[0.5ex]
+      (-n_2+in_1)\sin\frac{\theta}{2}
+      & \cos\frac{\theta}{2}-in_3\sin\frac{\theta}{2}
+    \end{pNiceMatrix}  
+\end{align*}
+
+Vamos a poner un ejemplo sencillo. Supongamos que tenemos en el origen
+de coordenadas una partícula de spin $1/2$, como el electrón.
+Y que el espinor que caracteriza su estado de spin es
+\[
+  \begin{pNiceMatrix}
+    \alpha\\
+    \beta
+  \end{pNiceMatrix}
+\]
+
+La probabilidad de encontrar al electrón con \emph{spin hacia arriba} es
+\[
+  \alpha^* \alpha = |\alpha|^2
+\]
+
+Al girar el electrón alrededor de un eje $\xhat{n}$ (rotación activa) un
+ángulo  $\theta$, el electrón no cambiará de posición (porque sigue estando
+en el origen de coordenadas), pero su estado de spin sí habrá cambiado
+\begin{align*}
+  \begin{pNiceMatrix}
+    \alpha'\\
+    \beta'
+  \end{pNiceMatrix}
+  &=
+    e^{-i\theta (\xhat{n}\cdot\frac{\mmm{\sigma}}{2})}
+    \begin{pNiceMatrix}
+      \alpha\\
+      \beta
+    \end{pNiceMatrix}\\
+  &=
+    \begin{pNiceMatrix}
+      \cos\left(-\frac{\theta}{2}\right)
+      + in_3\sin\left(-\frac{\theta}{2}\right)
+    & (n_2 + in_1)\sin\left(-\frac{\theta}{2}\right)\\[0.5ex]
+    (-n_2+in_1)\sin\left(-\frac{\theta}{2}\right)
+    & \cos\left(-\frac{\theta}{2}\right)
+    -in_3\sin\left(-\frac{\theta}{2}\right)
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    \alpha\\
+    \beta
+  \end{pNiceMatrix}\\
+  &=
+    \begin{pNiceMatrix}
+      \cos\frac{\theta}{2} - in_3\sin\frac{\theta}{2}
+      & -(n_2 + in_1)\sin\frac{\theta}{2}\\[3pt]
+      (n_2-in_1)\sin\frac{\theta}{2}
+      & \cos\frac{\theta}{2}+in_3\sin\frac{\theta}{2}
+    \end{pNiceMatrix}
+    \begin{pNiceMatrix}
+      \alpha\\
+      \beta
+    \end{pNiceMatrix}\\
+  &=
+    \begin{pNiceMatrix}
+      \left(\cos\frac{\theta}{2} - in_3\sin\frac{\theta}{2}\right) \alpha
+      - (n_2 + in_1)\sin\frac{\theta}{2}\, \beta\\[.5ex]
+      (n_2-in_1)\sin\frac{\theta}{2}\,\alpha
+      + \left(\cos\frac{\theta}{2}+in_3\sin\frac{\theta}{2}\right) \beta
+    \end{pNiceMatrix}
+\end{align*}
+
+Pongamos tres ejemplos concretos:
+\begin{itemize}
+\item Si girara un ángulo de $\ang{90} = \pi/2\,\si{\radian}$
+  alrededor del eje $y$ ($\xhat{n} = (0,1,0)$), el espinor que representaría
+  su estado final de spin, sería
+  \[
+    \begin{pNiceMatrix}
+      \alpha'\\
+      \beta'
+    \end{pNiceMatrix}
+    = \begin{pNiceMatrix}
+      \cos\frac{\pi/2}{2} \alpha - \sin\frac{\pi/2}{2}\, \beta\\[3pt]
+      \sin\frac{\pi/2}{2}\,\alpha + \cos\frac{\theta}{2} \beta
+    \end{pNiceMatrix}
+    = \begin{pNiceMatrix}
+      \cos\frac{\pi}{4} \alpha - \sin\frac{\pi}{4}\, \beta\\[3pt]
+      \sin\frac{\pi}{4}\,\alpha + \cos\frac{\pi}{4} \beta
+    \end{pNiceMatrix}
+    = \begin{pNiceMatrix}
+      \frac{1}{\sqrt{2}} (\alpha - \beta)\\
+      \frac{1}{\sqrt{2}} (\alpha + \beta)
+    \end{pNiceMatrix}
+  \]
+
+  La probabilidad de encontrar al electron con \emph{spin hacia arriba}
+  sería diferente de la original $|\alpha|^2$, porque hemos cambiado la
+  orientación del electrón con respecto al eje $z$ que indicaba el estado hacia
+  arriba o hacia abajo del spin
+  \[
+    |\alpha'|^2
+    = (\alpha')^* \alpha'
+    = \left[\frac{1}{\sqrt{2}} (\alpha - \beta)\right]^*
+    \left[\frac{1}{\sqrt{2}} (\alpha - \beta)\right]
+    = \frac{|\alpha - \beta|^2}{2} \neq |\alpha|^2
+  \]
+  
+\item Si girara un ángulo $\ang{60} = \pi/3\,\si{\radian}$ alrededor
+  del eje $z$ ($\xhat{n} = (0,0,1)$), el espinor que representaría su estado
+  de spin sería diferente
+  \[
+    \begin{pNiceMatrix}
+      \alpha'\\
+      \beta'
+    \end{pNiceMatrix}
+    = \begin{pNiceMatrix}
+      \left(\cos\frac{\pi/3}{2}-i\sin\frac{\pi/3}{2}\right)\alpha\\
+      \left(\cos\frac{\pi/3}{2}+i\sin\frac{\pi/3}{2}\right)\beta
+    \end{pNiceMatrix}
+    = \begin{pNiceMatrix}
+      \left(\frac{\sqrt{3}}{2}-i\frac{1}{2}\right)\alpha\\
+      \left(\frac{\sqrt{3}}{2}+i\frac{1}{2}\right)\beta
+    \end{pNiceMatrix}
+  \]
+
+  Pero la probabilidad no cambiaría porque no hemos cambiado la orientación
+  del electrón con respecto al eje $z$ que es el que nos indicaba el spin
+  hacia arriba o hacia abajo de la partícula
+  \[
+    |\alpha'|^2
+    = (\alpha')^* \alpha'
+    = \left(\frac{\sqrt{3}}{2}+i\frac{1}{2}\right)\alpha^*
+    \left(\frac{\sqrt{3}}{2}-i\frac{1}{2}\right)\alpha
+    = \left(\frac{3}{4}+\frac{1}{4}\right) \alpha^* \alpha
+    = |\alpha|^2
+  \]
+  
+\item Como curiosidad, si diera una vuelta completa, por ejemplo\footnotemark{}
+  alrededor del eje $z$, esto es, si girara un ángulo de
+  $\ang{360} = 2\pi\,\si{\radian}$
+  \footnotetext{Para hacer el cálculo más sencillo, pero podría ser alrededor
+    de cualquier dirección.}
+  y volviera a su orientación inicial, el estado de spin sería diferente al
+  inicial\footnotemark{}
+  \footnotetext{Compruebe el lector que tendría que dar
+    \emph{dos vueltas completas} ($\theta=4\pi\,\si{\radian}$) para volver el
+    espinor al estado inicial.}
+  \[
+    \begin{pNiceMatrix}
+      \alpha'\\
+      \beta'
+    \end{pNiceMatrix}
+    = \begin{pNiceMatrix}
+      \left(\cos\frac{2\pi}{2}-i\sin\frac{2\pi}{2}\right)\alpha\\[0.5ex]
+      \left(\cos\frac{2\pi}{2}+i\sin\frac{2\pi}{2}\right)\beta
+    \end{pNiceMatrix}
+    =
+    \begin{pNiceMatrix}
+      -\alpha\\
+      -\beta
+    \end{pNiceMatrix}
+  \]
+  
+  El electrón no tendría el mismo estado de spin, aunque nosotros lo viéramos
+  igual, porque la probabilidad de encontrarlo con \emph{spin hacia arriba}
+  o \emph{hacia abajo} sería la misma que antes de girarlo
+  \[
+    |\alpha'|^2 = (-\alpha^*) (-\alpha) = \alpha^* \alpha = |\alpha|^2
+  \]
+
+  \begin{quote}
+    ``Si un electrón gira dando una vuelta completa (o la dan los ejes de
+    coordenadas), la partícula no termina en el mismo estado interno de spin
+    en el que estaba inicialmente; sería necesario darle dos vueltas para
+    encontrarlo exactamente igual que al principio.''
+  \end{quote}
+\end{itemize}
+
+\section{Base de estados de spin 1/2}
+Como el spin es $1/2$, significa que hay dos posibilidades mútuamente
+excluyentes.
+
+Por comodidad, es tradición elegir como base de estados de spin 1/2 los
+vectores propios de $\mmm{\sigma_3} = \mmm{\sigma_z}$, ya que la matriz es
+diagonal y los vectores propios son\footnotemark{}
+\footnotetext{Se podría elegir cualquier par de símbolos para representar
+  estos estados; aquí hemos elegido $\ket{z+}$ y $\ket{z_-}$. En otras partes
+  de este volumen elegiremos $\ket{0}$ y $\ket{1}$, que nos recordarían los
+  estados de un \emph{qbit}.}
+\[
+  \ket{z_+}
+  =
+  \begin{pNiceMatrix}
+    1\\
+    0
+  \end{pNiceMatrix}
+  \hspace{.5em}
+  y\hspace{.5em}
+  \ket{z_-}
+  =
+  \begin{pNiceMatrix}
+    0\\
+    1
+  \end{pNiceMatrix}
+\]
+y los valores propios respectivos, $+1$ y $-1$
+\begin{align*}
+  &\begin{pNiceMatrix}
+    1 & 0\\
+    0 & -1
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    1\\
+    0
+  \end{pNiceMatrix}
+  = +1\,
+  \begin{pNiceMatrix}
+    1\\
+    0
+  \end{pNiceMatrix}\\
+  &\begin{pNiceMatrix}
+    1 & 0\\
+    0 & -1
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    0\\
+    1
+  \end{pNiceMatrix}
+  = -1\,
+  \begin{pNiceMatrix}
+    0\\
+    1
+  \end{pNiceMatrix}  
+\end{align*}
+
+Denotaremos por
+\[
+  \ket{z_+}
+  = \begin{pNiceMatrix}
+    1\\
+    0
+  \end{pNiceMatrix}
+\]
+el estado de un sistema que tiene el spin \emph{hacia arriba};
+en otras palabras, una partícula tiene un spin caracterizado por $\ket{z_+}$
+cuando la componente $z$ de su spin es $+1$ (apunta hacia arriba).
+
+La otra función propia
+\[
+  \ket{z_-}
+  = \begin{pNiceMatrix}
+    0\\
+    1
+  \end{pNiceMatrix}
+\]
+describe el estado de un sistema que tiene el spin \emph{hacia abajo}.
+Es decir, una partícula tiene un spin caracterizado por $\ket{z_-}$ cuando
+la componente $z$ de su spin es $-1$ (apunta hacia abajo).
+
+Estos dos estados forman una base ortonormal de $\symbb{C}^2$
+\begin{align}\label{eq:spin12-base-normalizada}
+  &\braket{z_+|z_+} = \braket{z_-|z_-} = 1\\
+  \label{eq:spin12-base-ortogonal}
+  &\braket{z_+|z_-} = \braket{z_-|z_+} = 0
+\end{align}
+Los dos estados son ortogonales~\eqref{eq:spin12-base-ortogonal}
+porque son mutuamente excluyentes.
+
+Cualquier otro estado de spin $1/2$ del sistema se podrá expresar como
+combinación lineal de ambos
+\[
+  \ket{\psi}
+  =\begin{pNiceMatrix}
+    \alpha\\
+    \beta
+  \end{pNiceMatrix}
+  = \alpha \ket{z_+} + \beta \ket{z_-}
+\]
+donde los coeficientes son números complejos $\alpha, \beta \in\symbb{C}$.
+
+Ejercicio
+¿Cuáles hubieran sido los valores y vectores propios si se hubiera elegido
+como base de estados los de la matriz $\mmm{\sigma_1}$?
+
+\section{Helicidad}
+
+\subsection{Matriz de rotación activa}
+Recordemos que según~\eqref{eq:spin12-e-giro-pasivo-spin}, la matriz
+de giro pasivo de espinores es
+\[
+  e^{i\frac{\theta}{2}(\xhat{n}\cdot\mmm{\sigma})}
+  = \mmm{I} \cos\frac{\theta}{2}
+  + i (\xhat{n}\cdot\mmm{\sigma}) \sin\frac{\theta}{2}
+\]
+Nótese el signo positivo de la exponencial, que interpretaremos como el
+indicador de que giran los ejes de coordenadas (giro pasivo) en sentido
+antihorario alrededor de la dirección indicada por $\xhat{n}$.
+
+Cuando se encuentra un signo negativo
+\begin{equation}\label{eq:spin12-e-giro-activo-spin}
+  e^{-i\frac{\theta}{2}(\xhat{n}\cdot\mmm{\sigma})}
+  = \mmm{I} \cos\frac{\theta}{2}
+  - i (\xhat{n}\cdot\mmm{\sigma}) \sin\frac{\theta}{2}  
+\end{equation}
+lo interpretamos como la indicación de un giro del espinor (giro activo)
+en sentido antihorario alrededor de la dirección $\xhat{n}$, o bien, un
+giro de los ejes (giro pasivo) en sentido horario (negativo).
+
+Como ejercicio, rotaremos \ang{180} el espinor $\ket{z+}$ alrededor del eje $y$
+para transformarlo en $\ket{z-}$, ver figura~\eqref{fig:spin12-giro180z+}.
+A continuación, presentamos los parámetros que se aplicarán en la rotación
+\begin{align*}
+  &\xhat{n} = (0,1,0)\\
+  &\xhat{n}\cdot\mmm{\sigma} = \mmm{\sigma_2}\\
+  &\theta = \pi\,\si{\radian}
+\end{align*}
+
+Considerando~\eqref{eq:spin12-e-giro-activo-spin}
+\begin{align*}
+  e^{-i\frac{\pi}{2}(\xhat{n}\cdot\mmm{\sigma})} \ket{z_+}
+  &=
+    \left(
+    \cos\frac{\pi}{2} - i \mmm{\sigma_2} \sin\frac{\pi}{2}
+    \right)
+    \ket{z_+}
+    = -i\mmm{\sigma_2} \ket{z_+}\\
+  &=
+    -i
+    \begin{pNiceMatrix}
+      0 & -i\\
+      i & 0
+    \end{pNiceMatrix}
+    \begin{pNiceMatrix}
+      1\\
+      0
+    \end{pNiceMatrix}
+  = -i \begin{pNiceMatrix}
+      0\\
+      i
+    \end{pNiceMatrix}
+  = \begin{pNiceMatrix}
+    0\\
+    1
+    \end{pNiceMatrix}
+    = \ket{z_-}
+\end{align*}
+\begin{figure}[ht]
+  \centering
+  \begin{minipage}{.43\linewidth}
+  % 
+  \newcommand{\colorspinorplus}{green!60!black}
+  \newcommand{\colorspinorplustext}{green!45!black}
+  \newcommand{\colorspinorminus}{red!80!black}
+  \newcommand{\colorspinorminustext}{red!80!black}
+  \newcommand{\colorelectron}{blue}
+  % Escala
+  \def\scl{1}
+  % Eje y
+  \pgfmathsetmacro{\YMLONG}{-2}
+  \pgfmathsetmacro{\YPLONG}{2}
+  % Eje z
+  \pgfmathsetmacro{\ZMLONG}{-2}
+  \pgfmathsetmacro{\ZPLONG}{2}
+  % Vectores de estado
+  \pgfmathsetmacro{\KETLONG}{.7}
+  \pgfmathsetmacro{\KETYCOORD}{0}
+  % Vector de estado |0>
+  \pgfmathsetmacro{\ZEROKETYCOORD}{\KETYCOORD}
+  \pgfmathsetmacro{\ZEROKETZCOORD}{.7}
+  \pgfmathsetmacro{\ZEROKETANG}{90}
+  % Vector de estado |1>
+  \pgfmathsetmacro{\ONEKETYCOORD}{\KETYCOORD}
+  \pgfmathsetmacro{\ONEKETZCOORD}{-.7}
+  \pgfmathsetmacro{\ONEKETANG}{-90}
+  %    % 
+  % \centering
+  %
+  \tikzfading[name=fade out, inner color=transparent!0,
+  outer color=transparent!100]
+
+  \begin{tikzpicture}[%
+    scale=\scl,
+    baseline,
+    every node/.style={black,font=\small},
+    ejey/.style={->},
+    ejez/.style={->, black!50},
+    ket/.style={-{Latex[round,width=5pt]}, shorten >=1.2pt, line width=1.2pt},
+    particula/.style={fill=red, draw=black},
+    electron/.style={\colorelectron,path fading=fade out},
+    background/.style={
+      line width=\bgborderwidth,
+      draw=\bgbordercolor,
+      fill=\bgcolor,
+    },
+    ]
+    % Coordenadas
+    \coordinate (O) at (0,0);
+    % Ejes
+    \coordinate (yini) at (\YMLONG, 0);
+    \coordinate (yfin) at (\YPLONG, 0);
+    \coordinate (zini) at (0, \ZMLONG);
+    \coordinate (zfin) at (0, \ZPLONG);
+    % Vectores de estado
+    \coordinate (zeroketini) at (\KETYCOORD, \ZEROKETZCOORD);
+    \path (zeroketini) -- coordinate (zeroketnode) +(\ZEROKETANG:\KETLONG)
+    coordinate (zeroketfin);
+    \coordinate (oneketini) at (\KETYCOORD, \ONEKETZCOORD);
+    \path (oneketini) -- coordinate (oneketnode) +(\ONEKETANG:\KETLONG)
+    coordinate (oneketfin);
+    % Ejes
+    \draw[ejey] (yini) -- (yfin);
+    \node[right, name=letraejey] at (yfin) {$y$};
+    \draw[ejez] (zini) -- (zfin);
+    \node[above, name=letraejez] at (zfin) {$z$};
+    % Rotación
+    \draw[-{Stealth[round,width=7.5pt,bend]}, black!40, line width=1.8pt]
+    (1.7,.2) arc[%
+    start angle=30,end angle=330,x radius=.25,y radius=.4
+    ];
+    \node[above left=6pt and -6pt,black!70] at (1.7,.2) {$\pi\,\si{\radian}$};
+    % |0>
+    \draw[ket,\colorspinorplus] (zeroketini) -- (zeroketfin);
+    %\filldraw[particula] (zeroketini) circle[radius=1.4pt];
+    % Nube de probabilidad (estado espacial)
+    \fill[electron] (zeroketini) circle [radius=3.5pt];
+    %node[below right=4pt and 0pt] {$\scriptstyle e^-$};
+    \node[below left=-6pt and 4pt,\colorspinorplustext]
+    at (zeroketnode) {$\ket{z_+}$};
+    % |z->
+    %\draw[ket] (oneketini) -- (oneketfin);
+    %\filldraw[particula] (oneketini) circle[radius=1.4pt];
+    % Nube de probabilidad (estado espacial)
+    %\fill [electron] (oneketini) circle [radius=3.25pt];
+    %\node[above left=-6pt and 4pt] at (oneketnode) {$\ket{z_-}$};
+    % Fondo amarillo
+    \begin{scope}[on background layer]
+      % \node [line width=1pt, draw=\backgroundbordercolor,
+      % fill=\backgroundcolor, fit= (O) (letraejex) (letraejey)] {};
+      \node [background, fit= (yini) (zini) (letraejey) (letraejez)] {};
+    \end{scope}
+  \end{tikzpicture}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}{.43\linewidth}
+  % 
+  \newcommand{\colorspinorplus}{green!60!black}
+  \newcommand{\colorspinorplustext}{green!45!black}
+  \newcommand{\colorspinorminus}{red!80!black}
+  \newcommand{\colorspinorminustext}{red!80!black}
+  \newcommand{\colorelectron}{blue}
+  \newcommand{\colorelectronapagado}{black!20}
+  % Escala
+  \def\scl{1}
+  % Eje y
+  \pgfmathsetmacro{\YMLONG}{-2}
+  \pgfmathsetmacro{\YPLONG}{2}
+  % Eje z
+  \pgfmathsetmacro{\ZMLONG}{-2}
+  \pgfmathsetmacro{\ZPLONG}{2}
+  % Vectores de estado
+  \pgfmathsetmacro{\KETLONG}{.7}
+  \pgfmathsetmacro{\KETYCOORD}{0}
+  % Vector de estado |0>
+  \pgfmathsetmacro{\ZEROKETYCOORD}{\KETYCOORD}
+  \pgfmathsetmacro{\ZEROKETZCOORD}{.7}
+  \pgfmathsetmacro{\ZEROKETANG}{90}
+  % Vector de estado |1>
+  \pgfmathsetmacro{\ONEKETYCOORD}{\KETYCOORD}
+  \pgfmathsetmacro{\ONEKETZCOORD}{-.7}
+  \pgfmathsetmacro{\ONEKETANG}{-90}
+  % 
+  %\centering
+  %
+  \tikzfading[name=fade out, inner color=transparent!0,
+  outer color=transparent!100]
+  \begin{tikzpicture}[%
+    scale=\scl,
+    baseline,
+    every node/.style={black,font=\small},
+    ejey/.style={->},
+    ejez/.style={->, black!50},
+    ket/.style={-{Latex[round,width=5pt]}, shorten >=1.2pt, line width=1.2pt},
+    particula/.style={fill=red, draw=black},
+    electron/.style={\colorelectron,path fading=fade out},
+    electronapagado/.style={\colorelectronapagado,path fading=fade out},
+    background/.style={
+      line width=\bgborderwidth,
+      draw=\bgbordercolor,
+      fill=\bgcolor,
+    },
+    ]
+    % Coordenadas
+    \coordinate (O) at (0,0);
+    % Ejes
+    \coordinate (yini) at (\YMLONG, 0);
+    \coordinate (yfin) at (\YPLONG, 0);
+    \coordinate (zini) at (0, \ZMLONG);
+    \coordinate (zfin) at (0, \ZPLONG);
+    % Vectores de estado
+    \coordinate (zeroketini) at (\KETYCOORD, \ZEROKETZCOORD);
+    \path (zeroketini) -- coordinate (zeroketnode) +(\ZEROKETANG:\KETLONG)
+    coordinate (zeroketfin);
+    \coordinate (oneketini) at (\KETYCOORD, \ONEKETZCOORD);
+    \path (oneketini) -- coordinate (oneketnode) +(\ONEKETANG:\KETLONG)
+    coordinate (oneketfin);
+    % Ejes
+    \draw[ejey] (yini) -- (yfin);
+    \node[right, name=letraejey] at (yfin) {$y$};
+    \draw[ejez] (zini) -- (zfin);
+    \node[above, name=letraejez] at (zfin) {$z$};
+    % Rotación
+    \draw[-{Stealth[round,width=7.5pt,bend]}, black!10, line width=1.8pt]
+    (1.7,.2) arc[%
+    start angle=30,end angle=330,x radius=.25,y radius=.4
+    ];
+    \node[above left=6pt and -6pt,black!20] at (1.7,.2) {$\pi\,\si{\radian}$};
+    % |z+>
+    \draw[ket,black!20] (zeroketini) -- (zeroketfin);
+    %\filldraw[particula] (zeroketini) circle[radius=1.4pt];
+    % Nube de probabilidad (estado espacial)
+    \fill[electronapagado] (zeroketini) circle [radius=3.5pt];
+    %node[below right=4pt and 0pt] {$\scriptstyle e^-$};
+    \node[below left=-6pt and 4pt,black!20] at (zeroketnode) {$\ket{z_+}$};
+    % |z->
+    \draw[ket,\colorspinorminus] (oneketini) -- (oneketfin);
+    %\filldraw[particula] (oneketini) circle[radius=1.4pt];
+    % Nube de probabilidad (estado espacial)
+    \fill [electron] (oneketini) circle [radius=3.25pt];
+    %node[below right=4pt and 0pt] {$\scriptstyle e^-$};
+    \node[above left=-6pt and 4pt,\colorspinorminustext]
+    at (oneketnode) {$\ket{z_-}$};
+    % Fondo amarillo
+    \begin{scope}[on background layer]
+      % \node [line width=1pt, draw=\backgroundbordercolor,
+      % fill=\backgroundcolor, fit= (O) (letraejex) (letraejey)] {};
+      \node [background, fit= (yini) (zini) (letraejey) (letraejez)] {};
+    \end{scope}
+  \end{tikzpicture}
+\end{minipage}
+  \caption{Al rotar el vector de estado $\ket{z_+}$ un ángulo de \ang{180}
+    alrededor del eje $y$, se obtiene $\ket{z_-}$ (para este ángulo,
+    $\pi~\si{rad}$, daría lo mismo una rotación activa o pasiva).
+    En azul se representa un electrón.}
+  \label{fig:spin12-giro180z+}
+\end{figure}
+
+\subsection{Componente del spin en una dirección arbitraria}
+Imaginemos un electrón situado en el origen de coordenadas.
+Deseamos medir su spin según el eje $z$, por ejemplo.
+Se puede elegir el eje $z$ en la dirección que nos parezca.
+Supondremos que ya hemos elegido esa dirección arbitraria, junto con el resto
+de ejes cartesianos.
+\begin{figure}[ht]
+  \centering
+  % COLORES
+  \newcommand{\colordirectrizfront}{black}
+  \newcommand{\colordirectrizback}{black!50}
+  \newcommand{\colormomento}{blue!85!black}
+  \newcommand{\colorlinaux}{black!15}
+  \newcommand{\colorndirector}{black!60}
+  \newcommand{\colorelectron}{blue}
+  \newcommand{\colorhelicplus}{green!60!black}
+  \newcommand{\colorhelicplustext}{green!45!black}
+  \newcommand{\colorhelicminus}{red!80!black}
+  \newcommand{\colorhelicminustext}{red!80!black}
+  %
+  \def\scl{1.2}
+  % EJES
+  % x
+  \pgfmathsetmacro{\LONGEJEPOSX}{3}
+  \pgfmathsetmacro{\LONGEJENEGX}{3}
+  % y
+  \pgfmathsetmacro{\LONGEJEPOSY}{3}
+  \pgfmathsetmacro{\LONGEJENEGY}{1.5}
+  % z
+  \pgfmathsetmacro{\LONGEJEPOSZ}{2}
+  \pgfmathsetmacro{\LONGEJENEGZ}{1.5}
+
+  % VECTOR DIRECTOR
+  \pgfmathsetmacro{\PMOD}{2.2}
+  \pgfmathsetmacro{\NMOD}{.5}
+  \pgfmathsetmacro{\THETA}{55}
+  \pgfmathsetmacro{\PHI}{50}
+  % 
+  \tdplotsetmaincoords{60}{110}
+  % MOMENTO LINEAL
+  \pgfmathsetmacro{\PR}{\PMOD}
+  \pgfmathsetmacro{\PTHETA}{\THETA}
+  \pgfmathsetmacro{\PPHI}{\PHI}
+  % RECTA DE ACCIÓN INICIO
+  \pgfmathsetmacro{\ACCINIR}{3.5}
+  \pgfmathsetmacro{\ACCINITHETA}{180-\THETA}
+  \pgfmathsetmacro{\ACCINIPHI}{\PHI + 180}
+  \pgfmathsetmacro{\ACCINIX}{\ACCINIR * sin(\ACCINITHETA) * cos(\ACCINIPHI)}
+  \pgfmathsetmacro{\ACCINIY}{\ACCINIR * sin(\ACCINITHETA) * sin(\ACCINIPHI)}
+  \pgfmathsetmacro{\ACCINIZ}{\ACCINIR * cos(\ACCINITHETA)}
+  % RECTA DE ACCIÓN FIN
+  \pgfmathsetmacro{\ACCFINR}{7.0}
+  \pgfmathsetmacro{\ACCFINTHETA}{\THETA}
+  \pgfmathsetmacro{\ACCFINPHI}{\PHI}
+  \pgfmathsetmacro{\ACCFINX}{\ACCFINR * sin(\ACCFINTHETA) * cos(\ACCFINPHI)}
+  \pgfmathsetmacro{\ACCFINY}{\ACCFINR * sin(\ACCFINTHETA) * sin(\ACCFINPHI)}
+  \pgfmathsetmacro{\ACCFINZ}{\ACCFINR * cos(\ACCFINTHETA)}
+  %
+  \tikzfading[name=fade out, inner color=transparent!0,
+  outer color=transparent!100]
+  
+  \begin{tikzpicture}[
+    scale=\scl,
+    tdplot_main_coords,
+    every node/.style={font=\small},
+    linaux/.style={ultra thin, color=\colorlinaux},
+    directrizfront/.style={dashed,ultra thin,\colordirectrizfront},
+    directrizback/.style={dashed,ultra thin,\colordirectrizback},
+    ndirector/.style={-{Latex[round]},line width=0.8pt,\colorndirector},
+    ejeposit/.style={thick,->},
+    ejenegat/.style={ultra thin},
+    %electron/.style={fill=\colorelectron, draw=black},
+    electron/.style={\colorelectron,path fading=fade out},
+    ndirector/.style={%
+      -{Latex[round]},color=\colorndirector,line width=1.1pt
+    },
+    background/.style={
+      line width=\bgborderwidth,
+      draw=\bgbordercolor,
+      fill=\bgcolor,
+    },
+    ]
+    % COORDENADAS
+    \coordinate (o) at (0,0,0);
+    \coordinate (-dx) at (-\LONGEJENEGX,0,0);
+    \coordinate (dx) at (\LONGEJEPOSX,0,0);
+    \coordinate (-dy) at (0,-\LONGEJENEGY,0);
+    \coordinate (dy) at (0,\LONGEJEPOSY,0);
+    \coordinate (-dz) at (0,0,-\LONGEJENEGZ);
+    \coordinate (dz) at (0,0,\LONGEJEPOSZ);
+    % Recta de acción
+    \coordinate (accini) at (\ACCINIX,\ACCINIY,\ACCINIZ);
+    \coordinate (accfin) at (\ACCFINX,\ACCFINY,\ACCFINZ);
+
+    % DIBUJO
+    % Líneas débiles ejes
+    %\draw[ejenegat] (o) -- (-dx);
+    %\draw[ejenegat] (o) -- (-dy);
+    %\draw[ejenegat] (o) -- (-dz);
+    % Ejes
+    \draw[ejeposit] (o) -- (dx);
+    \draw[ejeposit] (o) -- (dy);
+    \draw[ejeposit] (o) -- (dz);
+    \node[anchor=north east,name=letrax] at (dx) {$x$};
+    \node[anchor=north west,name=letray] at (dy) {$y$};
+    \node[anchor=south,name=letraz] at (dz) {$z$};
+    
+    %  % Giro eje x
+    % \tdplotsetthetaplanecoords{-90}
+    %  % Notice you have to tell tiks-3dplot you are now in rotated coords
+    %  % Since tikz-3dplot swaps the planes in tdplotsetthetaplanecoords,
+    %  % the former y axis is now the z axis.
+    % \tdplotdrawarc[tdplot_rotated_coords,line width=2pt,
+    % -{Latex[length=11pt,width=7pt,flex=1]},color=black!50]
+    % {(0,0,1.9)}{0.3}{380}{40}{anchor=south west,color=black}{}
+    %  % Reponer parte derecha del eje y
+    % \draw[ultra thick,->] (1.9,0,0) -- (\longeje,0,0);
+    %% \tdplotdrawarc[tdplot_rotated_coords,line width=2pt,
+    %% -{Latex[round,length=6pt,width=4pt]},color=black!50]
+    %% {(0,0,1.9)}{0.3}{380}{40}{anchor=south west,color=black}{}
+    %%  % Reponer parte derecha del eje y
+    %% \draw[ultra thick,->] (1.9,0,0) -- (\longeje,0,0);
+
+    % RECTA DE ACCIÓN
+    \draw[directrizback] (accini) -- (o);
+    \draw[directrizfront] (o) -- (accfin);
+
+    % VECTOR DIRECTOR n
+    \tdplotsetcoord{P}{\PR}{\PTHETA}{\PPHI}
+    % draw a vector from origin to point (P)
+    % \draw[-{Stealth[width=7pt]},color=red!80!black,ultra thick] (O) -- (P)
+    % node[above right=0pt and 0pt] {\footnotesize $\braket{\vec{S}}$};
+    % Momento del electrón en el origen
+    % Líneas auxiliares por debajo del momento
+    %\draw[linaux] (Pxy) -- (Px);
+    %\draw[linaux] (O) -- (Pxy);
+    
+    \draw[ndirector] (o) -- (P);
+    %\node[right=0pt,\colormomento] at (P) {\footnotesize $\vvv{p}$};
+    \node[above left=0pt and -2pt,\colorndirector]
+    at (P) {\footnotesize $\xhat{n}$};
+    % Líneas auxiliares por encima del momento
+    \draw[linaux] (P) -- (Pxy);
+    \draw[linaux] (Pxy) -- (Py);
+    \draw[linaux] (Pxy) -- (Px);
+    \draw[linaux,thick,-{Latex[round]}] (o) -- (Pxy);
+
+    %\draw[linaux] (P) -- (Pz);
+    \draw[linaux] (Py) -- (Pyz);
+    \draw[linaux] (Pyz) -- (Pz);
+    \draw[linaux] (Pyz) -- (P);
+    \draw[linaux] (Pz) -- (Pxz);
+    \draw[linaux] (Pxz) -- (P);
+    \draw[linaux] (Pxz) -- (Px);
+
+    % draw theta arc and label, using rotated coordinate system
+    \tdplotdrawarc
+    {(0,0,0)}{0.6}{0}{\PPHI}{below=-2pt}
+    {\footnotesize $\phi$}
+    
+    \tdplotsetthetaplanecoords{\PTHETA}
+    
+    % draw the angle \phi, and label it
+    % syntax:
+    % \tdplotdrawarc[coordinate frame, draw options]
+    % {center point}{r}{angle}{label options}{label}
+    % \tdplotdrawarc{(O)}{0.8}{0}{\phivec}{anchor=north}{\footnotesize $\pi/2$}
+    
+    % set the rotated coordinate system so the x'-y' plane lies within the
+    % "theta plane" of the main coordinate system
+    % syntax: \tdplotsetthetaplanecoords{\phi}
+    \tdplotsetthetaplanecoords{\PPHI}
+    
+    % draw theta arc and label, using rotated coordinate system
+    \tdplotdrawarc[tdplot_rotated_coords]
+    {(0,0,0)}{0.6}{0}{\PTHETA}{above right=-6pt and 0pt}
+    {\footnotesize $\theta$}
+    
+    % Electrón en el origen
+    %\filldraw[electron] (o) circle[radius=2pt];
+    % Nube de probabilidad (estado espacial)
+    \fill[electron] (o) circle [radius=4pt];
+    % node[below right=4pt and 0pt] {$\scriptstyle e^-$};
+
+    %\node at (0,.5,3.0) {\ACCINIX};
+    %\node at (0,.5,2.6) {\ACCINIY};
+    %\node at (0,.5,2.2) {\ACCINIZ};
+    % Fondo amarillo
+    \begin{scope}[on background layer]
+      % \node [line width=1pt, draw=\backgroundbordercolor,
+      % fill=\backgroundcolor, fit= (O) (letraejex) (letraejey)] {};
+      \node [background, fit= (accini) (accfin) (letrax) (letraz) (letray)] {};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Se pretende medir la componente del spin del electrón situado en
+    el origen de coordenadas, a lo largo de una dirección arbitraria
+    representada por el versor $\xhat{n}$.}
+  \label{fig:spin12-electron-spin-direccion-n}
+\end{figure}
+
+Si el vector de estado de spin del electrón fuera $\ket{\Psi} = \ket{z_+}$
+y midiéramos la componente $z$ de su spin, obtendríamos con certeza el valor
+$+1$ (spin hacia arriba).
+En cambio, si fuera $\ket{\Psi} = \ket{z_-}$, al medir su spin en el eje $z$
+obtendríamos con seguridad el valor $-1$ (spin hacia abajo).
+También es posible que su estado fuera una combinación lineal de los
+anteriores\footnotemark{},
+\footnotetext{El spin del electrón estaría en una superposición cuántica de
+$\ket{z_+}$ y $\ket{z_-}$.}
+$\ket{\Psi} = \alpha \ket{z_+} + \beta \ket{z_-}$,
+en cuyo caso obtendríamos la componente $z$ del spin hacia arriba con una
+probabilidad $|\alpha|^2$ y otra $|\beta|^2 = 1 - |\alpha|^2$ de encontrarlo
+hacia abajo.
+
+Pero no estamos obligados a medir el spin en la dirección del eje $z$.
+Podríamos preparar un experimento para medirlo en cualquier otra
+dirección, por ejemplo la indicada por el versor $\xhat{n}$, ver
+figura~\ref{fig:spin12-electron-spin-direccion-n}.
+En este caso, como resultado de la medida obtendríamos un spin
+\emph{hacia arriba} $\ket{n_+}$ o \emph{hacia abajo} $\ket{n_-}$ en esa
+dirección,
+\emph{que es diferente del estado hacia arriba o hacia abajo en la dirección
+  $z$}, ver figura~\ref{fig:spin12-electron-estados-spin-direccion-n}.
+\begin{figure}[ht]
+  \centering
+  % COLORES
+  \newcommand{\colordirectrizfront}{black}
+  \newcommand{\colordirectrizback}{black!50}
+  \newcommand{\colormomento}{blue!85!black}
+  \newcommand{\colorhelicplus}{green!60!black}
+  \newcommand{\colorhelicplustext}{green!45!black}
+  \newcommand{\colorhelicminus}{red!80!black}
+  \newcommand{\colorhelicminustext}{red!80!black}
+  \newcommand{\colorlinaux}{black!15}
+  \newcommand{\colorndirector}{black!60}
+  \newcommand{\colorelectron}{blue}
+  %
+  \def\scl{1.2}
+  % EJES
+  % x
+  \pgfmathsetmacro{\LONGEJEPOSX}{3}
+  \pgfmathsetmacro{\LONGEJENEGX}{3}
+  % y
+  \pgfmathsetmacro{\LONGEJEPOSY}{3}
+  \pgfmathsetmacro{\LONGEJENEGY}{1.5}
+  % z
+  \pgfmathsetmacro{\LONGEJEPOSZ}{2}
+  \pgfmathsetmacro{\LONGEJENEGZ}{1.5}
+
+  % 
+  \pgfmathsetmacro{\PMOD}{2.2}
+  \pgfmathsetmacro{\NMOD}{.5}
+  \pgfmathsetmacro{\THETA}{55}
+  \pgfmathsetmacro{\PHI}{50}
+  % 
+  \tdplotsetmaincoords{60}{110}
+  % HELICIDAD +
+  \pgfmathsetmacro{\PR}{\PMOD}
+  \pgfmathsetmacro{\PTHETA}{\THETA}
+  \pgfmathsetmacro{\PPHI}{\PHI}
+  % HELICIDAD -
+  \pgfmathsetmacro{\HELICMINR}{\PMOD}
+  \pgfmathsetmacro{\HELICMINTHETA}{180 - \THETA}
+  \pgfmathsetmacro{\HELICMINPHI}{\PHI + 180}
+  \pgfmathsetmacro{\HELICMINX}{\HELICMINR*sin(\HELICMINTHETA)*cos(\HELICMINPHI)}
+  \pgfmathsetmacro{\HELICMINY}{\HELICMINR*sin(\HELICMINTHETA)*sin(\HELICMINPHI)}
+  \pgfmathsetmacro{\HELICMINZ}{\HELICMINR*cos(\HELICMINTHETA)}
+  % VECTOR DIRECTOR INICIO
+  \pgfmathsetmacro{\DIRINIR}{4.2}
+  \pgfmathsetmacro{\DIRINITHETA}{\THETA}
+  \pgfmathsetmacro{\DIRINIPHI}{\PHI}
+  \pgfmathsetmacro{\DIRINIX}{\DIRINIR * sin(\DIRINITHETA) * cos(\DIRINIPHI)}
+  \pgfmathsetmacro{\DIRINIY}{\DIRINIR * sin(\DIRINITHETA) * sin(\DIRINIPHI)}
+  \pgfmathsetmacro{\DIRINIZ}{\DIRINIR * cos(\DIRINITHETA)}
+  % VECTOR DIRECTOR FIN
+  \pgfmathsetmacro{\DIRFINR}{5.5}
+  \pgfmathsetmacro{\DIRFINTHETA}{\THETA}
+  \pgfmathsetmacro{\DIRFINPHI}{\PHI}
+  \pgfmathsetmacro{\DIRFINX}{\DIRFINR * sin(\DIRFINTHETA) * cos(\DIRFINPHI)}
+  \pgfmathsetmacro{\DIRFINY}{\DIRFINR * sin(\DIRFINTHETA) * sin(\DIRFINPHI)}
+  \pgfmathsetmacro{\DIRFINZ}{\DIRFINR * cos(\DIRFINTHETA)}
+  % RECTA DE ACCIÓN INICIO
+  \pgfmathsetmacro{\ACCINIR}{3.5}
+  \pgfmathsetmacro{\ACCINITHETA}{180 - \THETA}
+  \pgfmathsetmacro{\ACCINIPHI}{\PHI + 180}
+  \pgfmathsetmacro{\ACCINIX}{\ACCINIR * sin(\ACCINITHETA) * cos(\ACCINIPHI)}
+  \pgfmathsetmacro{\ACCINIY}{\ACCINIR * sin(\ACCINITHETA) * sin(\ACCINIPHI)}
+  \pgfmathsetmacro{\ACCINIZ}{\ACCINIR * cos(\ACCINITHETA)}
+  % RECTA DE ACCIÓN FIN
+  \pgfmathsetmacro{\ACCFINR}{7.0}
+  \pgfmathsetmacro{\ACCFINTHETA}{\THETA}
+  \pgfmathsetmacro{\ACCFINPHI}{\PHI}
+  \pgfmathsetmacro{\ACCFINX}{\ACCFINR * sin(\ACCFINTHETA) * cos(\ACCFINPHI)}
+  \pgfmathsetmacro{\ACCFINY}{\ACCFINR * sin(\ACCFINTHETA) * sin(\ACCFINPHI)}
+  \pgfmathsetmacro{\ACCFINZ}{\ACCFINR * cos(\ACCFINTHETA)}
+  %
+  \tikzfading[name=fade out, inner color=transparent!0,
+  outer color=transparent!100]
+  
+  \begin{tikzpicture}[
+    scale=\scl,
+    tdplot_main_coords,
+    every node/.style={font=\small},
+    linaux/.style={ultra thin, color=\colorlinaux},
+    directrizfront/.style={dashed,ultra thin,\colordirectrizfront},
+    directrizback/.style={dashed,ultra thin,\colordirectrizback},
+    ndirector/.style={-{Latex[round]},line width=0.8pt,\colorndirector},
+    ejeposit/.style={thick,->},
+    ejenegat/.style={ultra thin, black!20},
+    electron/.style={fill=\colorelectron, draw=black},
+    momento/.style={%
+      %-{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+      -{Latex[round]},color=\colormomento,line width=1.1pt
+    },
+    helicidadplus/.style={%
+      %-{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+      -{Latex[round]},color=\colorhelicplus,line width=1.1pt
+    },
+    helicidadminus/.style={%
+      %-{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+      -{Latex[round]},color=\colorhelicminus,line width=1.1pt
+    },
+    background/.style={
+      line width=\bgborderwidth,
+      draw=\bgbordercolor,
+      fill=\bgcolor,
+    },
+    ]
+    % COORDENADAS
+    \coordinate (o) at (0,0,0);
+    \coordinate (-dx) at (-\LONGEJENEGX,0,0);
+    \coordinate (dx) at (\LONGEJEPOSX,0,0);
+    \coordinate (-dy) at (0,-\LONGEJENEGY,0);
+    \coordinate (dy) at (0,\LONGEJEPOSY,0);
+    \coordinate (-dz) at (0,0,-\LONGEJENEGZ);
+    \coordinate (dz) at (0,0,\LONGEJEPOSZ);
+    % Recta de acción
+    \coordinate (accini) at (\ACCINIX,\ACCINIY,\ACCINIZ);
+    \coordinate (accfin) at (\ACCFINX,\ACCFINY,\ACCFINZ);
+    % Vector helicidad
+    \coordinate (helic) at (\HELICMINX,\HELICMINY,\HELICMINZ);
+
+    % Vector director n
+    \coordinate (dirini) at (\DIRINIX,\DIRINIY,\DIRINIZ);
+    \coordinate (dirfin) at (\DIRFINX,\DIRFINY,\DIRFINZ);
+    
+    %\coordinate (accfin) at (FX,FY,FZ);
+    % DIBUJO
+    % Líneas débiles ejes
+    %\draw[ejenegat] (o) -- (-dx);
+    %\draw[ejenegat] (o) -- (-dy);
+    %\draw[ejenegat] (o) -- (-dz);
+    % Ejes
+    \draw[ejeposit] (o) -- (dx);
+    \draw[ejeposit] (o) -- (dy);
+    \draw[ejeposit] (o) -- (dz);
+    \node[anchor=north east,name=letrax] at (dx) {$x$};
+    \node[anchor=north west,name=letray] at (dy) {$y$};
+    \node[anchor=south,name=letraz] at (dz) {$z$};
+    
+    %  % Giro eje x
+    % \tdplotsetthetaplanecoords{-90}
+    %  % Notice you have to tell tiks-3dplot you are now in rotated coords
+    %  % Since tikz-3dplot swaps the planes in tdplotsetthetaplanecoords,
+    %  % the former y axis is now the z axis.
+    % \tdplotdrawarc[tdplot_rotated_coords,line width=2pt,
+    % -{Latex[length=11pt,width=7pt,flex=1]},color=black!50]
+    % {(0,0,1.9)}{0.3}{380}{40}{anchor=south west,color=black}{}
+    %  % Reponer parte derecha del eje y
+    % \draw[ultra thick,->] (1.9,0,0) -- (\longeje,0,0);
+    %% \tdplotdrawarc[tdplot_rotated_coords,line width=2pt,
+    %% -{Latex[round,length=6pt,width=4pt]},color=black!50]
+    %% {(0,0,1.9)}{0.3}{380}{40}{anchor=south west,color=black}{}
+    %%  % Reponer parte derecha del eje y
+    %% \draw[ultra thick,->] (1.9,0,0) -- (\longeje,0,0);
+
+    % RECTA DE ACCIÓN
+    \draw[directrizback] (accini) -- (o);
+    \draw[directrizfront] (o) -- (accfin);
+
+    % VECTOR DIRECTOR
+    \draw[ndirector] (dirini) -- (dirfin);
+    \node[above left,\colorndirector] at (dirfin) {$\xhat{n}$};
+
+    % VECTOR MOMENTO
+    \tdplotsetcoord{P}{\PR}{\PTHETA}{\PPHI}
+    % draw a vector from origin to point (P)
+    % \draw[-{Stealth[width=7pt]},color=red!80!black,ultra thick] (O) -- (P)
+    % node[above right=0pt and 0pt] {\footnotesize $\braket{\vec{S}}$};
+    % Momento del electrón en el origen
+    % Líneas auxiliares por debajo del momento
+    \draw[linaux] (Pxy) -- (Px);
+    %\draw[linaux] (O) -- (Pxy);
+    
+    \draw[helicidadplus] (o) -- (P);
+    %\node[right=0pt,\colormomento] at (P) {\footnotesize $\vvv{p}$};
+    \node[above left=0pt and -6pt,\colorhelicplustext]
+    at (P) {\footnotesize $\ket{n_+}$};
+    \draw[helicidadminus] (o) -- (helic);
+    \node[above left=0pt and -6pt,\colorhelicminustext]
+    at (helic) {\footnotesize $\ket{n_-}$};    
+    % Líneas auxiliares por encima del momento
+    \draw[linaux] (P) -- (Pxy);
+
+    \draw[linaux] (Pxy) -- (Py);
+    %
+    \draw[linaux] (Py) -- (Pyz);
+    \draw[linaux] (Pyz) -- (Pz);
+    \draw[linaux] (Pyz) -- (P);
+    \draw[linaux] (Pz) -- (Pxz);
+    \draw[linaux] (Pxz) -- (P);
+    \draw[linaux] (Pxz) -- (Px);
+    \draw[linaux,line width=.8pt,-{Latex}] (o) -- (Pxy);
+    
+    \tdplotsetthetaplanecoords{\PTHETA}
+    
+    % draw the angle \phi, and label it
+    % syntax:
+    % \tdplotdrawarc[coordinate frame, draw options]
+    % {center point}{r}{angle}{label options}{label}
+    % \tdplotdrawarc{(O)}{0.8}{0}{\phivec}{anchor=north}{\footnotesize $\pi/2$}
+    
+    % set the rotated coordinate system so the x'-y' plane lies within the
+    % "theta plane" of the main coordinate system
+    % syntax: \tdplotsetthetaplanecoords{\phi}
+    \tdplotsetthetaplanecoords{\PPHI}
+    
+    % draw theta arc and label, using rotated coordinate system
+    % \tdplotdrawarc[tdplot_rotated_coords]
+    % {(0,0,0)}{0.8}{0}{\thetavec}{above right=1pt and 1pt}{\footnotesize $\theta$}
+    
+    % Electrón en el origen
+    %\filldraw[electron] (o) circle[radius=2pt];
+
+    %\node at (0,.5,3.0) {\ACCINIX};
+    %\node at (0,.5,2.6) {\ACCINIY};
+    %\node at (0,.5,2.2) {\ACCINIZ};
+    
+    % Nube de probabilidad (estado espacial)
+    \fill [blue,path fading=fade out] (0,0,0) circle [radius=4pt];
+    % node[below right=4pt and 0pt] {$\scriptstyle e^-$};
+    % Fondo amarillo
+    \begin{scope}[on background layer]
+      % \node [line width=1pt, draw=\backgroundbordercolor,
+      % fill=\backgroundcolor, fit= (O) (letraejex) (letraejey)] {};
+      \node [background, fit= (accini) (accfin) (letrax) (letraz) (letray)] {};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Se representan, en verde y rojo, los dos posibles estados de spin
+    que se pueden medir en la dirección elegida, $\xhat{n}$.}
+  \label{fig:spin12-electron-estados-spin-direccion-n}
+\end{figure}
+
+Estos nuevos estados \emph{arriba} y \emph{abajo} según la dirección $\xhat{n}$
+se pueden escribir como combinaciones lineales de la base $\ket{z_+}$ y
+$\ket{z_-}$
+\begin{align*}
+  \ket{n_+} &= \alpha \ket{z_+} + \beta \ket{z_-}\\
+  \ket{n_-} &= \gamma \ket{z_+} + \delta \ket{z_-}
+\end{align*}
+
+Estos espinores se pueden deducir de varias formas. Aquí vamos a
+obtenerlos rotando los vectores $\ket{z+}$ y $\ket{z-}$.
+Primero analizaremos las rotaciones necesarias para obtener
+$\ket{n+}$ a partir de $\ket{z+}$.
+
+Según la figura~\ref{fig:spin12-rotacion-z+-to-n+},
+partimos de $\ket{z_+}$, lo rotamos un ángulo $\theta$ alrededor del
+eje $y$, después rotamos el vector resultante un ángulo $\phi$ alrededor del
+eje $z$, obteniendo finalmente $\ket{n_+}$ (para obtener $\ket{n-}$ serían
+necesarias las mismas transformaciones a partir de $\ket{z-}$).
+\begin{figure}[ht]
+  % COLORES
+  \newcommand{\colordirectrizfront}{black}
+  \newcommand{\colordirectrizback}{black!50}
+  \newcommand{\colormomento}{blue!85!black}
+  \newcommand{\colorspinorplus}{green!60!black}
+  \newcommand{\colorspinorplustext}{green!45!black}
+  \newcommand{\colorspinorfantasma}{black!30}
+  \newcommand{\colorspinorfantasmatext}{black!50}
+  \newcommand{\colorhelicminus}{red!80!black}
+  \newcommand{\colorhelicminustext}{red!80!black}
+  \newcommand{\colorlinaux}{black!15}
+  \newcommand{\colorndirector}{black!60}
+  \newcommand{\colorelectron}{blue}
+  %
+  \def\scl{.84}
+  % EJES
+  % x
+  \pgfmathsetmacro{\LONGEJEPOSX}{2.5}
+  \pgfmathsetmacro{\LONGEJENEGX}{2}
+  % y
+  \pgfmathsetmacro{\LONGEJEPOSY}{2.5}
+  \pgfmathsetmacro{\LONGEJENEGY}{1.5}
+  % z
+  \pgfmathsetmacro{\LONGEJEPOSZ}{2.5}
+  \pgfmathsetmacro{\LONGEJENEGZ}{1.5}
+  % 
+  \pgfmathsetmacro{\PMOD}{2.2}
+  \pgfmathsetmacro{\NMOD}{1.4}
+  \pgfmathsetmacro{\THETA}{55}
+  \pgfmathsetmacro{\PHI}{50}
+  % 
+  \tdplotsetmaincoords{60}{110}
+  % HELICIDAD +
+  \pgfmathsetmacro{\PR}{\PMOD}
+  \pgfmathsetmacro{\PTHETA}{\THETA}
+  \pgfmathsetmacro{\PPHI}{\PHI}
+  % HELICIDAD -
+  \pgfmathsetmacro{\HELMINR}{\PMOD}
+  \pgfmathsetmacro{\HELMINTHETA}{180 - \THETA}
+  \pgfmathsetmacro{\HELMINPHI}{\PHI + 180}
+  \pgfmathsetmacro{\HELMINX}{\HELMINR*sin(\HELMINTHETA)*cos(\HELMINPHI)}
+  \pgfmathsetmacro{\HELMINY}{\HELMINR*sin(\HELMINTHETA)*sin(\HELMINPHI)}
+  \pgfmathsetmacro{\HELMINZ}{\HELMINR*cos(\HELMINTHETA)}
+  % VECTOR Z+
+  \pgfmathsetmacro{\ZPLUSX}{0}
+  \pgfmathsetmacro{\ZPLUSY}{0}
+  \pgfmathsetmacro{\ZPLUSZ}{\NMOD}
+  % VECTOR Z-
+  \pgfmathsetmacro{\ZMINUSX}{0}
+  \pgfmathsetmacro{\ZMINUSY}{0}
+  \pgfmathsetmacro{\ZMINUSZ}{-\NMOD}    
+  % VECTOR DIRECTOR INICIO
+  \pgfmathsetmacro{\DIRINIR}{4.2}
+  \pgfmathsetmacro{\DIRINITHETA}{\THETA}
+  \pgfmathsetmacro{\DIRINIPHI}{\PHI}
+  \pgfmathsetmacro{\DIRINIX}{\DIRINIR * sin(\DIRINITHETA) * cos(\DIRINIPHI)}
+  \pgfmathsetmacro{\DIRINIY}{\DIRINIR * sin(\DIRINITHETA) * sin(\DIRINIPHI)}
+  \pgfmathsetmacro{\DIRINIZ}{\DIRINIR * cos(\DIRINITHETA)}
+  % VECTOR DIRECTOR FIN
+  \pgfmathsetmacro{\DIRFINR}{5.5}
+  \pgfmathsetmacro{\DIRFINTHETA}{\THETA}
+  \pgfmathsetmacro{\DIRFINPHI}{\PHI}
+  \pgfmathsetmacro{\DIRFINX}{\DIRFINR * sin(\DIRFINTHETA) * cos(\DIRFINPHI)}
+  \pgfmathsetmacro{\DIRFINY}{\DIRFINR * sin(\DIRFINTHETA) * sin(\DIRFINPHI)}
+  \pgfmathsetmacro{\DIRFINZ}{\DIRFINR * cos(\DIRFINTHETA)}
+  % RECTA DE ACCIÓN INICIO
+  \pgfmathsetmacro{\ACCINIR}{3.5}
+  \pgfmathsetmacro{\ACCINITHETA}{180 - \THETA}
+  \pgfmathsetmacro{\ACCINIPHI}{\PHI + 180}
+  \pgfmathsetmacro{\ACCINIX}{\ACCINIR * sin(\ACCINITHETA) * cos(\ACCINIPHI)}
+  \pgfmathsetmacro{\ACCINIY}{\ACCINIR * sin(\ACCINITHETA) * sin(\ACCINIPHI)}
+  \pgfmathsetmacro{\ACCINIZ}{\ACCINIR * cos(\ACCINITHETA)}
+  % RECTA DE ACCIÓN FIN
+  \pgfmathsetmacro{\ACCFINR}{7.0}
+  \pgfmathsetmacro{\ACCFINTHETA}{\THETA}
+  \pgfmathsetmacro{\ACCFINPHI}{\PHI}
+  \pgfmathsetmacro{\ACCFINX}{\ACCFINR * sin(\ACCFINTHETA) * cos(\ACCFINPHI)}
+  \pgfmathsetmacro{\ACCFINY}{\ACCFINR * sin(\ACCFINTHETA) * sin(\ACCFINPHI)}
+  \pgfmathsetmacro{\ACCFINZ}{\ACCFINR * cos(\ACCFINTHETA)}
+  % 
+  \tikzfading[name=fade out, inner color=transparent!0,
+  outer color=transparent!100]
+  \begin{minipage}{.32\linewidth}
+    %\hspace*{2.3em}
+    \begin{tikzpicture}[%
+      scale=\scl,
+      tdplot_main_coords,
+      every node/.style={font=\small},
+      linaux/.style={ultra thin, color=\colorlinaux},
+      directrizfront/.style={dashed,ultra thin,\colordirectrizfront},
+      directrizback/.style={dashed,ultra thin,\colordirectrizback},
+      ndirector/.style={-{Latex[round]},line width=0.8pt,\colorndirector},
+      ejeposit/.style={thick,->},
+      ejenegat/.style={ultra thin,black!20},
+      electron/.style={fill=\colorelectron, draw=black},
+      momento/.style={%
+        % -{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+        -{Latex[round]},color=\colormomento,line width=1.1pt
+      },
+      spinorplus/.style={%
+        % -{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+        -{Latex[round]},color=\colorspinorplus,line width=1.1pt
+      },
+      spinorminus/.style={%
+        % -{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+        -{Latex[round]},color=\colorspinorminus,line width=1.1pt
+      },
+      spinorfantasma/.style={%
+        % -{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+        -{Latex[round]},color=\colorspinorfantasma,line width=1.1pt
+      },
+      background/.style={
+        line width=\bgborderwidth,
+        draw=\bgbordercolor,
+        fill=\bgcolor,
+      },
+      ]
+      % COORDENADAS
+      \coordinate (o) at (0,0,0);
+      \coordinate (-dx) at (-\LONGEJENEGX,0,0);
+      \coordinate (dx) at (\LONGEJEPOSX,0,0);
+      \coordinate (-dy) at (0,-\LONGEJENEGY,0);
+      \coordinate (dy) at (0,\LONGEJEPOSY,0);
+      \coordinate (-dz) at (0,0,-\LONGEJENEGZ);
+      \coordinate (dz) at (0,0,\LONGEJEPOSZ);
+      % Vector z+
+      \coordinate (z+) at (\ZPLUSX,\ZPLUSY,\ZPLUSZ);
+      % Vector z-
+      \coordinate (z-) at (\ZMINUSX,\ZMINUSY,\ZMINUSZ);
+      % Recta de acción
+      \coordinate (accini) at (\ACCINIX,\ACCINIY,\ACCINIZ);
+      \coordinate (accfin) at (\ACCFINX,\ACCFINY,\ACCFINZ);
+      % Vector helicidad
+      \coordinate (helic) at (\HELMINX,\HELMINY,\HELMINZ);
+      % Vector director n
+      \coordinate (dirini) at (\DIRINIX,\DIRINIY,\DIRINIZ);
+      \coordinate (dirfin) at (\DIRFINX,\DIRFINY,\DIRFINZ);
+      
+      % DIBUJO
+      % Líneas débiles ejes
+      % \draw[ejenegat] (o) -- (-dx);
+      % \draw[ejenegat] (o) -- (-dy);
+      % \draw[ejenegat] (o) -- (-dz);
+      % Ejes
+      \draw[ejeposit] (o) -- (dx);
+      \draw[ejeposit] (o) -- (dy);
+      \draw[ejeposit] (o) -- (dz);
+      \node[anchor=north east,name=letrax] at (dx) {$x$};
+      \node[anchor=north west,name=letray] at (dy) {$y$};
+      \node[anchor=south,name=letraz] at (dz) {$z$};
+      
+      % Giro eje y
+      \tdplotsetthetaplanecoords{0}
+      % Notice you have to tell tiks-3dplot you are now in rotated coords
+      % Since tikz-3dplot swaps the planes in tdplotsetthetaplanecoords,
+      % the former y axis is now the z axis.
+      \tdplotdrawarc[tdplot_rotated_coords,line width=1pt,
+      {Latex[round,length=6pt,width=4pt]}-,color=black!50]
+      {(0,0,2.0)}{0.3}{440}{100}{anchor=south west,color=black}{}
+      % Reponer parte derecha del eje y
+      \draw[->] (0,2.0,0) -- (dy);
+      %\filldraw[fill=red,draw=black] (0,2.0,0) circle[radius=.5pt];
+      \node[above right=7pt and -4pt]
+      at (0,2.0,0) {\footnotesize $\theta\,\si{\radian}$};
+      
+      % RECTA DE ACCIÓN
+      % \draw[directrizback] (accini) -- (o);
+      % \draw[directrizfront] (o) -- (accfin);
+      % VECTOR DIRECTOR
+      % \draw[ndirector] (dirini) -- (dirfin);
+      % \node[above left,\colorndirector] at (dirfin) {$\xhat{n}$};
+      % VECTOR z+
+      \draw[spinorplus] (o) -- (z+);
+      \node[right,\colorspinorplustext]
+      at (z+) {\footnotesize $\ket{z_+}$};
+      % VECTOR z+ ROTADO \theta
+      % \tdplotsetcoord{P}{\PR}{\PTHETA}{0}
+      % \draw[spinorplus] (o) -- (P);
+      % \node[right=0pt,\colormomento] at (P) {\footnotesize $\vvv{p}$};
+      % \node[above left=0pt and -6pt,\colorhelicplustext]
+      % at (P) {\footnotesize $\ket{n_+}$};
+      % VECTOR HELICIDAD -
+      % \draw[helicidadminus] (o) -- (helic);
+      % \node[above left=0pt and -6pt,\colorhelicminustext]
+      % at (helic) {\footnotesize $\ket{n_-}$};
+      % Nube de probabilidad (estado espacial)
+      \fill [blue,path fading=fade out] (0,0,0) circle [radius=5pt];
+      %node[below right=4pt and 0pt] {$\scriptstyle e^-$};
+      \begin{scope}[on background layer]
+        % \node [line width=1pt, draw=\backgroundbordercolor,
+        % fill=\backgroundcolor, fit= (O) (letraejex) (letraejey)] {};
+        \node [background, fit= (accini)(accfin)(letrax)(letraz)(letray)] {};
+      \end{scope}
+    \end{tikzpicture}
+  \end{minipage}
+  % \hspace*{.5em}
+  \begin{minipage}{.32\linewidth}
+    %\hspace*{.5em}
+    \begin{tikzpicture}[%
+      scale=\scl,
+      tdplot_main_coords,
+      every node/.style={font=\small},
+      linaux/.style={ultra thin, color=\colorlinaux},
+      directrizfront/.style={dashed,ultra thin,\colordirectrizfront},
+      directrizback/.style={dashed,ultra thin,\colordirectrizback},
+      ndirector/.style={-{Latex[round]},line width=0.8pt,\colorndirector},
+      ejeposit/.style={thick,->},
+      ejenegat/.style={ultra thin,black!20},
+      electron/.style={fill=\colorelectron, draw=black},
+      momento/.style={%
+        % -{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+        -{Latex[round]},color=\colormomento,line width=1.1pt
+      },
+      spinorplus/.style={%
+        % -{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+        -{Latex[round]},color=\colorspinorplus,line width=1.1pt
+      },
+      spinorminus/.style={%
+        % -{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+        -{Latex[round]},color=\colorspinorminus,line width=1.1pt
+      },
+      spinorfantasma/.style={%
+        % -{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+        -{Latex[round]},color=\colorspinorfantasma,line width=1.1pt
+      },
+      background/.style={
+        line width=\bgborderwidth,
+        draw=\bgbordercolor,
+        fill=\bgcolor,
+      },
+      ]
+      % COORDENADAS
+      \coordinate (o) at (0,0,0);
+      \coordinate (-dx) at (-\LONGEJENEGX,0,0);
+      \coordinate (dx) at (\LONGEJEPOSX,0,0);
+      \coordinate (-dy) at (0,-\LONGEJENEGY,0);
+      \coordinate (dy) at (0,\LONGEJEPOSY,0);
+      \coordinate (-dz) at (0,0,-\LONGEJENEGZ);
+      \coordinate (dz) at (0,0,\LONGEJEPOSZ);
+      % Vector z+
+      \coordinate (z+) at (\ZPLUSX,\ZPLUSY,\ZPLUSZ);
+      % Vector z-
+      \coordinate (z-) at (\ZMINUSX,\ZMINUSY,\ZMINUSZ);
+      % Recta de acción
+      \coordinate (accini) at (\ACCINIX,\ACCINIY,\ACCINIZ);
+      \coordinate (accfin) at (\ACCFINX,\ACCFINY,\ACCFINZ);
+      % Vector helicidad
+      \coordinate (helic) at (\HELMINX,\HELMINY,\HELMINZ);
+      % Vector director n
+      \coordinate (dirini) at (\DIRINIX,\DIRINIY,\DIRINIZ);
+      \coordinate (dirfin) at (\DIRFINX,\DIRFINY,\DIRFINZ);
+      
+      % DIBUJO
+      % Líneas débiles ejes
+      % \draw[ejenegat] (o) -- (-dx);
+      % \draw[ejenegat] (o) -- (-dy);
+      % \draw[ejenegat] (o) -- (-dz);
+      % Ejes
+      \draw[ejeposit] (o) -- (dx);
+      \draw[ejeposit] (o) -- (dy);
+      \draw[ejeposit] (o) -- (dz);
+      \node[anchor=north east,name=letrax] at (dx) {$x$};
+      \node[anchor=north west,name=letray] at (dy) {$y$};
+      \node[anchor=south,name=letraz] at (dz) {$z$};
+      % Giro eje z
+      % BUG: 'Missing character: There is no ;' warning in 'gruposlie.log'
+      \tdplotdrawarc[line width=1pt,{Latex[round,length=6pt,width=4pt]}-,
+      color=black!50] {(0,0,2.0)}{0.3}{40}{-290}{}{};
+      % Reponer parte superior del eje z
+      \draw[->] (0,0,2.0) -- (dz);
+      \node[above right=-2pt and 6pt]
+      at (0,0,2.0) {\footnotesize $\phi\,\si{\radian}$};
+      %\filldraw[fill=red,draw=black] (0,0,2.0) circle[radius=1pt];
+      
+
+      \tdplotsetthetaplanecoords{0}
+      % draw theta arc and label, using rotated coordinate system
+      \tdplotdrawarc[tdplot_rotated_coords,black!50]
+      {(0,0,0)}{.7}{0}{\PTHETA}{above left=-5pt and -2pt}
+      {\footnotesize $\color{black!50}{\theta}$}
+
+      
+      % RECTA DE ACCIÓN
+      % \draw[directrizback] (accini) -- (o);
+      % \draw[directrizfront] (o) -- (accfin);
+      % VECTOR DIRECTOR
+      % \draw[ndirector] (dirini) -- (dirfin);
+      % \node[above left,\colorndirector] at (dirfin) {$\xhat{n}$};
+      % VECTOR z+ ROTADO \theta
+      \tdplotsetcoord{P}{\PR}{\PTHETA}{0}
+      \draw[spinorplus] (o) -- (P);
+      \node[left] at (P) {\footnotesize $\ket{u}$};
+      % \node[right=0pt,\colormomento] at (P) {\footnotesize $\vvv{p}$};
+      % \node[above left=0pt and -6pt,\colorhelicplustext]
+      % at (P) {\footnotesize $\ket{n_+}$};
+      % VECTOR HELICIDAD -
+      % \draw[helicidadminus] (o) -- (helic);
+      % \node[above left=0pt and -6pt,\colorhelicminustext]
+      % at (helic) {\footnotesize $\ket{n_-}$};
+      \draw[linaux] (P) -- (Px);
+      \draw[linaux] (P) -- (Pz);
+      % Reponer eje x sin flecha
+      \draw (o) -- (dx);
+      %\filldraw[fill=black,draw=black] (Px) circle[radius=.3pt];
+      %
+      % VECTOR z+ original
+      \draw[spinorfantasma] (o) -- (z+);
+      \node[right,\colorspinorfantasmatext] at (z+) {$\ket{z_+}$};
+
+      % Nube de probabilidad (estado espacial)
+      \fill [blue,path fading=fade out] (0,0,0) circle [radius=5pt];
+      %node[below right=4pt and 0pt] {$\scriptstyle e^-$};
+      \begin{scope}[on background layer]
+        % \node [line width=1pt, draw=\backgroundbordercolor,
+        % fill=\backgroundcolor, fit= (O) (letraejex) (letraejey)] {};
+        \node [background, fit= (accini)(accfin)(letrax)(letraz)(letray)] {};
+      \end{scope}
+    \end{tikzpicture}
+  \end{minipage}
+  % \hspace{.5em}
+  \begin{minipage}{.32\linewidth}
+    %\hspace*{.5em}
+    \begin{tikzpicture}[%
+      scale=\scl,
+      tdplot_main_coords,
+      every node/.style={font=\small},
+      linaux/.style={ultra thin, color=\colorlinaux},
+      directrizfront/.style={dashed,ultra thin,\colordirectrizfront},
+      directrizback/.style={dashed,ultra thin,\colordirectrizback},
+      ndirector/.style={-{Latex[round]},line width=0.8pt,\colorndirector},
+      ejeposit/.style={thick,->},
+      ejenegat/.style={ultra thin,black!20},
+      electron/.style={fill=\colorelectron, draw=black},
+      momento/.style={%
+        % -{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+        -{Latex[round]},color=\colormomento,line width=1.1pt
+      },
+      spinorplus/.style={%
+        % -{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+        -{Latex[round]},color=\colorspinorplus,line width=1.1pt
+      },
+      spinorminus/.style={%
+        % -{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+        -{Latex[round]},color=\colorspinorminus,line width=1.1pt
+      },
+      spinorfantasma/.style={%
+        % -{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+        -{Latex[round]},color=\colorspinorfantasma,line width=1.1pt
+      },
+      background/.style={
+        line width=\bgborderwidth,
+        draw=\bgbordercolor,
+        fill=\bgcolor,
+      },
+      ]
+      % COORDENADAS
+      \coordinate (o) at (0,0,0);
+      \coordinate (-dx) at (-\LONGEJENEGX,0,0);
+      \coordinate (dx) at (\LONGEJEPOSX,0,0);
+      \coordinate (-dy) at (0,-\LONGEJENEGY,0);
+      \coordinate (dy) at (0,\LONGEJEPOSY,0);
+      \coordinate (-dz) at (0,0,-\LONGEJENEGZ);
+      \coordinate (dz) at (0,0,\LONGEJEPOSZ);
+      % Vector z+
+      \coordinate (z+) at (\ZPLUSX,\ZPLUSY,\ZPLUSZ);
+      % Vector z-
+      \coordinate (z-) at (\ZMINUSX,\ZMINUSY,\ZMINUSZ);
+      % Recta de acción
+      \coordinate (accini) at (\ACCINIX,\ACCINIY,\ACCINIZ);
+      \coordinate (accfin) at (\ACCFINX,\ACCFINY,\ACCFINZ);
+      % Vector helicidad
+      \coordinate (helic) at (\HELMINX,\HELMINY,\HELMINZ);
+      % Vector director n
+      \coordinate (dirini) at (\DIRINIX,\DIRINIY,\DIRINIZ);
+      \coordinate (dirfin) at (\DIRFINX,\DIRFINY,\DIRFINZ);
+      % DIBUJO
+      % Líneas débiles ejes
+      % \draw[ejenegat] (o) -- (-dx);
+      % \draw[ejenegat] (o) -- (-dy);
+      % \draw[ejenegat] (o) -- (-dz);
+      % Ejes
+      \draw[ejeposit] (o) -- (dx);
+      \draw[ejeposit] (o) -- (dy);
+      \draw[ejeposit] (o) -- (dz);
+      \node[anchor=north east,name=letrax] at (dx) {$x$};
+      \node[anchor=north west,name=letray] at (dy) {$y$};
+      \node[anchor=south,name=letraz] at (dz) {$z$};
+      % RECTA DE ACCIÓN
+      % \draw[directrizback] (accini) -- (o);
+      % \draw[directrizfront] (o) -- (accfin);
+      % VECTOR DIRECTOR
+      % \draw[ndirector] (dirini) -- (dirfin);
+      % \node[above left,\colorndirector] at (dirfin) {$\xhat{n}$};
+
+      % Líneas auxiliares
+      \draw[linaux] (P) -- (Px);
+      \draw[linaux] (P) -- (Pz);
+      
+      % VECTOR HELICIDAD +
+      \tdplotsetcoord{P}{\PR}{\PTHETA}{\PPHI}
+      \draw[spinorplus] (o) -- (P);
+      % \node[right=0pt,\colormomento] at (P) {\footnotesize $\vvv{p}$};
+      \node[above right=-4pt and -2pt,\colorspinorplustext]
+      at (P) {\footnotesize $\ket{n_+}$};
+
+      \tdplotsetthetaplanecoords{\PPHI}
+      % draw theta arc and label, using rotated coordinate system
+      \tdplotdrawarc[tdplot_rotated_coords]
+      {(0,0,0)}{.8}{0}{\PTHETA}{above right=-6pt and 0pt}
+      {\footnotesize $\theta$}
+
+      % Líneas auxiliares X+
+      \draw[linaux] (P) -- (Pxy);
+      \draw[linaux] (Pxy) -- (Px);
+      \draw[linaux] (Pxy) -- (Py);
+      \draw[line width=.7pt,green!27.5,-{Latex}] (o) -- (Pxy);
+      % VECTOR z+ ROTADO \theta
+      \tdplotsetcoord{P}{\PR}{\PTHETA}{0}
+      % draw theta arc and label, using rotated coordinate system
+      \tdplotdrawarc
+      {(0,0,0)}{0.6}{0}{\PPHI}{below=-2pt}
+      {\footnotesize $\phi$}
+
+      \draw[spinorfantasma] (o) -- (P);
+      \node[left, \colorspinorfantasma] at (P) {\footnotesize $\ket{u}$};
+      % VECTOR HELICIDAD -
+      % \draw[helicidadminus] (o) -- (helic);
+      % \node[above left=0pt and -6pt,\colorhelicminustext]
+      % at (helic) {\footnotesize $\ket{n_-}$};
+      % Nube de probabilidad (estado espacial)
+      \fill [blue,path fading=fade out] (0,0,0) circle [radius=5pt];
+      %node[below right=4pt and 0pt] {$\scriptstyle e^-$};
+      \begin{scope}[on background layer]
+        % \node [line width=1pt, draw=\backgroundbordercolor,
+        % fill=\backgroundcolor, fit= (O) (letraejex) (letraejey)] {};
+        \node [background, fit= (accini)(accfin)(letrax)(letraz)(letray)] {};
+      \end{scope}
+    \end{tikzpicture}
+  \end{minipage}    
+  \caption{Obtención del vector de estado $\ket{n_+}$, \emph{hacia arriba} en
+    una dirección arbitraria $\xhat{n}$, de coordenadas polares
+    $(1,\theta,\phi)$, a partir del vector de estado de spin
+    \emph{hacia arriba} en el eje $z$, mediante dos rotaciones consecutivas.}
+  \label{fig:spin12-rotacion-z+-to-n+}
+\end{figure}
+
+Esta transformación se puede representar matemáticamente como
+\begin{align}
+  \ket{n_+} &= \mmm{R_2}(\phi, n_z) \mmm{R_1}(\theta, n_y) \ket{z_+}
+              = \mmm{R_2} \mmm{R_1} \ket{z_+}
+              = \mmm{R} \ket{z_+}\\
+  \ket{n_-} &= \mmm{R_2}(\phi, n_z) \mmm{R_1}(\theta, n_y) \ket{z_-}
+              = \mmm{R_2} \mmm{R_1} \ket{z_-}
+              = \mmm{R} \ket{z_-}
+\end{align}
+Nótese que hemos combinado las dos rotaciones de la figura en una $\mmm{R}$.
+
+Seguiremos los siguientes pasos, que implican los cálculos:
+
+{\parindent=0pt
+  1) Matriz de rotación $\mmm{R_1}$}
+
+{\parindent=0pt
+  2) Matriz de rotación $\mmm{R_2}$}
+
+{\parindent=0pt
+3) Matriz de rotación combinada $\mmm{R} = \mmm{R_2}\mmm{R_1}$}
+
+{\parindent=0pt
+4) Cálculo de los vectores de estado $\ket{n_+} = \mmm{R}\ket{z_+}$
+y $\ket{n_-} = \mmm{R}\ket{z_-}$}
+
+\begin{description}
+\item[1) ] Cálculo de la matriz de rotación $\mmm{R_1}$
+  \begin{align*}
+    \mmm{R_1}
+    &=
+      e^{-i\frac{\theta}{2}\,\mmm{\sigma_y}}
+      = \mmm{I}\cos\frac{\theta}{2} - i \mmm{\sigma_y}\sin\frac{\theta}{2}
+      = \begin{pNiceMatrix}
+        1 & 0\\
+        0 & 1
+      \end{pNiceMatrix}
+      \cos\frac{\theta}{2}
+      - i \begin{pNiceMatrix}
+        0 & -i\\
+        i & 0
+      \end{pNiceMatrix}
+      \sin\frac{\theta}{2}\\
+    &=
+      \begin{pNiceMatrix}
+        \cos\frac{\theta}{2} & 0\\
+        0 & \cos\frac{\theta}{2}
+      \end{pNiceMatrix}
+      - \begin{pNiceMatrix}
+        0 & \sin\frac{\theta}{2}\\
+        -\sin\frac{\theta}{2} & 0
+      \end{pNiceMatrix}
+    = \begin{pNiceMatrix}
+        \cos\frac{\theta}{2} & -\sin\frac{\theta}{2}\\[4pt]
+        \sin\frac{\theta}{2} & \cos\frac{\theta}{2}
+      \end{pNiceMatrix}
+  \end{align*}
+  
+\item[2) ] Cálculo de la matriz de rotación $\mmm{R_2}$
+  \begin{align*}
+    \mmm{R_2}
+    &=
+      e^{-i\frac{\phi}{2}\,\mmm{\sigma_z}}
+      = \mmm{I}\cos\frac{\phi}{2} - i \mmm{\sigma_z}\sin\frac{\phi}{2}
+      = \begin{pNiceMatrix}
+        1 & 0\\
+        0 & 1
+      \end{pNiceMatrix}
+      \cos\frac{\phi}{2}
+      - i \begin{pNiceMatrix}
+        1 & 0\\
+        0 & -1
+      \end{pNiceMatrix}
+      \sin\frac{\phi}{2}\\
+    &=
+      \begin{pNiceMatrix}
+        \cos\frac{\phi}{2} & 0\\
+        0 & \cos\frac{\phi}{2}
+      \end{pNiceMatrix}
+      - i\begin{pNiceMatrix}
+        \sin\frac{\phi}{2} & 0\\
+        0 & -\sin\frac{\phi}{2}
+      \end{pNiceMatrix}\\
+    &=
+      \begin{pNiceMatrix}
+        \cos\frac{\phi}{2}-i\sin\frac{\phi}{2} & 0\\
+        0 & \cos\frac{\phi}{2}+i\sin\frac{\phi}{2}
+      \end{pNiceMatrix}
+      = \begin{pNiceMatrix}
+        e^{-i\frac{\phi}{2}} & 0\\
+        0 & e^{i\frac{\phi}{2}}
+      \end{pNiceMatrix}\\
+      &= e^{-i\frac{\phi}{2}}
+      \begin{pNiceMatrix}
+        1 & 0\\
+        0 & e^{i\phi}
+      \end{pNiceMatrix}
+  \end{align*}
+
+\item[3) ] Cálculo de la matriz de rotación combinada
+  $\mmm{R} = \mmm{R_2}\mmm{R_1}$
+  \begin{align*}
+    \mmm{R}
+    &=
+      \mmm{R_2}\mmm{R_1}
+      = e^{-i\frac{\phi}{2}}
+      \begin{pNiceMatrix}
+        1 & 0\\
+        0 & e^{i\phi}
+      \end{pNiceMatrix}
+      \begin{pNiceMatrix}
+        \cos\frac{\theta}{2} & -\sin\frac{\theta}{2}\\[4pt]
+        \sin\frac{\theta}{2} & \cos\frac{\theta}{2}
+      \end{pNiceMatrix}\\
+    &=
+      e^{-i\frac{\phi}{2}}
+      \begin{pNiceMatrix}      
+        \cos\frac{\theta}{2} & -\sin\frac{\theta}{2}\\[4pt]
+        e^{i\phi} \sin\frac{\theta}{2} & e^{i\phi} \cos\frac{\theta}{2}
+      \end{pNiceMatrix}
+  \end{align*}
+
+%  El factor $e^{-i\frac{\phi}{2}}$ del operador de rotación se puede eliminar,
+%  porque solo añade una fase global a los espinores que se obtienen de esta
+%  transformación, pero no afecta a las probabilidades que se deducen del
+%  espinor. En otras palabras, modifica las amplitudes de probabilidad de
+%  los espinores pero no las probabilidades. 
+
+\item[4) ] Cálculo de los estados posibles de una medida del spin
+  en la dirección $\xhat{n}$.
+
+  \begin{itemize}
+  \item Cálculo de $\ket{n_+}$
+  \begin{align*}
+    \ket{n_+}
+    &=
+      R \ket{z_+}
+      = e^{-i\frac{\phi}{2}}
+      \begin{pNiceMatrix}
+        \cos\frac{\theta}{2} & -\sin\frac{\theta}{2}\\[4pt]
+        e^{i\phi} \sin\frac{\theta}{2} & e^{i\phi} \cos\frac{\theta}{2}
+      \end{pNiceMatrix}
+      \begin{pNiceMatrix}
+        1\\
+        0
+      \end{pNiceMatrix}
+    = e^{-i\frac{\phi}{2}}
+    \begin{pNiceMatrix}
+      \cos\frac{\theta}{2}\\
+      e^{i\phi} \sin\frac{\theta}{2}
+    \end{pNiceMatrix}
+  \end{align*}
+  
+  El factor $e^{-i\frac{\phi}{2}}$ de un espinor es prescindible porque solo añade
+  una fase global a las amplitudes de probabilidad, pero no afecta a las
+  probabilidades que se deducen de estas.
+  Resulta que en mecánica cuántica, si dos vectores de estado $\ket{\Psi}$
+  y $\ket{\Psi'}$ se diferencian únicamente en una fase global
+  \[
+    \ket{\Psi'} = e^{i\alpha} \ket{\Psi}
+  \]
+  entonces conducen a la misma física, porque de ellas se deducen las mismas
+  probabilidades.
+
+  Así, $\ket{n_+}$ lo podemos dejar como
+  \begin{align*}
+    \ket{n_+}
+    &=
+      \begin{pNiceMatrix}
+        \cos\frac{\theta}{2}\\
+        e^{i\phi} \sin\frac{\theta}{2}
+      \end{pNiceMatrix}
+    = \cos\frac{\theta}{2}
+    \begin{pNiceMatrix}
+      1\\
+      0
+    \end{pNiceMatrix}
+    + e^{i\phi} \sin\frac{\theta}{2}
+    \begin{pNiceMatrix}
+      0\\
+      1
+    \end{pNiceMatrix}\\
+    &=
+      \cos\frac{\theta}{2} \ket{z_+} + e^{i\phi} \sin\frac{\theta}{2} \ket{z_-}
+  \end{align*}
+
+  \item Cálculo de $\ket{n_-}$
+  \begin{align*}
+    \ket{n_-}
+    &=
+      R \ket{z_-}
+      = e^{-i\frac{\phi}{2}}
+      \begin{pNiceMatrix}
+        \cos\frac{\theta}{2} & -\sin\frac{\theta}{2}\\
+        e^{i\phi} \sin\frac{\theta}{2} & e^{i\phi} \cos\frac{\theta}{2}
+      \end{pNiceMatrix}
+      \begin{pNiceMatrix}
+        0\\
+        1
+      \end{pNiceMatrix}
+      = e^{-i\frac{\phi}{2}}
+      \begin{pNiceMatrix}
+        -\sin\frac{\theta}{2}\\
+        e^{i\phi} \cos\frac{\theta}{2}
+      \end{pNiceMatrix}\\
+    &=
+      e^{-i\frac{\phi}{2}}
+      e^{i\phi}
+      \begin{pNiceMatrix}
+        e^{-i\phi}\sin\frac{\theta}{2}\\
+        \cos\frac{\theta}{2}
+      \end{pNiceMatrix}
+    = e^{i\frac{\phi}{2}}
+      \begin{pNiceMatrix}
+        e^{-i\phi}\sin\frac{\theta}{2}\\
+        \cos\frac{\theta}{2}
+      \end{pNiceMatrix}    
+  \end{align*}
+  Se ha sacado el factor $e^{i\phi}$ en el penúltimo paso para que el
+  resultado coincidiera con el que se presentó en las lecciones de vídeo.
+  
+  Como antes, prescindimos de la fase global del espinor
+  \begin{align*}
+    \ket{n_-}
+    &=
+      \begin{pNiceMatrix}
+        -e^{-i\phi}\sin\frac{\theta}{2}\\
+        \cos\frac{\theta}{2}
+      \end{pNiceMatrix}
+    = -e^{-i\phi}\sin\frac{\theta}{2}
+    \begin{pNiceMatrix}
+      1\\
+      0
+    \end{pNiceMatrix}
+    + \cos\frac{\theta}{2}
+    \begin{pNiceMatrix}
+      0\\
+      1
+    \end{pNiceMatrix}\\
+    &=
+      -e^{-i\phi}\sin\frac{\theta}{2}
+      \ket{z_+}
+      + \cos\frac{\theta}{2}
+      \ket{z_-}
+  \end{align*}
+\end{itemize}
+%  Aunque este resultado es correcto, no coincide con el que se presentó
+%  en las lecciones de vídeo. Sacamos el factor $e^{i\phi}$ del espinor
+%  \[
+%    \ket{n_-}
+%    =
+%    e^{i\phi}
+%    \begin{pNiceMatrix}
+%      -e^{-i\phi}\sin\frac{\theta}{2}\\
+%      \cos\frac{\theta}{2}
+%    \end{pNiceMatrix}
+%  \]
+%  \begin{align*}
+%    &=
+%      \begin{pNiceMatrix}
+%        -e^{-i\phi}\sin\frac{\theta}{2}\\
+%      \cos\frac{\theta}{2}
+%    \end{pNiceMatrix}
+%    = -\sin\frac{\theta}{2}
+%    \begin{pNiceMatrix}
+%      1\\
+%      0
+%    \end{pNiceMatrix}
+%    + e^{i\phi} \cos\frac{\theta}{2}
+%    \begin{pNiceMatrix}
+%      0\\
+%      1
+%    \end{pNiceMatrix}\\
+%    &=
+%      -\sin\frac{\theta}{2} \ket{z_+} + e^{i\phi} \cos\frac{\theta}{2} \ket{z_-}
+%  \end{align*}
+\end{description}
+
+Cabe destacar que los posibles estados de spin en una dirección arbitraria
+$\xhat{n}$ son ortogonales, lo que quiere decir que son excluyentes entre sí
+\begin{align*}
+  \braket{n_+|n_-}
+  &=
+    \left(
+    \cos\frac{\theta}{2} \ket{z_+} + e^{i\phi} \sin\frac{\theta}{2}\ket{z_-}
+    \right)^*
+    \left(
+    -e^{-i\phi}\sin\frac{\theta}{2} \ket{z_+} + \cos\frac{\theta}{2}\ket{z_-}
+    \right)\\
+  &=
+    \left(
+    \cos\frac{\theta}{2} \bra{z_+} + e^{-i\phi} \sin\frac{\theta}{2}\bra{z_-}
+    \right)
+    \left(
+    -e^{-i\phi} \sin\frac{\theta}{2} \ket{z_+} + \cos\frac{\theta}{2}\ket{z_-}
+    \right)\\
+  &=
+    -e^{-i\phi} \sin\frac{\theta}{2}\cos\frac{\theta}{2} \braket{z_+|z_+}
+    + e^{-i\phi} \sin\frac{\theta}{2}\cos\frac{\theta}{2} \braket{z_-|z_-}\\
+  &=
+    -\frac{e^{-i\phi}}{2} \sin\theta + \frac{e^{-i\phi}}{2} \sin\theta
+    = 0
+\end{align*}
+donde se ha tenido en cuenta que los vectores de estado $\ket{z_+}$ y
+$\ket{z_-}$ forman una base ortonormal.
+
+También se puede demostrar que están normalizados. Lo comprobaremos para
+$\ket{n_+}$
+\begin{align*}
+  \braket{n_+|n_+}
+  &=
+    \left(
+    \cos\frac{\theta}{2} \ket{z_+} + e^{i\phi} \sin\frac{\theta}{2}\ket{z_-}
+    \right)^*
+    \left(
+    \cos\frac{\theta}{2} \ket{z_+} + e^{i\phi} \sin\frac{\theta}{2}\ket{z_-}
+    \right)\\
+  &=
+    \left(
+    \cos\frac{\theta}{2} \bra{z_+} + e^{-i\phi} \sin\frac{\theta}{2}\bra{z_-}
+    \right)
+    \left(
+    \cos\frac{\theta}{2} \ket{z_+} + e^{i\phi} \sin\frac{\theta}{2}\ket{z_-}
+    \right)\\
+  &=
+    \cos^2\frac{\theta}{2} + \sin^2\frac{\theta}{2}
+    = 1
+\end{align*}
+Así que $\ket{n_+}$ y $\ket{n_-}$ también forman una base ortonormal de
+$\symbb{C}^2$.
+
+\subsection{Concepto de helicidad}
+En la figura~\ref{fig:spin12-electron-trimomento}
+se observa un electrón desplazándose en línea recta con un
+trimomento\footnotemark{} constante $\vvv{p}$, encontrándose en un cierto
+instante en el origen de coordenadas
+\footnotetext{Donde $\gamma = \dfrac{1}{\sqrt{1-(v/c)^2}}$ es el factor de
+  Lorentez.
+  Para una partícula no relativista, $\gamma$ sería aproximadamente la unidad
+  y el momento sería prácticamente el momento clásico $\vvv{p} = m\vvv{v}$.}
+\[
+  \vvv{p} = \gamma m \vvv{v}
+\]
+La dirección del movimiento viene dada por el vector unitario
+\[
+  \xhat{n} = \frac{\vvv{p}}{|\vvv{p}|}
+\]
+
+\begin{figure}[ht]
+  \centering
+  % COLORES
+  \newcommand{\colordirectrizfront}{blue}
+  \newcommand{\colordirectrizback}{blue!50}
+  \newcommand{\colormomento}{blue!85!black}
+  \newcommand{\colorlinaux}{blue!20}
+  \newcommand{\colorndirector}{black!60}
+  \newcommand{\colorelectron}{blue}
+  %
+  \def\scl{1.2}
+  % EJES
+  % x
+  \pgfmathsetmacro{\LONGEJEPOSX}{3}
+  \pgfmathsetmacro{\LONGEJENEGX}{3}
+  % y
+  \pgfmathsetmacro{\LONGEJEPOSY}{3}
+  \pgfmathsetmacro{\LONGEJENEGY}{1.5}
+  % z
+  \pgfmathsetmacro{\LONGEJEPOSZ}{2}
+  \pgfmathsetmacro{\LONGEJENEGZ}{1.5}
+
+  % 
+  \pgfmathsetmacro{\PMOD}{2.2}
+  \pgfmathsetmacro{\NMOD}{.5}
+  \pgfmathsetmacro{\THETA}{55}
+  \pgfmathsetmacro{\PHI}{50}
+  % 
+  \tdplotsetmaincoords{60}{110}
+  % MOMENTO LINEAL
+  \pgfmathsetmacro{\PR}{\PMOD}
+  \pgfmathsetmacro{\PTHETA}{\THETA}
+  \pgfmathsetmacro{\PPHI}{\PHI}
+  % VECTOR DIRECTOR INICIO
+  \pgfmathsetmacro{\DIRINIR}{4.2}
+  \pgfmathsetmacro{\DIRINITHETA}{\THETA}
+  \pgfmathsetmacro{\DIRINIPHI}{\PHI}
+  \pgfmathsetmacro{\DIRINIX}{\DIRINIR * sin(\DIRINITHETA) * cos(\DIRINIPHI)}
+  \pgfmathsetmacro{\DIRINIY}{\DIRINIR * sin(\DIRINITHETA) * sin(\DIRINIPHI)}
+  \pgfmathsetmacro{\DIRINIZ}{\DIRINIR * cos(\DIRINITHETA)}
+  % VECTOR DIRECTOR FIN
+  \pgfmathsetmacro{\DIRFINR}{5.5}
+  \pgfmathsetmacro{\DIRFINTHETA}{\THETA}
+  \pgfmathsetmacro{\DIRFINPHI}{\PHI}
+  \pgfmathsetmacro{\DIRFINX}{\DIRFINR * sin(\DIRFINTHETA) * cos(\DIRFINPHI)}
+  \pgfmathsetmacro{\DIRFINY}{\DIRFINR * sin(\DIRFINTHETA) * sin(\DIRFINPHI)}
+  \pgfmathsetmacro{\DIRFINZ}{\DIRFINR * cos(\DIRFINTHETA)}
+  % RECTA DE ACCIÓN INICIO
+  \pgfmathsetmacro{\ACCINIR}{3.5}
+  \pgfmathsetmacro{\ACCINITHETA}{180-\THETA}
+  \pgfmathsetmacro{\ACCINIPHI}{\PHI + 180}
+  \pgfmathsetmacro{\ACCINIX}{\ACCINIR * sin(\ACCINITHETA) * cos(\ACCINIPHI)}
+  \pgfmathsetmacro{\ACCINIY}{\ACCINIR * sin(\ACCINITHETA) * sin(\ACCINIPHI)}
+  \pgfmathsetmacro{\ACCINIZ}{\ACCINIR * cos(\ACCINITHETA)}
+  % RECTA DE ACCIÓN FIN
+  \pgfmathsetmacro{\ACCFINR}{7.0}
+  \pgfmathsetmacro{\ACCFINTHETA}{\THETA}
+  \pgfmathsetmacro{\ACCFINPHI}{\PHI}
+  \pgfmathsetmacro{\ACCFINX}{\ACCFINR * sin(\ACCFINTHETA) * cos(\ACCFINPHI)}
+  \pgfmathsetmacro{\ACCFINY}{\ACCFINR * sin(\ACCFINTHETA) * sin(\ACCFINPHI)}
+  \pgfmathsetmacro{\ACCFINZ}{\ACCFINR * cos(\ACCFINTHETA)}
+  %
+  \tikzfading[name=fade out, inner color=transparent!0,
+  outer color=transparent!100]
+  
+  \begin{tikzpicture}[
+    scale=\scl,
+    tdplot_main_coords,
+    every node/.style={font=\small},
+    linaux/.style={ultra thin, color=\colorlinaux},
+    directrizfront/.style={dashed,ultra thin,\colordirectrizfront},
+    directrizback/.style={dashed,ultra thin,\colordirectrizback},
+    ndirector/.style={-{Latex[round]},line width=0.8pt,\colorndirector},
+    ejeposit/.style={thick,->},
+    ejenegat/.style={ultra thin,black!20},
+    electron/.style={fill=\colorelectron, draw=black},
+    momento/.style={%
+      %-{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+      -{Latex[round]},color=\colormomento,line width=1.1pt
+    },
+    background/.style={
+      line width=\bgborderwidth,
+      draw=\bgbordercolor,
+      fill=\bgcolor,
+    },
+    ]
+    % COORDENADAS
+    \coordinate (o) at (0,0,0);
+    \coordinate (-dx) at (-\LONGEJENEGX,0,0);
+    \coordinate (dx) at (\LONGEJEPOSX,0,0);
+    \coordinate (-dy) at (0,-\LONGEJENEGY,0);
+    \coordinate (dy) at (0,\LONGEJEPOSY,0);
+    \coordinate (-dz) at (0,0,-\LONGEJENEGZ);
+    \coordinate (dz) at (0,0,\LONGEJEPOSZ);
+    % Recta de acción
+    \coordinate (accini) at (\ACCINIX,\ACCINIY,\ACCINIZ);
+    \coordinate (accfin) at (\ACCFINX,\ACCFINY,\ACCFINZ);
+    % Vector director n
+    \coordinate (dirini) at (\DIRINIX,\DIRINIY,\DIRINIZ);
+    \coordinate (dirfin) at (\DIRFINX,\DIRFINY,\DIRFINZ);
+    
+    %\coordinate (accfin) at (FX,FY,FZ);
+    % DIBUJO
+    % Líneas débiles ejes
+    \draw[ejenegat] (o) -- (-dx);
+    \draw[ejenegat] (o) -- (-dy);
+    \draw[ejenegat] (o) -- (-dz);
+    % Ejes
+    \draw[ejeposit] (o) -- (dx);
+    \draw[ejeposit] (o) -- (dy);
+    \draw[ejeposit] (o) -- (dz);
+    \node[anchor=north east,name=letrax] at (dx) {$x$};
+    \node[anchor=north west,name=letray] at (dy) {$y$};
+    \node[anchor=south,name=letraz] at (dz) {$z$};
+    
+    %  % Giro eje x
+    % \tdplotsetthetaplanecoords{-90}
+    %  % Notice you have to tell tiks-3dplot you are now in rotated coords
+    %  % Since tikz-3dplot swaps the planes in tdplotsetthetaplanecoords,
+    %  % the former y axis is now the z axis.
+    % \tdplotdrawarc[tdplot_rotated_coords,line width=2pt,
+    % -{Latex[length=11pt,width=7pt,flex=1]},color=black!50]
+    % {(0,0,1.9)}{0.3}{380}{40}{anchor=south west,color=black}{}
+    %  % Reponer parte derecha del eje y
+    % \draw[ultra thick,->] (1.9,0,0) -- (\longeje,0,0);
+    %% \tdplotdrawarc[tdplot_rotated_coords,line width=2pt,
+    %% -{Latex[round,length=6pt,width=4pt]},color=black!50]
+    %% {(0,0,1.9)}{0.3}{380}{40}{anchor=south west,color=black}{}
+    %%  % Reponer parte derecha del eje y
+    %% \draw[ultra thick,->] (1.9,0,0) -- (\longeje,0,0);
+
+    % RECTA DE ACCIÓN
+    \draw[directrizback] (accini) -- (o);
+    \draw[directrizfront] (o) -- (accfin);
+
+    % VECTOR DIRECTOR
+    \draw[ndirector] (dirini) -- (dirfin);
+    \node[above left,\colorndirector] at (dirfin) {$\xhat{n}$};
+
+    % VECTOR MOMENTO
+    \tdplotsetcoord{P}{\PR}{\PTHETA}{\PPHI}
+    % draw a vector from origin to point (P)
+    % \draw[-{Stealth[width=7pt]},color=red!80!black,ultra thick] (O) -- (P)
+    % node[above right=0pt and 0pt] {\footnotesize $\braket{\vec{S}}$};
+    % Momento del electrón en el origen
+    % Líneas auxiliares por debajo del momento
+    \draw[linaux] (Pxy) -- (Px);
+    %\draw[linaux] (O) -- (Pxy);
+    
+    \draw[momento] (o) -- (P);
+    %\node[right=0pt,\colormomento] at (P) {\footnotesize $\vvv{p}$};
+    \node[above left=0pt and -2pt,\colormomento]
+    at (P) {\footnotesize $\vvv{p}$};
+    % Líneas auxiliares por encima del momento
+    \draw[linaux] (P) -- (Pxy);
+
+    \draw[linaux] (Pxy) -- (Py);
+    %
+    \draw[linaux] (Py) -- (Pyz);
+    \draw[linaux] (Pyz) -- (Pz);
+    \draw[linaux] (Pyz) -- (P);
+    \draw[linaux] (Pz) -- (Pxz);
+    \draw[linaux] (Pxz) -- (P);
+    \draw[linaux] (Pxz) -- (Px);
+    
+    \tdplotsetthetaplanecoords{\PTHETA}
+    
+    % draw the angle \phi, and label it
+    % syntax:
+    % \tdplotdrawarc[coordinate frame, draw options]
+    % {center point}{r}{angle}{label options}{label}
+    % \tdplotdrawarc{(O)}{0.8}{0}{\phivec}{anchor=north}{\footnotesize $\pi/2$}
+    
+    % set the rotated coordinate system so the x'-y' plane lies within the
+    % "theta plane" of the main coordinate system
+    % syntax: \tdplotsetthetaplanecoords{\phi}
+    \tdplotsetthetaplanecoords{\PPHI}
+    
+    % draw theta arc and label, using rotated coordinate system
+    % \tdplotdrawarc[tdplot_rotated_coords]
+    % {(0,0,0)}{0.8}{0}{\thetavec}{above right=1pt and 1pt}{\footnotesize $\theta$}
+    
+    % Electrón en el origen
+    \filldraw[electron] (o) circle[radius=2pt];
+
+    %\node at (0,.5,3.0) {\ACCINIX};
+    %\node at (0,.5,2.6) {\ACCINIY};
+    %\node at (0,.5,2.2) {\ACCINIZ};
+    % Fondo amarillo
+    \begin{scope}[on background layer]
+      % \node [line width=1pt, draw=\backgroundbordercolor,
+      % fill=\backgroundcolor, fit= (O) (letraejex) (letraejey)] {};
+      \node [background, fit= (accini) (accfin) (letrax) (letraz) (letray)] {};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Electrón en el origen, animado con un vector trimomento $\vvv{p}$,
+    en la dirección $\xhat{n}$.}
+  \label{fig:spin12-electron-trimomento}
+\end{figure}
+
+La helicidad de una partícula, como el electrón de la figura, es la
+componente medida de su spin
+\emph{hacia arriba} $\ket{\chi_+}$ o \emph{hacia abajo} $\ket{\chi_-}$,
+en la dirección del momento.
+
+En la figura~\ref{fig:spin12-electron-estados-helicidad} se representan estos
+dos posibles valores de la helicidad de una partícula de spin 1/2, como el
+electrón.
+\begin{figure}[ht]
+  \centering
+  % COLORES
+  \newcommand{\colordirectrizfront}{black}
+  \newcommand{\colordirectrizback}{black!50}
+  \newcommand{\colormomento}{blue!85!black}
+  \newcommand{\colorhelicplus}{green!60!black}
+  \newcommand{\colorhelicplustext}{green!45!black}
+  \newcommand{\colorhelicminus}{red!80!black}
+  \newcommand{\colorhelicminustext}{red!80!black}
+  \newcommand{\colorlinaux}{black!15}
+  \newcommand{\colorndirector}{black!60}
+  \newcommand{\colorelectron}{blue}
+  %
+  \def\scl{1.2}
+  % EJES
+  % x
+  \pgfmathsetmacro{\LONGEJEPOSX}{3}
+  \pgfmathsetmacro{\LONGEJENEGX}{3}
+  % y
+  \pgfmathsetmacro{\LONGEJEPOSY}{3}
+  \pgfmathsetmacro{\LONGEJENEGY}{1.5}
+  % z
+  \pgfmathsetmacro{\LONGEJEPOSZ}{2}
+  \pgfmathsetmacro{\LONGEJENEGZ}{1.5}
+
+  % 
+  \pgfmathsetmacro{\PMOD}{2.2}
+  \pgfmathsetmacro{\NMOD}{.5}
+  \pgfmathsetmacro{\THETA}{55}
+  \pgfmathsetmacro{\PHI}{50}
+  % 
+  \tdplotsetmaincoords{60}{110}
+  % HELICIDAD +
+  \pgfmathsetmacro{\PR}{\PMOD}
+  \pgfmathsetmacro{\PTHETA}{\THETA}
+  \pgfmathsetmacro{\PPHI}{\PHI}
+  % HELICIDAD -
+  \pgfmathsetmacro{\HELICMINR}{\PMOD}
+  \pgfmathsetmacro{\HELICMINTHETA}{180 - \THETA}
+  \pgfmathsetmacro{\HELICMINPHI}{\PHI + 180}
+  \pgfmathsetmacro{\HELICMINX}{\HELICMINR*sin(\HELICMINTHETA)*cos(\HELICMINPHI)}
+  \pgfmathsetmacro{\HELICMINY}{\HELICMINR*sin(\HELICMINTHETA)*sin(\HELICMINPHI)}
+  \pgfmathsetmacro{\HELICMINZ}{\HELICMINR*cos(\HELICMINTHETA)}
+  % VECTOR DIRECTOR INICIO
+  \pgfmathsetmacro{\DIRINIR}{4.2}
+  \pgfmathsetmacro{\DIRINITHETA}{\THETA}
+  \pgfmathsetmacro{\DIRINIPHI}{\PHI}
+  \pgfmathsetmacro{\DIRINIX}{\DIRINIR * sin(\DIRINITHETA) * cos(\DIRINIPHI)}
+  \pgfmathsetmacro{\DIRINIY}{\DIRINIR * sin(\DIRINITHETA) * sin(\DIRINIPHI)}
+  \pgfmathsetmacro{\DIRINIZ}{\DIRINIR * cos(\DIRINITHETA)}
+  % VECTOR DIRECTOR FIN
+  \pgfmathsetmacro{\DIRFINR}{5.5}
+  \pgfmathsetmacro{\DIRFINTHETA}{\THETA}
+  \pgfmathsetmacro{\DIRFINPHI}{\PHI}
+  \pgfmathsetmacro{\DIRFINX}{\DIRFINR * sin(\DIRFINTHETA) * cos(\DIRFINPHI)}
+  \pgfmathsetmacro{\DIRFINY}{\DIRFINR * sin(\DIRFINTHETA) * sin(\DIRFINPHI)}
+  \pgfmathsetmacro{\DIRFINZ}{\DIRFINR * cos(\DIRFINTHETA)}
+  % RECTA DE ACCIÓN INICIO
+  \pgfmathsetmacro{\ACCINIR}{3.5}
+  \pgfmathsetmacro{\ACCINITHETA}{180 - \THETA}
+  \pgfmathsetmacro{\ACCINIPHI}{\PHI + 180}
+  \pgfmathsetmacro{\ACCINIX}{\ACCINIR * sin(\ACCINITHETA) * cos(\ACCINIPHI)}
+  \pgfmathsetmacro{\ACCINIY}{\ACCINIR * sin(\ACCINITHETA) * sin(\ACCINIPHI)}
+  \pgfmathsetmacro{\ACCINIZ}{\ACCINIR * cos(\ACCINITHETA)}
+  % RECTA DE ACCIÓN FIN
+  \pgfmathsetmacro{\ACCFINR}{7.0}
+  \pgfmathsetmacro{\ACCFINTHETA}{\THETA}
+  \pgfmathsetmacro{\ACCFINPHI}{\PHI}
+  \pgfmathsetmacro{\ACCFINX}{\ACCFINR * sin(\ACCFINTHETA) * cos(\ACCFINPHI)}
+  \pgfmathsetmacro{\ACCFINY}{\ACCFINR * sin(\ACCFINTHETA) * sin(\ACCFINPHI)}
+  \pgfmathsetmacro{\ACCFINZ}{\ACCFINR * cos(\ACCFINTHETA)}
+  %
+  \tikzfading[name=fade out, inner color=transparent!0,
+  outer color=transparent!100]
+  
+  \begin{tikzpicture}[
+    scale=\scl,
+    tdplot_main_coords,
+    every node/.style={font=\small},
+    linaux/.style={ultra thin, color=\colorlinaux},
+    directrizfront/.style={dashed,ultra thin,\colordirectrizfront},
+    directrizback/.style={dashed,ultra thin,\colordirectrizback},
+    ndirector/.style={-{Latex[round]},line width=0.8pt,\colorndirector},
+    ejeposit/.style={thick,->},
+    ejenegat/.style={ultra thin, black!20},
+    electron/.style={fill=\colorelectron, draw=black},
+    momento/.style={%
+      %-{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+      -{Latex[round]},color=\colormomento,line width=1.1pt
+    },
+    helicidadplus/.style={%
+      %-{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+      -{Latex[round]},color=\colorhelicplus,line width=1.1pt
+    },
+    helicidadminus/.style={%
+      %-{Latex[width=5pt,length=7pt]},color=blue!90!black,line width=1.1pt
+      -{Latex[round]},color=\colorhelicminus,line width=1.1pt
+    },
+    background/.style={
+      line width=\bgborderwidth,
+      draw=\bgbordercolor,
+      fill=\bgcolor,
+    },
+    ]
+    % COORDENADAS
+    \coordinate (o) at (0,0,0);
+    \coordinate (-dx) at (-\LONGEJENEGX,0,0);
+    \coordinate (dx) at (\LONGEJEPOSX,0,0);
+    \coordinate (-dy) at (0,-\LONGEJENEGY,0);
+    \coordinate (dy) at (0,\LONGEJEPOSY,0);
+    \coordinate (-dz) at (0,0,-\LONGEJENEGZ);
+    \coordinate (dz) at (0,0,\LONGEJEPOSZ);
+<    % Recta de acción
+    \coordinate (accini) at (\ACCINIX,\ACCINIY,\ACCINIZ);
+    \coordinate (accfin) at (\ACCFINX,\ACCFINY,\ACCFINZ);
+    % Vector helicidad
+    \coordinate (helic) at (\HELICMINX,\HELICMINY,\HELICMINZ);
+
+    % Vector director n
+    \coordinate (dirini) at (\DIRINIX,\DIRINIY,\DIRINIZ);
+    \coordinate (dirfin) at (\DIRFINX,\DIRFINY,\DIRFINZ);
+    
+    %\coordinate (accfin) at (FX,FY,FZ);
+    % DIBUJO
+    % Líneas débiles ejes
+    %\draw[ejenegat] (o) -- (-dx);
+    %\draw[ejenegat] (o) -- (-dy);
+    %\draw[ejenegat] (o) -- (-dz);
+    % Ejes
+    \draw[ejeposit] (o) -- (dx);
+    \draw[ejeposit] (o) -- (dy);
+    \draw[ejeposit] (o) -- (dz);
+    \node[anchor=north east,name=letrax] at (dx) {$x$};
+    \node[anchor=north west,name=letray] at (dy) {$y$};
+    \node[anchor=south,name=letraz] at (dz) {$z$};
+    
+    %  % Giro eje x
+    % \tdplotsetthetaplanecoords{-90}
+    %  % Notice you have to tell tiks-3dplot you are now in rotated coords
+    %  % Since tikz-3dplot swaps the planes in tdplotsetthetaplanecoords,
+    %  % the former y axis is now the z axis.
+    % \tdplotdrawarc[tdplot_rotated_coords,line width=2pt,
+    % -{Latex[length=11pt,width=7pt,flex=1]},color=black!50]
+    % {(0,0,1.9)}{0.3}{380}{40}{anchor=south west,color=black}{}
+    %  % Reponer parte derecha del eje y
+    % \draw[ultra thick,->] (1.9,0,0) -- (\longeje,0,0);
+    %% \tdplotdrawarc[tdplot_rotated_coords,line width=2pt,
+    %% -{Latex[round,length=6pt,width=4pt]},color=black!50]
+    %% {(0,0,1.9)}{0.3}{380}{40}{anchor=south west,color=black}{}
+    %%  % Reponer parte derecha del eje y
+    %% \draw[ultra thick,->] (1.9,0,0) -- (\longeje,0,0);
+
+    % RECTA DE ACCIÓN
+    \draw[directrizback] (accini) -- (o);
+    \draw[directrizfront] (o) -- (accfin);
+
+    % VECTOR DIRECTOR
+    \draw[ndirector] (dirini) -- (dirfin);
+    \node[above left,\colorndirector] at (dirfin) {$\xhat{n}$};
+
+    % VECTOR MOMENTO
+    \tdplotsetcoord{P}{\PR}{\PTHETA}{\PPHI}
+    % draw a vector from origin to point (P)
+    % \draw[-{Stealth[width=7pt]},color=red!80!black,ultra thick] (O) -- (P)
+    % node[above right=0pt and 0pt] {\footnotesize $\braket{\vec{S}}$};
+    % Momento del electrón en el origen
+    % Líneas auxiliares por debajo del momento
+    \draw[linaux] (Pxy) -- (Px);
+    %\draw[linaux] (O) -- (Pxy);
+    
+    \draw[helicidadplus] (o) -- (P);
+    %\node[right=0pt,\colormomento] at (P) {\footnotesize $\vvv{p}$};
+    \node[above left=0pt and -6pt,\colorhelicplustext]
+    at (P) {\footnotesize $\ket{\chi_+}$};
+    \draw[helicidadminus] (o) -- (helic);
+    \node[above left=0pt and -6pt,\colorhelicminustext]
+    at (helic) {\footnotesize $\ket{\chi_-}$};    
+    % Líneas auxiliares por encima del momento
+    \draw[linaux] (P) -- (Pxy);
+
+    \draw[linaux] (Pxy) -- (Py);
+    %
+    \draw[linaux] (Py) -- (Pyz);
+    \draw[linaux] (Pyz) -- (Pz);
+    \draw[linaux] (Pyz) -- (P);
+    \draw[linaux] (Pz) -- (Pxz);
+    \draw[linaux] (Pxz) -- (P);
+    \draw[linaux] (Pxz) -- (Px);
+    \draw[linaux,line width=.8pt,-{Latex}] (o) -- (Pxy);
+    
+    \tdplotsetthetaplanecoords{\PTHETA}
+    
+    % draw the angle \phi, and label it
+    % syntax:
+    % \tdplotdrawarc[coordinate frame, draw options]
+    % {center point}{r}{angle}{label options}{label}
+    % \tdplotdrawarc{(O)}{0.8}{0}{\phivec}{anchor=north}{\footnotesize $\pi/2$}
+    
+    % set the rotated coordinate system so the x'-y' plane lies within the
+    % "theta plane" of the main coordinate system
+    % syntax: \tdplotsetthetaplanecoords{\phi}
+    \tdplotsetthetaplanecoords{\PPHI}
+    
+    % draw theta arc and label, using rotated coordinate system
+    % \tdplotdrawarc[tdplot_rotated_coords]
+    % {(0,0,0)}{0.8}{0}{\thetavec}{above right=1pt and 1pt}{\footnotesize $\theta$}
+    
+    % Electrón en el origen
+    %\filldraw[electron] (o) circle[radius=2pt];
+
+    %\node at (0,.5,3.0) {\ACCINIX};
+    %\node at (0,.5,2.6) {\ACCINIY};
+    %\node at (0,.5,2.2) {\ACCINIZ};
+    
+    % Nube de probabilidad (estado espacial)
+    \fill [blue,path fading=fade out] (0,0,0) circle [radius=4pt];
+    % node[below right=4pt and 0pt] {$\scriptstyle e^-$};
+    % Fondo amarillo
+    \begin{scope}[on background layer]
+      % \node [line width=1pt, draw=\backgroundbordercolor,
+      % fill=\backgroundcolor, fit= (O) (letraejex) (letraejey)] {};
+      \node [background, fit= (accini) (accfin) (letrax) (letraz) (letray)] {};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Los dos posibles estados de helicidad, $\ket{\chi_+}$ y
+    $\ket{\chi_-}$, de una partícula de spin 1/2. La partícula se representa
+    en azul.}
+  \label{fig:spin12-electron-estados-helicidad}
+\end{figure}
+
+Desde otro punto de vista, estos dos estados de helicidad de partículas de
+spin 1/2 se corresponden con los vectores propios y valores propios
+de la matriz $\xhat{n}\cdot\mmm{\sigma}/2$
+\begin{align*}
+  &\frac{\xhat{n}\cdot\mmm{\sigma}}{2}\ket{\chi_+}=+\frac{1}{2}\ket{\chi_+}\\
+  &\frac{\xhat{n}\cdot\mmm{\sigma}}{2}\ket{\chi_-}=-\frac{1}{2}\ket{\chi_-}
+\end{align*}
+
+Al operador $\xhat{n}\cdot\mmm{\sigma}/2$ se le llama operador
+\emph{helicidad}, $\mmm{\hat{\Sigma}}$
+\[
+  \mmm{\hat{\Sigma}}
+  = \frac{1}{2}\xhat{n}\cdot\mmm{\sigma}
+  = \frac{\vvv{p}}{2|\vvv{p}|}\cdot\mmm{\sigma}
+\]
+
+Los valores y vectores propios del operador helicidad serían
+\begin{align} \label{eq:spin12-right-handed}
+  &\mmm{\hat{\Sigma}}\ket{\chi_+} = +\frac{1}{2}\ket{\chi_+}\\
+  \label{eq:spin12-left-handed}
+  &\mmm{\hat{\Sigma}}\ket{\chi_-} = -\frac{1}{2}\ket{\chi_-}
+\end{align}
+que representan los estados dextrógiro\footnote{Right handed}
+y levógiro\footnote{Left handed} de una partícula de spin 1/2.
+
+En Física fundamental se utiliza un sistema natural de unidades donde
+la constante de Planck, la velocidad de propagación de la luz en el vacío y
+la constante de gravitación universal valen la unidad
+\[
+  \hbar = c = G = 1
+\]
+
+En mecánica cuántica no relativista se suele utilizar el SI de unidades,
+y entonces habría que modificar el operador helicidad
+\[
+  \mmm{\hat{\Sigma}}
+  = \frac{\hbar\vvv{p}\cdot\mmm{\sigma}}{2|\vvv{p}|}
+\]
+
+La matriz de rotación activa de espinores sería
+\[
+  e^{-i\hbar\frac{\theta}{2} (\xhat{n}\cdot\mmm{\sigma})}
+\]
+
+
+
+
+
+
+
+
+
+Para concretar ideas, si el estado del electrón está descrito por
+\[
+  \ket{\Psi} = \ket{z_+}
+\]
+sabemos que si midiéramos el spin en la dirección $z$, obtendríamos con
+seguridad el spin hacia arriba.
+Pero como nuestro experimento no utiliza esa dirección, obtendríamos como
+resultado un spin hacia arriba, $\ket{n_+}$, o hacia abajo,
+$\ket{n_-}$, en la dirección del movimiento, con unas ciertas
+probabilidades.
+
+Esto se debe a que ahora no obtendremos los valores propios de
+$\mmm{\sigma_z}$, sino los de otra matriz
+\[
+  \mmm{\sigma}_{\xhat{n}}
+  = n_x\mmm{\sigma_x} + n_y\mmm{\sigma_y} + n_z\mmm{\sigma_z}
+\]
+cuyos valores propios serían diferentes de los de $\mmm{\sigma_z}$
+\begin{align*}
+  &\sigma_{\xhat{n}} \ket{n_+}
+  = +1 \ket{n_+}\\
+  &\sigma_{\xhat{n}} \ket{n_-}
+  = -1 \ket{n_-}  
+\end{align*}
+Y el resultado de la medida ahora sería
+\emph{uno de los valores propios de $\mmm{\sigma_{\xhat{n}}}$} que se
+corresponden con los nuevos estados propios $\ket{n_+}$ y
+$\ket{1}$.
+
+
+
+
+%%% Local Variables:
+%%% coding: utf-8
+%%% mode: latex
+%%% TeX-engine: luatex
+%%% TeX-master: "../cuarentena.tex"
+%%% End:
+
