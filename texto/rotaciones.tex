@@ -1,0 +1,706 @@
+% rotaciones.tex
+%
+% Copyright (C) 2022 José A. Navarro Ramón <janr.devel@gmail.com>
+% 1) Código LuaLatex:
+%    Licencia GPL-2.
+% 2) Producto en pdf, postscript, etc.:
+%    Licencia Creative Commons Recognition Share alike. (CC-BY-SA)
+
+
+\chapter{Rotaciones}
+
+\section{Fórmula de Euler}\label{sect:rot-taylor}
+Empezaremos demostrando la fórmula de Euler
+\begin{equation}\label{eq:rot-Euler}
+  e^{i\theta} = \cos\theta + i \sin\theta
+\end{equation}
+mediante un desarrollo en serie de Taylor de la exponencial alrededor de
+$\theta=0$
+\begin{align*} 
+  e^{i\theta}
+  &=
+    1
+    + i\theta
+    + \frac{(i\theta)^2}{2!}
+    + \frac{(i\theta)^3}{3!}
+    + \frac{(i\theta)^4}{4!}
+    + \frac{(i\theta)^5}{5!}
+    + \frac{(i\theta)^6}{6!}
+    + \frac{(i\theta)^7}{7!}
+    + \cdots\\
+  &=
+    \left(
+    1 - \frac{\theta^2}{2} + \frac{\theta^4}{4!} - \frac{\theta^6}{6!}
+    + \cdots
+    \right)
+    + i\left(
+    \theta - \frac{\theta^3}{3!} + \frac{\theta^5}{5!} - \frac{\theta^7}{7!}
+    + \cdots
+    \right)\\
+  &=
+    \cos\theta + i \sin\theta
+\end{align*}
+
+\section{Rotación de números complejos}
+En esta sección veremos que para rotar un número complejo $z\in\symbb{C}$,
+hay que multiplicarlo por otro de módulo unidad
+$w\in\symbb{C}$, $|w|=1$, que en forma exponencial sería
+$w=e^{i\theta}$
+\[
+  z' = w z = e^{i\theta} z
+\]
+
+Se puede intuir esta propiedad expresando el complejo $z$ en forma
+exponencial, con módulo $r$ y argumento $\alpha$,
+$z=e^{i\alpha}$ (ver figuras~\ref{fig:rot-z} y~\ref{fig:rot-z-rotado}),
+lo que también permite  deducir que el módulo $r$ del complejo $z$
+se conserva en la rotación
+\begin{equation}\label{eq:rot-moduloconservado}
+  z' = e^{i\theta} z
+  = e^{i\theta} re^{i\alpha}
+  = r e^{i(\alpha+\theta)}
+\end{equation}
+
+Lo anterior permite deducir también que el módulo $r$ del complejo $z$ se
+conserva en la rotación.
+\begin{figure}[ht]
+  \centering
+  \begin{minipage}{0.40\linewidth}
+    % Escala
+    \def\scl{1}
+    % Eje x
+    \pgfmathsetmacro{\XMLONG}{0}
+    \pgfmathsetmacro{\XPLONG}{3}
+    % Eje y
+    \pgfmathsetmacro{\YMLONG}{0}
+    \pgfmathsetmacro{\YPLONG}{2.7}
+    % Complejo
+    \pgfmathsetmacro{\ZMOD}{2.5}
+    \pgfmathsetmacro{\ZANG}{25}
+    %
+    \centering
+    \begin{tikzpicture}[%
+      scale=\scl,
+      baseline,
+      every node/.style={black,font=\small},
+      eje/.style={->},
+      complejo/.style={-{Latex}, shorten >=1.2pt, line width=.8pt},
+      background/.style={
+        line width=\bgborderwidth,
+        draw=\bgbordercolor,
+        fill=\bgcolor,
+      },
+      ]
+      % Coordenadas
+      \coordinate (O) at (0,0);
+      \coordinate (xini) at (-\XMLONG cm,0);
+      \coordinate (xfin) at (\XPLONG cm,0);
+      \coordinate (yini) at (0,-\YMLONG cm);
+      \coordinate (yfin) at (0,\YPLONG cm);
+      \coordinate (z) at (\ZANG:\ZMOD cm);
+      \path (O) -- coordinate (Ozmidway) (z);
+      % Ángulo alfa
+      \path (xfin) -- (O) -- (z)
+      pic [draw=black,fill=black!20,"$\alpha$",angle radius=8mm,
+      angle eccentricity=1.3]
+      {angle = xfin--O--z};
+%      \path (xfin) -- (O) -- (z)
+%      pic [draw=black,fill=black!20,"$\alpha$",angle radius=8mm,
+%      angle eccentricity=1.3,-{Latex[length=1.4mm,scale=.9,bend]}]
+%      {angle = xfin--O--z};
+      % Ejes
+      \draw[eje] (xini) -- (xfin);
+      \node[right, name=letraejex] at (xfin) {$\operatorname{Re}$};
+      \draw[eje] (yini) -- (yfin);
+      \node[above, name=letraejey] at (yfin) {$\operatorname{Im}$};
+      % Vector de posición del punto P
+      %\draw[black!70,-{Latex},shorten >=1.2pt] (O) -- (P);
+      \draw[complejo] (O) -- (z);
+      \node[above=3pt] at (Ozmidway) {$\vvv{r}$};
+      % Punto
+      \fill[fill=red,draw=black] (z) circle [radius=1.4pt];
+      \node[above right] at (z) {$z$};
+      % Origen
+      \filldraw (O) circle [radius=.2pt];
+      % Fondo amarillo
+      \begin{scope}[on background layer]
+%        \node [line width=1pt, draw=\backgroundbordercolor,
+%        fill=\backgroundcolor, fit= (O) (letraejex) (letraejey)] {};
+        \node [background, fit= (O) (letraejex) (letraejey)] {};
+      \end{scope}
+    \end{tikzpicture}
+    \caption{Número complejo $z$ de módulo $r$ y argumento $\alpha$ en el
+      plano complejo.}
+    \label{fig:rot-z}
+  \end{minipage}
+  \hspace{1em}
+  \begin{minipage}{0.45\linewidth}
+    % Escala
+    \def\scl{1}
+    % Eje x
+    \pgfmathsetmacro{\XMLONG}{0}
+    \pgfmathsetmacro{\XPLONG}{3}
+    % Eje y
+    \pgfmathsetmacro{\YMLONG}{0}
+    \pgfmathsetmacro{\YPLONG}{2.7}
+    % Complejo z
+    \pgfmathsetmacro{\ZMOD}{2.5}
+    \pgfmathsetmacro{\ZORIGANG}{25}
+    \pgfmathsetmacro{\ANGROT}{30}
+    \pgfmathsetmacro{\ZANG}{\ZORIGANG + \ANGROT}
+    %
+    \centering
+    \begin{tikzpicture}[%
+      scale=\scl,
+      baseline,
+      every node/.style={black,font=\small},
+      eje/.style={->},
+      complejo/.style={-{Latex}, shorten >=1.2pt, line width=.8pt},
+      crotado/.style={-{Latex}, shorten >=1.2pt, line width=.8pt, black!30},
+      background/.style={
+        line width=\bgborderwidth,
+        draw=\bgbordercolor,
+        fill=\bgcolor,
+      },
+      ]
+      % Coordenadas
+      \coordinate (O) at (0,0);
+      \coordinate (xini) at (-\XMLONG cm,0);
+      \coordinate (xfin) at (\XPLONG cm,0);
+      \coordinate (yini) at (0,-\YMLONG cm);
+      \coordinate (yfin) at (0,\YPLONG cm);
+      \coordinate (zorig) at (\ZORIGANG:\ZMOD cm);
+      \coordinate (z) at (\ZANG:\ZMOD cm);
+      \path (O) -- coordinate (Ozmidway) (z);
+      % Ángulo alfa
+      \path (xfin) -- (O) -- (zorig)
+      pic [draw=gray!50,angle radius=25mm, angle eccentricity=1.3,
+      -{Latex[bend]},shorten <=3pt,shorten >=3pt]
+      {angle = zorig--O--z};
+      % Ángulo alfa
+      \path (xfin) -- (O) -- (zorig)
+      pic [draw=black!50,fill=black!20,"$\alpha$",angle radius=8mm,
+      angle eccentricity=1.3]
+      {angle = xfin--O--zorig};
+      % Ángulo theta
+      \path (zorig) -- (O) -- (z)
+      pic [draw=black,fill=green!20,"$\theta$",angle radius=8mm,
+      angle eccentricity=1.3,-{Latex[length=1.4mm,scale=.9,bend]}]
+      {angle = zorig--O--z};
+      % Ejes
+      \draw[eje] (xini) -- (xfin);
+      \node[right, name=letraejex] at (xfin) {$\operatorname{Re}$};
+      \draw[eje] (yini) -- (yfin);
+      \node[above, name=letraejey] at (yfin) {$\operatorname{Im}$};
+      % Vector de posición del punto P
+      %\draw[black!70,-{Latex},shorten >=1.2pt] (O) -- (P);
+      \draw[crotado] (O) -- (zorig);
+      \draw[complejo] (O) -- (z);
+      \node[above left=4pt and -4pt] at (Ozmidway) {$\vvv{r}$};
+      % Puntos
+      \fill[fill=black!40,draw=black!70] (zorig) circle [radius=1.4pt];
+      \fill[fill=red,draw=black] (z) circle [radius=1.4pt];
+      \node[above right] at (zorig) {$z$};
+      \node[above right] at (z) {$z' = re^{i(\alpha+\theta)}$};
+      % Origen
+      \filldraw (O) circle [radius=.2pt];
+      % Fondo amarillo
+      \begin{scope}[on background layer]
+%        \node [line width=1pt, draw=\backgroundbordercolor,
+%        fill=\backgroundcolor, fit= (O) (letraejex) (letraejey)] {};
+        \node [background, fit= (O) (letraejex) (letraejey)] {};
+      \end{scope}
+    \end{tikzpicture}
+    \caption{Vector $z=re^{i\alpha}$ rotado un ángulo $\theta$ al
+      multiplicarlo por $e^{i\theta}$. Obsérvese que el módulo $r$ se
+      mantiene constante.}
+    \label{fig:rot-z-rotado}
+  \end{minipage}
+\end{figure}
+
+Ahora escribimos el complejo con su parte real e imaginaria, $z=x+iy$
+\[
+  x'+iy'
+  = e^{i\theta} (x+iy)
+    = (\cos\theta + i\sin\theta) (x + iy)
+\]
+\begin{equation}\label{eq:rot-modulo-z'}
+  x'+iy'
+   = (x\cos\theta - y\sin\theta) + i (x\sin\theta + y\cos\theta)
+\end{equation}
+
+\begin{align*}
+  x' &= x\cos\theta - y\sin\theta\\
+  y' &= x\sin\theta + y\cos\theta
+\end{align*}
+
+Escribimos la rotación activa\footnotemark{} anterior en forma matricial
+\footnotetext{En una rotación activa se gira el objeto, mientras que en
+  una  pasiva los que se transforman son los ejes de coordenadas.
+  Cada una es inversa de la otra. Una rotación pasiva en un sentido
+  equivale a otra activa en sentido contrario.}
+\[
+  \begin{pNiceMatrix}
+    x'\\
+    y'
+  \end{pNiceMatrix}
+  =
+  \begin{pNiceMatrix}
+    \cos\theta & -\sin\theta\\
+    \sin\theta & \cos\theta
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    x\\
+    y
+  \end{pNiceMatrix}
+\]
+
+¿Por qué $e^{i\theta}$ describe una rotación?
+La clave radica en que el módulo de $i$ vale la unidad
+\begin{equation}\label{eq:rot-modi}
+  |i|=1
+\end{equation}
+y su cuadrado es \emph{menos uno}
+\begin{equation}\label{eq:rot-i2}
+  i^2 = -1
+\end{equation}
+
+\section{Rotación de vectores}
+Haremos algo parecido con matrices, en lugar de la unidad imaginaria $i$.
+En este caso, nos centramos en matrices reales $2\times 2$.
+Nos \emph{inventaremos} una matriz $\mmm{A}$ antisimétrica, con
+determinante unidad
+\begin{equation}\label{eq:rot-matrizA}
+  \mmm{A}
+  = \begin{pNiceMatrix}
+    0 & -1\\
+    1 & 0
+  \end{pNiceMatrix}
+\end{equation}
+Que sea antisimétrica significa que su traspuesta es igual a su opuesta
+\[
+  \mmm{A}^\trasp = -\mmm{A}
+\]
+Según esta propiedad, toda matriz antisimétrica debe tener sus elementos
+diagonales nulos, y los no diagonales, con índices $i\neq j$ den ser opuestos:
+$a_{ij} = -a_{ji}$.
+
+El que una matriz sea antisimétrica y tenga determinante unidad, guarda una
+cierta similitud con~\eqref{eq:rot-modi}
+\begin{equation}\label{eq:rot-detA}
+  \det\mmm{A}
+  = \begin{vNiceMatrix}
+    0 & -1\\
+    1 & 0
+  \end{vNiceMatrix}
+  = 1
+\end{equation}
+
+Además, al calcular el cuadrado de la matriz observaremos el parecido
+con~\eqref{eq:rot-i2}
+\begin{equation}\label{eq:rot-A2}
+  \mmm{A}^2
+  = \begin{pNiceMatrix}
+    0 & -1\\
+    1 & 0
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    0 & -1\\
+    1 & 0
+  \end{pNiceMatrix}
+    = \begin{pNiceMatrix}
+    -1 & 0\\
+    0 & -1
+  \end{pNiceMatrix}
+  = -
+  \begin{pNiceMatrix}
+    1 & 0\\
+    0 & 1
+  \end{pNiceMatrix}
+  = -\mmm{I}
+\end{equation}
+
+Lo anterior nos sugiere poder representar una rotación de algún tipo mediante
+$e^{\theta\!\mmm{A}}$.
+Por tanto, desarrollamos $e^{\theta\!\mmm{A}}$ en serie de potencias en un
+entorno de $\theta = 0$, tal y como hicimos en la
+sección~\ref{sect:rot-taylor}
+\begin{align*}
+  e^{\theta\!\mmm{A}}
+  &=
+    \frac{(\theta\mmm{A})^0}{0!}
+    + \frac{(\theta\mmm{A})^1}{1!}
+    + \frac{(\theta\mmm{A})^2}{2!}
+    + \frac{(\theta\mmm{A})^3}{3!}
+    + \frac{(\theta\mmm{A})^4}{4!}
+    + \frac{(\theta\mmm{A})^5}{5!}
+    + \frac{(\theta\mmm{A})^6}{6!}
+    + \cdots\\
+  &=
+    \mmm{I}
+    + \theta\mmm{A}
+    - \frac{\theta^2}{2!}\,\mmm{I}
+    - \frac{\theta^3}{3!}\,\mmm{A}
+    + \frac{\theta^4}{4!}\,\mmm{I}
+    + \frac{\theta^5}{5!}\,\mmm{A}
+    - \frac{\theta^6}{6!}\,\mmm{I}
+    - \frac{\theta^7}{7!}\,\mmm{A}
+    + \cdots\\
+  &=
+    \left(
+    1 - \frac{\theta^2}{2} + \frac{\theta^4}{4!} - \frac{\theta^6}{6!}
+    + \cdots
+    \right)\,\mmm{I}
+    + \left(
+    \theta - \frac{\theta^3}{3!} + \frac{\theta^5}{5!} - \frac{\theta^7}{7!}
+    + \cdots
+    \right)\mmm{A}
+\end{align*}
+y obtenemos una relación que se comparara con la identidad de
+Euler~\eqref{eq:rot-Euler}
+\begin{equation}\label{eq:rot-ethetaA-abr}
+  e^{\theta\!\mmm{A}}
+  = \mmm{I} \cos\theta + \mmm{A} \sin\theta
+\end{equation}
+
+Desarrollamos las matrices $\mmm{A}$ e $\mmm{I}$ en la expresión
+\eqref{eq:rot-ethetaA-abr}
+\[
+  e^{\theta\!\mmm{A}}
+  = \cos\theta
+  \begin{pNiceMatrix}
+    1 & 0\\
+    0 & 1
+  \end{pNiceMatrix}
+  + \sin\theta
+  \begin{pNiceMatrix}
+    0 & -1\\
+    1 & 0
+  \end{pNiceMatrix}
+  =
+  \begin{pNiceMatrix}
+    \cos\theta & 0\\
+    0 & \cos\theta
+  \end{pNiceMatrix}
+  +
+  \begin{pNiceMatrix}
+    0 & -\sin\theta\\
+    \sin\theta & 0
+  \end{pNiceMatrix}
+\]
+
+Al final obtenemos
+\begin{equation}\label{eq:rot-ethetaA}
+  e^{\theta\!\mmm{A}}
+  = \begin{pNiceMatrix}
+    \cos\theta & -\sin\theta\\
+    \sin\theta & \cos\theta
+  \end{pNiceMatrix}
+\end{equation}
+y llegamos a la conclusión de que ambas exponenciales describen una
+rotación en dos dimensiones. Una de ellas, $e^{i\theta}$, rota números
+complejos en el plano complejo y la otra, $e^{\theta\!\mmm{A}}$, vectores en el
+plano euclídeo $\symbb{R}^2$
+\[
+  e^{\theta\!\mmm{A}} = e^{i\theta}
+  = \begin{pNiceMatrix}
+    \cos\theta & -\sin\theta\\
+    \sin\theta & \cos\theta
+  \end{pNiceMatrix}
+\]
+
+Sabemos que en toda rotación hay un invariante (una magnitud que se conserva).
+En el caso de la rotación en el plano complejo, vimos que se conservaba
+el módulo del complejo, ver~\eqref{eq:rot-moduloconservado}
+\[
+  |z'| = |z| 
+\]
+
+Esta propiedad la vamos a demostrar a continuación de otra forma.
+Calculamos el módulo de un complejo genérico $z = x + iy$
+\[
+  |z|^2 = z^* z = (x-iy) (x+iy) = x^2 + y^2
+\]
+
+Y vemos que es el mismo que el del complejo rotado mediante $e^{i\theta}$,
+calculado en~\eqref{eq:rot-modulo-z'},
+$z'=(x\cos\theta-y\sin\theta) + i(x\sin\theta + y\cos\theta)$
+{\small
+\begin{align*}
+  |z'|^2
+  &= (z')^{*} z'\\
+  &=
+    \left[(x\cos\theta - y\sin\theta) - i(x\sin\theta + y\cos\theta)\right]
+    \left[(x\cos\theta - y\sin\theta) + i(x\sin\theta + y\cos\theta)\right]\\
+  &=
+    x^2\cos^2\theta + y^2\sin^2\theta - \cancelout{2xy\sin\theta\cos\theta}
+    +x^2\sin^2\theta + y^2\cos^2\theta + \cancelout{2xy\sin\theta\cos\theta}\\
+  &=
+    x^2 (\sin^2\theta + \cos^2\theta) + y^2 (\sin^2\theta + \cos^2\theta)
+  =
+    x^2 + y^2
+\end{align*}
+}
+
+De forma similar, se puede demostrar que el módulo de un vector se mantiene
+invariante cuando se rota mediante la exponencial $\exp\{\theta\mmm{A}\}$
+de la matriz antisimétrica $\mmm{A}$.
+El módulo de un vector genérico en $\symbb{R}^2$ es
+\begin{equation}\label{eq:rot-modvecsinrotar}
+  |r|^2
+  = \vvv{r}\cdot\vvv{r}
+  = \vvv{r}^\trasp \vvv{r}
+  = \begin{pNiceMatrix}
+    x & y
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    x\\
+    y
+  \end{pNiceMatrix}
+  = x^2 + y^2
+\end{equation}
+Donde hemos utilizado la propiedad de que, cuando un vector en el espacio
+euclídeo se representa como un vector columna, su producto escalar es el
+producto de la traspuesta del vector multiplicada por el propio vector,
+$\vvv{r}\cdot\vvv{r} = \vvv{r}^\trasp \vvv{r}$.
+
+Rotamos el vector
+\[
+  \vvv{r'}
+  = e^{\theta\!\mmm{A}} \vvv{r}
+  = \begin{pNiceMatrix}
+    \cos\theta & -\sin\theta\\
+    \sin\theta & \cos\theta
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    x\\
+    y
+  \end{pNiceMatrix}
+  = \begin{pNiceMatrix}
+    x\cos\theta - y\sin\theta\\
+    x\sin\theta + y\cos\theta
+  \end{pNiceMatrix}
+\]
+
+Y comprobamos que tiene el mismo módulo que el vector sin rotar \eqref{eq:rot-modvecsinrotar}
+{\small
+\begin{align*}
+  |r'|^2
+  &=
+    \vvv{r'}\cdot\vvv{r'}
+    = (\vvv{r'})^\trasp \vvv{r'}\\
+  &=
+    \begin{pNiceMatrix}
+      x\cos\theta - y\sin\theta & x\sin\theta + y\cos\theta
+    \end{pNiceMatrix}
+    \begin{pNiceMatrix}
+      x\cos\theta - y\sin\theta\\
+      x\sin\theta + y\cos\theta
+    \end{pNiceMatrix}\\
+  &=
+    (x\cos\theta-y\sin\theta)^2 + (x\sin\theta+y\cos\theta)^2\\
+  &=
+    x^2\cos^2\theta + y^2\sin^2\theta - \cancelout{2xy\sin\theta\cos\theta}
+    + x^2\sin^2\theta + y^2\cos^2\theta + \cancelout{2xy\sin\theta\cos\theta}\\
+  &=
+    x^2(\cos^2\theta+\sin^2\theta) + y^2(\sin^2\theta+\cos^2\theta)
+    = x^2 + y^2
+\end{align*}
+}
+
+La matriz $\mmm{A}$ definida en~\eqref{eq:rot-matrizA} es el generador
+de una rotación activa, que es la opuesta del generador de rotaciones
+pasivas, $\mmm{G}$, en $\symbb{R}^2$
+\[
+  \mmm{A}
+  = \begin{pNiceMatrix}
+    0 & -1\\
+    1 & 0
+  \end{pNiceMatrix}
+  = -\begin{pNiceMatrix}
+    0 & 1\\
+    -1 & 0
+  \end{pNiceMatrix}
+  = -\mmm{G}
+\]
+La matriz de rotación activa que hemos utilizado se puede expresar en función
+del generador  de rotaciones pasivas\footnotemark{}
+\footnotetext{Una rotación pasiva de números complejos se representaría como
+  $e^{-i\theta}$.}
+\[
+  \mmm{R}(\theta) = e^{\theta\!\mmm{A}}
+  = e^{-\theta\!\mmm{G}}
+\]
+donde el generador de la rotación pasiva es
+\[
+  \mmm{G}
+  = \begin{pNiceMatrix}
+    0 & 1\\
+    -1 & 0
+    \end{pNiceMatrix}
+\]
+y la rotación pasiva se representa como $e^{\theta\!\mmm{G}}$.
+
+\section{Transformaciones de Lorentz}
+Vamos a intentar ir un poco más allá. ¿Y si buscamos una matriz $\mmm{B}$,
+cuyo cuadrado no sea $-\mmm{I}$, sino $+\mmm{I}$?
+
+Tomamos una matriz $\mmm{B}$ simétrica, $\mmm{B}^\trasp = \mmm{B}$, cuyo
+determinante valga -1. No nos sirve la matriz unidad, porque su determinante
+vale +1. Hagamos
+\[
+  \mmm{B}
+  = \begin{pNiceMatrix}
+    0 & 1\\
+    1 & 0
+  \end{pNiceMatrix}
+\]
+
+Su determinante tiene el valor que buscamos
+\[
+  \det\mmm{B}
+  = \begin{vNiceMatrix}
+    0 & 1\\
+    1 & 0
+  \end{vNiceMatrix}
+  = -1
+\]
+
+Y comprobamos que su cuadrado vale $\mmm{I}$
+\[
+  \mmm{B}^2
+  = \begin{pNiceMatrix}
+    0 & 1\\
+    1 & 0
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    0 & 1\\
+    1 & 0
+  \end{pNiceMatrix}
+  = \begin{pNiceMatrix}
+    1 & 0\\
+    0 & 1
+  \end{pNiceMatrix}
+  = \mmm{I}
+\]
+
+Ahora podríamos construir un operador de transformación como $e^{\eta\!\mmm{B}}$,
+donde $\eta\in\symbb{R}$ y la Desarrollamos en serie de Taylor alrededor $\eta=0$
+\begin{align*}
+  e^{\eta\!\mmm{B}}
+  &=
+    \frac{(\eta\mmm{B})^0}{0!}
+    + \frac{(\eta\mmm{B})^1}{1!}
+    + \frac{(\eta\mmm{B})^2}{2!}
+    + \frac{(\eta\mmm{B})^3}{3!}
+    + \frac{(\eta\mmm{B})^4}{4!}
+    + \frac{(\eta\mmm{B})^5}{5!}
+    + \cdots\\
+  &=
+    \mmm{I}
+    + \eta\mmm{B}
+    + \frac{\eta^2}{2!}\,\mmm{I}
+    + \frac{\eta^3}{3!}\,\mmm{B}
+    + \frac{\eta^4}{4!}\,\mmm{I}
+    + \frac{\eta^5}{5!}\,\mmm{B}
+    + \cdots\\
+  &=
+    \left(
+    1 + \frac{\eta^2}{2!} + \frac{\eta^4}{4!} + \cdots
+    \right) \mmm{I}
+    + \left(
+    \eta + \frac{\eta^3}{3!} + \frac{\eta^5}{5!} + \cdots
+    \right)\,\mmm{B}\\
+  &=
+    \cosh\eta\,\mmm{I} + \sinh\eta\,\mmm{B}
+    = \cosh\eta
+    \begin{pNiceMatrix}
+      1 & 0\\
+      0 & 1
+    \end{pNiceMatrix}
+    + \sinh\eta
+    \begin{pNiceMatrix}
+      0 & 1\\
+      1 & 0
+    \end{pNiceMatrix}\\
+  &=
+    \begin{pNiceMatrix}
+      \cosh\eta & 0\\
+      0 & \cosh\eta
+    \end{pNiceMatrix}
+    +
+    \begin{pNiceMatrix}
+      0 & \sinh\eta\\
+      \sinh\eta & 0
+    \end{pNiceMatrix}
+  = \begin{pNiceMatrix}
+    \cosh\eta & \sinh\eta\\
+    \sinh\eta & \cosh\eta
+  \end{pNiceMatrix}
+\end{align*}
+
+¿Cuál sería el invariante de esta transformación?
+La aplicamos a un vector
+\[
+  \begin{pNiceMatrix}
+    x'\\
+    y'
+  \end{pNiceMatrix}
+  = \begin{pNiceMatrix}
+    \cosh\eta & \sinh\eta\\
+    \sinh\eta & \cosh\eta
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    x\\
+    y
+  \end{pNiceMatrix}
+  = \begin{pNiceMatrix}
+    x\cosh\eta + y\sinh\eta\\
+    x\sinh\eta + y\cosh\eta
+  \end{pNiceMatrix}
+\]
+
+Calculamos el cuadrado de las componentes del vector transformado
+\begin{align*}
+  (x')^2
+  &=
+    (x\cosh\eta + y\sinh\eta)^2
+    = x^2\cosh^2\eta + y^2\sinh^2\eta + 2xy\sinh\eta\cosh\eta\\
+  (y')^2
+  &=
+    (x\sinh\eta + y\cosh\eta)^2
+    = x^2\sinh^2\eta + y^2\cosh^2\eta + 2xy\sinh\eta\cosh\eta    
+\end{align*}
+
+Si sumáramos $(x')^2 + (y')^2$ no nos daría un invariante porque
+el resultado dependería del parámetro $\eta$.
+
+Si los restamos sí obtendríamos un invariante
+\begin{align*}
+  (x')^2 - (y')^2
+  &=
+    x^2 (\cosh^2\eta - \sinh^2\eta) + y^2 (\sinh\eta - \cosh\eta)\\
+  &=
+    x^2 \cdot 1 + y^2 \cdot (-1)
+  = x^2 - y^2
+\end{align*}
+porque el resultado solo depende de las componentes del vector original $(x,y)$
+y no del parámetro $\eta$.
+
+Como conclusión de este capítulo vemos que:
+\begin{itemize}
+\item Si queremos una rotación, \emph{nos inventamos} una matriz generadora
+  antisimétrica, con determinante unidad, cuyo cuadrado sea $-\mmm{I}$.
+\item Si queremos una transformación de Lorentz, la matriz debe ser simétrica,
+  su determinante debe valer \emph{menos uno}, y su cuadrado vale $+\mmm{I}$.
+\end{itemize}
+
+
+%%% Local Variables:
+%%% coding: utf-8
+%%% mode: latex
+%%% TeX-engine: luatex
+%%% TeX-master: "../cuarentena.tex"
+%%% End:
+
+% LaTeX-command: "lualatex --shell-escape"
