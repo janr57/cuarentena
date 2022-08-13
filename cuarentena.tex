@@ -1,0 +1,61 @@
+% cuarentena.tex
+% Fichero principal.
+%
+% Copyright (C) 2022 José A. Navarro Ramón <janr.devel@gmail.com>
+% 1) Código LuaLatex:
+%    Licencia GPL-2.
+% 2) Producto en pdf, postscript, etc.:
+%    Licencia Creative Commons Recognition Share alike. (CC-BY-SA)
+
+\documentclass[a4paper,twoside]{book}
+
+% Paquetes
+\usepackage{cuarentena.pkg}
+
+% Definiciones
+\usepackage{cuarentena.defs}
+
+\begin{document}
+% -----------------------------------------------------------------------------
+\frontmatter
+% Portada
+\thispagestyle{empty}
+\pagenumbering{gobble}
+\include{./portada/portada}
+% -----------------------------------------------------------------------------
+% Tabla de contenidos
+\thispagestyle{empty}
+\include{./tablacontenidos/tablacontenidos}
+% -----------------------------------------------------------------------------
+\include{./prologo/prologo}
+% -----------------------------------------------------------------------------
+% Teoría
+\mainmatter
+% \part{Teoría}
+%\include{./texto/rotaciones}
+%\include{./texto/spin12}
+%\include{./texto/entropia-sc}
+%\include{./texto/entropia-de-entrelazamiento}
+
+% -----------------------------------------------------------------------------
+% Apéndices
+\backmatter
+%\part{Apéndices}
+\appendix
+\renewcommand{\thechapter}{A}
+\clearpage
+%\include{./apendices/apdca}
+%\include{./apendices/apendb}
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-engine: luatex
+%%% TeX-master: t
+%%% End:
+
+% LaTeX-command: "lualatex --shell-escape --interaction=nonstopmode"
+% LaTeX-command: "lualatex --shell-escape"
+
+
