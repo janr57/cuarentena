@@ -1,4 +1,4 @@
-% apendiceA.tex
+% apdca.tex
 %
 % Copyright (C) 2022 José A. Navarro Ramón <janr.devel@gmail.com>
 % 1) Código LuaLatex:
@@ -427,7 +427,7 @@ matriz de Pauli, $\mmm{\sigma_3}$
 \end{pNiceMatrix}
 \]
 Tenemos dos ecuaciones con tres incógnitas
-\begin{equation}\label{eq:apcA-ecs-sigma1}
+\begin{equation}\label{eq:apcA-ecs-sigma3}
   \left\{
     \begin{array}{r@{}r@{}r@{}r@{}}
       (1-\lambda) v_1 & {}  {} &  & {} = 0\\
@@ -436,114 +436,61 @@ Tenemos dos ecuaciones con tres incógnitas
     \right.
 \end{equation}
 
-De la segunda ecuación despejamos $v_1 = \lambda v_2$ y sustituimos
-en la primera, obteniendo
+Debe quedar claro que $v_1$ y $v_2$ no pueden ser ambos cero, pues el vector
+propio sería el cero
 \[
-  -\lambda^2 v_2 = v_2
+  \vvv{v} =
+  \begin{pNiceMatrix}
+    0\\
+    0
+  \end{pNiceMatrix}
+  =
+  \vvv{0}
 \]
-y
-\[
-  \lambda^2 = 1
-\]
-Como resultado, tenemos dos valores propios posibles $\lambda = -1$ y
-$\lambda = +1$
+que no es linealmente independiente con ningún otro vector, pero los dos
+vectores propios deben ser linealmente independientes uno de otro. Por tanto
+debemos descartar esta posibilidad.
 
-\begin{itemize}
-\item Si $\lambda = -1$
+Entonces, podemos elegir que $v_1$ sea cero en la primera ecuación.
+Esto nos obliga a que $v_2\neq 0$, lo que fuerza a que $1+\lambda = 0$.
+Así, $\lambda = -1$.
 
-  Sustituimos este valor de $\lambda$ en \eqref{eq:apcA-ecs-sigma1}
-  \[
-    v_1 + v_2 = 0
-  \]
+Razonando de una forma similar, elegimos que $v_2 = 0$ de la segunda ecuación,
+pero entonces, en la primera ecuación hemos de obligar a que $v_1\neq 0$, por
+lo que $1-\lambda = 0$. De aquí que $\lambda = +1$.
 
-  Si hacemos $v_1 = N$, entonces $v_2 = -N$ y el vector $\vvv{v}$
-  \[
-    \vvv{v} =
-    \begin{pNiceMatrix}
-      N \\
-      -N
-    \end{pNiceMatrix}
-    = N
-    \begin{pNiceMatrix}
-      1\\
-      -1
-    \end{pNiceMatrix}
-  \]
+Como con las matrices de Pauli anteriores, tenemos dos valores propios posibles
+$\lambda = -1$ y $\lambda = +1$
 
-  Normalizando
-  \[
-    \vvv{v}
-    =
-    \frac{1}{\sqrt{2}}
-    \begin{pNiceMatrix}
-      1\\
-      -1
-    \end{pNiceMatrix}
-  \]
-  
-  \item Si $\lambda = +1$
-
-  Sustituimos este valor de $\lambda$ en \eqref{eq:apcA-ecs-sigma1}
-  \[
-   -v_1 + v_2 = 0
-  \]
-
-  Si hacemos $v_1 = N$, entonces $v_2 = N$ y el vector $\vvv{v}$
-  \[
-    \vvv{v} =
-    \begin{pNiceMatrix}
-      N \\
-      N
-    \end{pNiceMatrix}
-    = N
-    \begin{pNiceMatrix}
-      1\\
-      1
-    \end{pNiceMatrix}
-  \]
-
-  Si normalizamos
-  \[
-    \vvv{v}
-    =
-    \frac{1}{\sqrt{2}}
-    \begin{pNiceMatrix}
-      1\\
-      1
-    \end{pNiceMatrix}
-  \]
-
-\end{itemize}
-
-Las dos soluciones son (sin normalización)
+Las dos vectores propios encontrados ya están normalizados
 \[
   \begin{pNiceMatrix}
-    0 & 1\\
-    1 & 0
+    1 & 0\\
+    0 & -1
   \end{pNiceMatrix}
   \begin{pNiceMatrix}
-    1\\
-    -1
+    0\\
+    1
   \end{pNiceMatrix}
   = -1
   \begin{pNiceMatrix}
-    1\\
-    -1
+    0\\
+    1
   \end{pNiceMatrix}
 \]
 \[
   \begin{pNiceMatrix}
-    0 & 1\\
-    1 & 0
+    1 & 0\\
+    0 & -1
   \end{pNiceMatrix}
   \begin{pNiceMatrix}
     1\\
-    1
+    0
   \end{pNiceMatrix}
   = +1
   \begin{pNiceMatrix}
     1\\
-    1
+    0
   \end{pNiceMatrix}
 \]
 
