@@ -1,0 +1,1789 @@
+% entropia-sc.tex
+%
+% Copyright (C) 2022 José A. Navarro Ramón <janr.devel@gmail.com>
+% 1) Código LuaLatex:
+%    Licencia GPL-2.
+% 2) Producto en pdf, postscript, etc.:
+%    Licencia Creative Commons Recognition Share alike. (CC-BY-SA)
+
+\chapter{Entropía en sistemas cuánticos}
+En este capítulo vamos a estudiar el concepto de entropía centrándonos casi
+exclusivamente en sistemas cuánticos.
+
+\section{Concepto básico de entropía}
+Explicaremos el significado general de la entropía, ya sea en sistemas
+clásicos, cuánticos, en informática, etc.
+
+\subsection{Ganancia de información}
+Primero nos centraremos en el concepto de \emph{ganancia de información}.
+Vamos a imaginar que tenemos una máquina un tanto aburrida, por predecible,
+que llamaremos ``tres'', y cada vez que pulsamos el botón rojo, nos devolverá
+siempre el mismo número, véase la figura~\ref{fig:entr-maquina-tres}.
+\begin{figure}[ht]
+  \centering
+  % Colores
+  \newcommand{\colorMaquinaInt}{green!70!black!40}
+  \newcommand{\colorMaquinaExt}{black}
+  \newcommand{\colorEtiquetaInt}{green!70!black!35}
+  \newcommand{\colorEtiquetaExt}{green!45!black}
+  \newcommand{\colorBotonInt}{red}
+  \newcommand{\colorBotonExt}{black}
+  \newcommand{\colorFlechaSalida}{black!60}
+  \newcommand{\colorNumeroInt}{orange!40}
+  \newcommand{\colorNumeroExt}{black!60}
+  %
+  \def\scl{1}
+  % MACROS
+  % Base y altura de la máquina
+  \pgfmathsetmacro{\MQBASE}{1.3}
+  \pgfmathsetmacro{\MQALT}{1.5}
+  % Altura del objetivo interno y externo
+  \pgfmathsetmacro{\MQINTALT}{.4}
+  \pgfmathsetmacro{\MQEXTALT}{.8}
+  % Base del objetivo
+  \pgfmathsetmacro{\MQOBJBASE}{.5}
+  % Posiciones inferior y superior del objetivo interno
+  \pgfmathsetmacro{\MQSUPMED}{(\MQALT + \MQINTALT)/2}
+  \pgfmathsetmacro{\MQINFMED}{(\MQALT - \MQINTALT)/2}
+  % Posiciones inferior y superior del objetivo externo
+  \pgfmathsetmacro{\MQOBJINF}{(\MQALT - \MQEXTALT)/2}
+  \pgfmathsetmacro{\MQOBJSUP}{(\MQALT + \MQEXTALT)/2}
+  % Posición relativa del botón de la máquina
+  \pgfmathsetmacro{\MQBOTONX}{.4 * \MQBASE}
+  \pgfmathsetmacro{\MQBOTONY}{.2 * \MQALT}
+  % Posición relativa del etiqueta de la máquina
+  \pgfmathsetmacro{\MQETIQX}{.5 * \MQBASE}
+  \pgfmathsetmacro{\MQETIQY}{.8 * \MQALT}
+
+  % Radio del botón en 'pt'
+  \pgfmathsetmacro{\MQBOTONRADIO}{2}
+  %
+  \begin{tikzpicture}[%
+    scale=\scl,
+    every node/.style={font=\footnotesize},
+    maquina/.style={fill=\colorMaquinaInt,draw=\colorMaquinaExt},
+    etiqueta/.style={%
+      fill=\colorEtiquetaInt,
+      draw=\colorEtiquetaExt,
+      line width=.4pt,
+      draw,
+    },
+    boton/.style={fill=\colorBotonInt,draw=\colorBotonExt},
+    flecha/.style={%
+      -{Latex[round]},
+      draw=\colorFlechaSalida,
+      shorten >=4pt,
+      shorten <= 1.5pt,
+    },
+    numero/.style={%
+      circle,
+      draw,
+      inner sep=2pt,
+      fill=\colorNumeroInt,
+      draw=\colorNumeroExt,
+      font=\small,
+    },
+    background/.style={
+      line width=\bgborderwidth,
+      draw=\bgbordercolor,
+      fill=\bgcolor,
+    },
+    ]
+    % COORDENADAS
+    % Origen
+    \coordinate (o) at (0,0);
+    % Máquina
+    \coordinate (mqa) at ($(o)$);
+    \coordinate (mqb) at ($(mqa)+(\MQBASE,0)$);
+    \coordinate (mqc) at ($(mqa)+(\MQBASE,\MQINFMED)$);
+    \coordinate (mqod) at ($(mqa)+(\MQBASE + \MQOBJBASE,\MQOBJINF)$);
+    \coordinate (mqoe) at ($(mqa)+(\MQBASE + \MQOBJBASE,\MQOBJSUP)$);
+    \coordinate (mqd) at ($(mqa)+(\MQBASE,\MQSUPMED)$);
+    \coordinate (mqe) at ($(mqa)+(\MQBASE,\MQALT)$);
+    \coordinate (mqf) at ($(mqa)+(0,\MQALT)$);
+    \coordinate (mqboton) at ($(mqa)+(\MQBOTONX,\MQBOTONY)$);
+    \coordinate (mqetiq) at ($(mqa)+(\MQETIQX,\MQETIQY)$);
+    \coordinate (mqsalida) at ($(mqa)+(\MQBASE + \MQOBJBASE,\MQALT/2)$);
+
+    % DIBUJO
+    % Máquina
+    \draw[maquina]
+    (mqa)--(mqb)--(mqc)--(mqod)--(mqoe)--(mqd)--(mqe)--(mqf)--cycle;
+    % Botón
+    \filldraw[boton] (mqboton) circle[radius=\MQBOTONRADIO pt];
+    % Etiqueta
+    \node[etiqueta] at (mqetiq) {Tres};
+    % Flecha salida: número 3
+    \draw[flecha] (mqsalida) -- +(0:1) node[right,name=num,numero] {$3$};
+    
+    % Fondo amarillo
+    \coordinate (liminf) at ($(mqa)+(0,-8pt)$);
+    \coordinate (limsup) at ($(mqf)+(0,8pt)$);
+    \coordinate (limizda) at ($(mqa)+(-8pt,0)$);
+    \coordinate (limdcha) at ($(num.east)+(10pt,0)$);
+    \begin{scope}[on background layer]
+      %% \node [line width=1pt, draw=\backgroundbordercolor,
+      %% fill=\backgroundcolor, fit= (O) (letraejex) (letraejey)] {};
+      \node [background, fit= (liminf) (limsup) (limizda) (limdcha)] {};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Máquina que produce el número tres cada vez que se pulsa el
+    botón.}
+  \label{fig:entr-maquina-tres}
+\end{figure}
+
+La probabilidad de obtener el número tres es $p=1$, certeza absoluta.
+Si informáramos a una persona acerca de las características de la máquina
+y esta pulsara el botón, observaría que sale el tres y no se llevaría
+ninguna sorpresa. Diremos que este resultado no le produce ninguna
+\emph{ganacia de información}.
+
+
+Inventaremos una función, $I$, que exprese la ganancia de información.
+En esta circunstancia debería dar $I=0$. Hay muchas formas de obtener una
+función así, pero la que se ha encontrado más útil es definirla como el menos
+logaritmo de la probabilidad de ocurrencia de un suceso
+\begin{equation}
+  I = -\ln p
+\end{equation}
+En el caso de nuestra máquina, vemos que se cumple lo que nos proponíamos
+\[
+  I = -\ln p = -\ln 1 = 0
+\]
+
+Para esta máquina, la probabilidad de obtener cualquier otro número vale cero.
+Por ejemplo, la probabilidad de obtener el número siete es cero, como se
+observa en la figura~\ref{fig:entr-maquina-tres-restoprob-cero}
+(podríamos añadir más probabilidades nulas, pero es suficiente con la
+del número siete para nuestro propósito).
+\begin{figure}[ht]
+  \centering
+  % Colores
+  \newcommand{\colorMaquinaInt}{green!70!black!40}
+  \newcommand{\colorMaquinaExt}{black}
+  \newcommand{\colorEtiquetaInt}{green!70!black!35}
+  \newcommand{\colorEtiquetaExt}{green!45!black}
+  \newcommand{\colorBotonInt}{red}
+  \newcommand{\colorBotonExt}{black}
+  \newcommand{\colorFlechaSalida}{black!60}
+  \newcommand{\colorNumeroInt}{orange!40}
+  \newcommand{\colorNumeroExt}{black!60}
+  \newcommand{\colorNumFalsoInt}{black!10}
+  \newcommand{\colorNumFalsoExt}{black!20}
+  %
+  \def\scl{1}
+  % MACROS
+  % Base y altura de la máquina
+  \pgfmathsetmacro{\MQBASE}{1.3}
+  \pgfmathsetmacro{\MQALT}{1.5}
+  % Altura del objetivo interno y externo
+  \pgfmathsetmacro{\MQINTALT}{.4}
+  \pgfmathsetmacro{\MQEXTALT}{.8}
+  % Base del objetivo
+  \pgfmathsetmacro{\MQOBJBASE}{.5}
+  % Posiciones inferior y superior del objetivo interno
+  \pgfmathsetmacro{\MQSUPMED}{(\MQALT + \MQINTALT)/2}
+  \pgfmathsetmacro{\MQINFMED}{(\MQALT - \MQINTALT)/2}
+  % Posiciones inferior y superior del objetivo externo
+  \pgfmathsetmacro{\MQOBJINF}{(\MQALT - \MQEXTALT)/2}
+  \pgfmathsetmacro{\MQOBJSUP}{(\MQALT + \MQEXTALT)/2}
+  % Posición relativa del botón de la máquina
+  \pgfmathsetmacro{\MQBOTONX}{.4 * \MQBASE}
+  \pgfmathsetmacro{\MQBOTONY}{.2 * \MQALT}
+  % Posición relativa del etiqueta de la máquina
+  \pgfmathsetmacro{\MQETIQX}{.5 * \MQBASE}
+  \pgfmathsetmacro{\MQETIQY}{.8 * \MQALT}
+  % Alcance horizontal bolas
+  \pgfmathsetmacro{\BOLAX}{\MQBASE + 3}
+
+  % Radio del botón en 'pt'
+  \pgfmathsetmacro{\MQBOTONRADIO}{2}
+  %
+  \begin{tikzpicture}[%
+    scale=\scl,
+    every node/.style={font=\footnotesize},
+    maquina/.style={fill=\colorMaquinaInt,draw=\colorMaquinaExt},
+    etiqueta/.style={%
+      fill=\colorEtiquetaInt,
+      draw=\colorEtiquetaExt,
+      line width=.4pt,
+      draw,
+    },
+    boton/.style={fill=\colorBotonInt,draw=\colorBotonExt},
+    flecha/.style={%
+      -{Latex[round]},
+      draw=\colorFlechaSalida,
+      shorten >=4pt,
+      shorten <= 1.5pt,
+    },
+    numero/.style={%
+      circle,
+      draw,
+      inner sep=2pt,
+      fill=\colorNumeroInt,
+      draw=\colorNumeroExt,
+      font=\small,
+    },
+    numFalso/.style={%
+      circle,
+      draw,
+      inner sep=2pt,
+      fill=\colorNumFalsoInt,
+      draw=\colorNumFalsoExt,
+      font=\small,
+    },
+    background/.style={
+      line width=\bgborderwidth,
+      draw=\bgbordercolor,
+      fill=\bgcolor,
+    },
+    ]
+    % COORDENADAS
+    % Origen
+    \coordinate (o) at (0,0);
+    % Máquina
+    \coordinate (mqa) at ($(o)$);
+    \coordinate (mqb) at ($(mqa)+(\MQBASE,0)$);
+    \coordinate (mqc) at ($(mqa)+(\MQBASE,\MQINFMED)$);
+    \coordinate (mqod) at ($(mqa)+(\MQBASE + \MQOBJBASE,\MQOBJINF)$);
+    \coordinate (mqoe) at ($(mqa)+(\MQBASE + \MQOBJBASE,\MQOBJSUP)$);
+    \coordinate (mqd) at ($(mqa)+(\MQBASE,\MQSUPMED)$);
+    \coordinate (mqe) at ($(mqa)+(\MQBASE,\MQALT)$);
+    \coordinate (mqf) at ($(mqa)+(0,\MQALT)$);
+    \coordinate (mqboton) at ($(mqa)+(\MQBOTONX,\MQBOTONY)$);
+    \coordinate (mqetiq) at ($(mqa)+(\MQETIQX,\MQETIQY)$);
+    \coordinate (mqsalida) at ($(mqa)+(\MQBASE + \MQOBJBASE,\MQALT/2)$);
+
+    % DIBUJO
+    % Máquina
+    \draw[maquina]
+    (mqa)--(mqb)--(mqc)--(mqod)--(mqoe)--(mqd)--(mqe)--(mqf)--cycle;
+    % Botón
+    \filldraw[boton] (mqboton) circle[radius=\MQBOTONRADIO pt];
+    % Etiqueta
+    \node[etiqueta] at (mqetiq) {Tres};
+    % Salida: números 3 y 7
+    \draw[flecha] (mqsalida) -- +(30:1) node[right,name=tres,numero] {$3$};
+    \path (mqsalida) -- +(-30:1) node[right,name=siete,numFalso] {$7$};
+    % Probabilidades
+    \node[right=2em,name=p1] at (tres) {$p_1=1$};
+    \node[right=2em,name=p2] at (siete) {$p_2=0$};
+    
+    % Fondo amarillo
+    \coordinate (liminf) at ($(mqa)+(0,-8pt)$);
+    \coordinate (limsup) at ($(mqf)+(0,8pt)$);
+    \coordinate (limizda) at ($(mqa)+(-8pt,0)$);
+    \coordinate (limdcha) at ($(p1.east)+(10pt,0)$);
+    \begin{scope}[on background layer]
+      %% \node [line width=1pt, draw=\backgroundbordercolor,
+      %% fill=\backgroundcolor, fit= (O) (letraejex) (letraejey)] {};
+      \node [background, fit= (liminf) (limsup) (limizda) (limdcha)] {};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Máquina que proporciona el número tres cada vez que se pulsa el
+    botón y además se tiene en cuenta la probabilidad nula de que salga
+    cualquier otro número, por ejemplo el siete.}
+  \label{fig:entr-maquina-tres-restoprob-cero}
+\end{figure}
+
+Aparentemente, esto nos conduce a una incongruencia. Vamos a calcular la
+ganancia de información si saliera el número siete, sabiendo que su
+probabilidad de salida es nula
+\[
+  I_2 = -\ln p_2 = -\ln 0 \to \infty
+\]
+
+Resulta que sale una ganancia de información infinita. Hay una forma
+divertida de explicar este cálculo:
+si al pulsar el botón de la máquina del tres, saliera un siete,
+¡nuestra sorpresa sería infinita!, pero este resultado sería  absurdo
+ya que entonces la probabilidad no sería cero, como pensábamos.
+Una forma más realista de explicarlo sería decir que hemos dado con una
+discontinuidad de la función $I$ y que esta resultado no tendría sentido
+(no podría producirse).
+
+Pero no seamos tan extremos, supongamos nuestra máquina se llama ``tres''
+y ``siete'' y que la probabilidad de que salga el tres es muy elevada, por
+ejemplo un \SI{99,9}{\percent}
+\[
+  p_1=0,999
+\]
+y la de que saliera un siete es muy baja, un $\SI{0,1}{\percent}$
+\[
+  p_2 = 1 - p_1 = 1-0,999 = 0,001
+\]
+\begin{figure}[ht]
+  \centering
+  % Colores
+  \newcommand{\colorMaquinaInt}{green!70!black!40}
+  \newcommand{\colorMaquinaExt}{black}
+  \newcommand{\colorEtiquetaInt}{green!70!black!35}
+  \newcommand{\colorEtiquetaExt}{green!45!black}
+  \newcommand{\colorBotonInt}{red}
+  \newcommand{\colorBotonExt}{black}
+  \newcommand{\colorFlechaSalida}{black!60}
+  \newcommand{\colorNumeroInt}{orange!40}
+  \newcommand{\colorNumeroExt}{black!60}
+  \newcommand{\colorNumFalsoInt}{black!10}
+  \newcommand{\colorNumFalsoExt}{black!20}
+  %
+  \def\scl{1}
+  % MACROS
+  % Base y altura de la máquina
+  \pgfmathsetmacro{\MQBASE}{1.3}
+  \pgfmathsetmacro{\MQALT}{1.5}
+  % Altura del objetivo interno y externo
+  \pgfmathsetmacro{\MQINTALT}{.4}
+  \pgfmathsetmacro{\MQEXTALT}{.8}
+  % Base del objetivo
+  \pgfmathsetmacro{\MQOBJBASE}{.5}
+  % Posiciones inferior y superior del objetivo interno
+  \pgfmathsetmacro{\MQSUPMED}{(\MQALT + \MQINTALT)/2}
+  \pgfmathsetmacro{\MQINFMED}{(\MQALT - \MQINTALT)/2}
+  % Posiciones inferior y superior del objetivo externo
+  \pgfmathsetmacro{\MQOBJINF}{(\MQALT - \MQEXTALT)/2}
+  \pgfmathsetmacro{\MQOBJSUP}{(\MQALT + \MQEXTALT)/2}
+  % Posición relativa del botón de la máquina
+  \pgfmathsetmacro{\MQBOTONX}{.4 * \MQBASE}
+  \pgfmathsetmacro{\MQBOTONY}{.2 * \MQALT}
+  % Posición relativa del etiqueta de la máquina
+  \pgfmathsetmacro{\MQETIQX}{.5 * \MQBASE}
+  \pgfmathsetmacro{\MQETIQY}{.8 * \MQALT}
+  % Alcance horizontal bolas
+  \pgfmathsetmacro{\BOLAX}{\MQBASE + 3}
+
+  % Radio del botón en 'pt'
+  \pgfmathsetmacro{\MQBOTONRADIO}{2}
+  %
+  \begin{tikzpicture}[%
+    scale=\scl,
+    every node/.style={font=\footnotesize},
+    maquina/.style={fill=\colorMaquinaInt,draw=\colorMaquinaExt},
+    etiqueta/.style={%
+      fill=\colorEtiquetaInt,
+      draw=\colorEtiquetaExt,
+      line width=.4pt,
+      draw,
+    },
+    boton/.style={fill=\colorBotonInt,draw=\colorBotonExt},
+    flecha/.style={%
+      -{Latex[round]},
+      draw=\colorFlechaSalida,
+      shorten >=4pt,
+      shorten <= 1.5pt,
+    },
+    numero/.style={%
+      circle,
+      draw,
+      inner sep=2pt,
+      fill=\colorNumeroInt,
+      draw=\colorNumeroExt,
+      font=\small,
+    },
+    numFalso/.style={%
+      circle,
+      draw,
+      inner sep=2pt,
+      fill=\colorNumFalsoInt,
+      draw=\colorNumFalsoExt,
+      font=\small,
+    },
+    background/.style={
+      line width=\bgborderwidth,
+      draw=\bgbordercolor,
+      fill=\bgcolor,
+    },
+    ]
+    % COORDENADAS
+    % Origen
+    \coordinate (o) at (0,0);
+    % Máquina
+    \coordinate (mqa) at ($(o)$);
+    \coordinate (mqb) at ($(mqa)+(\MQBASE,0)$);
+    \coordinate (mqc) at ($(mqa)+(\MQBASE,\MQINFMED)$);
+    \coordinate (mqod) at ($(mqa)+(\MQBASE + \MQOBJBASE,\MQOBJINF)$);
+    \coordinate (mqoe) at ($(mqa)+(\MQBASE + \MQOBJBASE,\MQOBJSUP)$);
+    \coordinate (mqd) at ($(mqa)+(\MQBASE,\MQSUPMED)$);
+    \coordinate (mqe) at ($(mqa)+(\MQBASE,\MQALT)$);
+    \coordinate (mqf) at ($(mqa)+(0,\MQALT)$);
+    \coordinate (mqboton) at ($(mqa)+(\MQBOTONX,\MQBOTONY)$);
+    \coordinate (mqetiq) at ($(mqa)+(\MQETIQX,\MQETIQY)$);
+    \coordinate (mqsalida) at ($(mqa)+(\MQBASE + \MQOBJBASE,\MQALT/2)$);
+
+    % DIBUJO
+    % Máquina
+    \draw[maquina]
+    (mqa)--(mqb)--(mqc)--(mqod)--(mqoe)--(mqd)--(mqe)--(mqf)--cycle;
+    % Botón
+    \filldraw[boton] (mqboton) circle[radius=\MQBOTONRADIO pt];
+    % Etiqueta
+    \node[etiqueta,inner sep=1pt] at (mqetiq) {\scriptsize Tres y siete};
+    % Salida: números 3 y 7
+    \draw[flecha] (mqsalida) -- +(30:1) node[right,name=tres,numero] {$3$};
+    \draw[flecha] (mqsalida) -- +(-30:1) node[right,name=siete,numero] {$7$};
+    % Probabilidades
+    \node[right=2em,name=p1] at (tres) {$p_1=0,999$};
+    \node[right=2em,name=p2] at (siete) {$p_2=0,001$};
+    
+    % Fondo amarillo
+    \coordinate (liminf) at ($(mqa)+(0,-8pt)$);
+    \coordinate (limsup) at ($(mqf)+(0,8pt)$);
+    \coordinate (limizda) at ($(mqa)+(-8pt,0)$);
+    \coordinate (limdcha) at ($(p1.east)+(10pt,0)$);
+    \begin{scope}[on background layer]
+      %% \node [line width=1pt, draw=\backgroundbordercolor,
+      %% fill=\backgroundcolor, fit= (O) (letraejex) (letraejey)] {};
+      \node [background, fit= (liminf) (limsup) (limizda) (limdcha)] {};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Máquina que proporciona el número tres con una probabilidad muy
+    alta (novecientas noventa y nueve veces de cada mil tiradas), y el siete
+    muy raramente (una de cada mil).}
+  \label{fig:entr-maquina-tres-siete}
+\end{figure}
+
+En esta máquina, la ganancia de información que obtendríamos si saliera un
+siete sería relativamente elevada (porque no lo esperábamos)
+\[
+  I_2 = -\ln 0,001 \approx 6,908
+\]
+mientras que la de obtener el número tres sería muy baja, porque no
+sería casi sorpresa
+\[
+  I_1 = -\ln 0,999 \approx 0,001
+\]
+
+\subsection{Definición básica de entropía}
+\label{subsect:entr-entropia-basica}
+Definimos el concepto de \emph{entropía}, que representaremos con el símbolo
+$S$
+\begin{quote}
+  ``La entropía es el promedio de ganancia de información.''
+\begin{equation}\label{eq:entr-def-entropia-basica}
+  S = \braket{I} = \sum_{i=1}^N p_i I_i = -\sum_{i=1}^N p_i \ln p_i
+\end{equation}
+\end{quote}
+La entropía se podría interpretar como el \emph{grado de ignorancia} que
+tenemos sobre un sistema. Volviendo al ejemplo de la máquina anterior
+(figura~\ref{fig:entr-maquina-tres}), la entropía será
+\[
+  S = -p \ln p = -1 \ln 1 = 0
+\]
+que se puede interpretar como que nuestro grado de ignorancia es cero,
+porque ya sabíamos lo que se iba a producir con un \SI{100}{\percent} de
+seguridad.
+
+Vamos a aclarar una duda matemática que puede surgir con el ejemplo anterior.
+Fijémonos en la figura~\ref{fig:entr-maquina-tres-siete}, donde teníamos
+en cuenta, además, la probabilidad de que saliera el siete.
+La entropía será
+\[
+  S = -p_1\ln p_1 - p_2\ln p_2 = -1\ln 1 - 0\ln 0
+\]
+
+Podríamos pensar que el factor con logaritmo natural de cero, $\ln 0$ nos iba a
+impedir el cálculo de la entropía, debido al \emph{menos infinito que produce}.
+
+Pero ese factor va acompañado de otro que vale cero, y el logaritmo natural
+se acerca a menos infinito más despacio que el cero a su valor.
+Matemáticamente se trata de calcular el siguiente límite
+\[
+  "0\ln 0" = \lim_{x\to 0} x\ln x = 0
+\]
+
+Para calcularlo, se convierte en una indeterminación del tipo $\infty/\infty$
+\[
+  \lim_{x\to 0} x\ln x = \lim_{x\to 0} \frac{\ln x}{1/x} = \frac{\infty}{\infty}
+\]
+y se aplica la regla de L'Hopital
+\[
+  \lim_{x\to 0} x\ln x
+  = \lim_{x\to 0} \frac{1/x}{-1/x^2}
+  = - \lim_{x\to 0} \frac{1/\cancelout{x}}{1/x^{\cancelout{\scriptstyle 2}}}
+  = -\lim_{x\to 0} x = 0
+\]
+
+\subsubsection{Entropía máxima}
+Antes de terminar esta sección vamos a analizar cuándo es máxima la entropía.
+Razonaremos en base a la máquina que producía un tres o un siete cada vez
+que se pulsaba el botón. Supondremos que la probabilidad de producir un tres
+es $p_1=1$ y que es nula la de que salga un siete, $p_2=0$; en esta situación
+nuestro grado de desconocimiento es cero, sabemos lo que va a salir con
+total seguridad. Por tanto la entropía es nula
+\[
+  S = -p_1\ln p_1 - p_2\ln p_2 = -1\ln 1 - 0\ln 0 = 0
+\]
+y como buscamos la máxima, tendremos que cambiar las probabilidades.
+
+Bajamos, por tanto,  un poco la probabilidad de que salga el tres y
+aumentamos como consecuencia la de obtención de un siete. Por ejemplo,
+$P_1=0,75$ y $p_2=0,25$
+\[
+  S = -p_1\ln P_1 - p_2\ln p_2 = -0,75\ln 0,75 - 0,25\ln 0,25
+  \approx 0,5623\cdots
+\]
+y vemos que ha aumentado la entropía, por lo que seguimos disminuyendo $p_1$.
+
+Supongamos que llegamos a $p_1 = p_2 = 0,5$
+\[
+  S = -p_1\ln p_1 - p_2\ln p_2 = -0,5\ln 0,5 - 0,5\ln 0,5
+  \approx 0,6931\cdots
+\]
+la entropía es mayor.
+
+Sigamos disminuyendo, ahora muy poco la probabilidad de que salga un tres,
+$p_1=0,49$
+\[
+  S = -p_1\ln p_1 - p_2\ln p_2 = -0,49\ln 0,49 - 0,51\ln 0,51
+  \approx 0,6929\cdots  
+\]
+Comprobamos que ha disminuido. Tenemos, por tanto la intuición matemática
+de que la entropía será máxima cuando $p_1=p_2 = 1/2$.
+
+A continuación representamos el valor de la entropía, $S$, en función de la
+probabilidad de que salga un tres, $p_1$. Para ello, ponemos la entropía
+en función de $p_1$
+\[
+  S = -p_1\ln p_1 - p_2\ln p_2
+\]
+Como $p_1 + p_2 = 1$, resulta que $p_2 = 1 - p_1$
+\begin{align*}
+  S
+  &=
+    -p_1\ln p_1 - (1-p_1)\ln (1-p_1)
+    = -p_1\ln p_1 - \ln (1-p_1) +  p_1\ln (1-p_1)\\
+  &=
+    p_1\left[\ln(1-x) - \ln x\right] - \ln (1-x)
+    = p_1 \ln\frac{1-p_1}{p_1} - \ln (1-p_1)
+\end{align*}
+
+Al final queda
+\[
+  S = \ln\frac{\left(\frac{1-p_1}{p_1}\right)^{p_1}}{1-p_1}
+\]
+
+En la gráfica~\ref{fig:entr-p1-S} se observa que la entropía máxima se
+obtiene cuando
+\[
+  p_1 = p_2 = 0,5
+\]
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.00]
+\begin{axis}[
+	axis background/.style={fill=yellow!18},
+	grid style={line width=.2pt,draw=gray!20},
+	major grid style={line width=.3pt,draw=gray!50},
+	grid=both,
+	%enlargelimits={abs=0.5},
+	%enlarge x limits=0.0,
+	restrict x to domain=0:1,
+	%title= CONVERSIÓN EN EL EQUILIBRIO Y TEMPERATURA,
+	ylabel style={overlay},
+	yticklabel style={overlay},
+	%xlabel={$X_{\ce{H2}}$},
+	%ylabel={Concentración (\si{\molar})},
+	xlabel={Probabilidad de obtener un tres $(p_1)$},
+	ylabel={Entropía $(S)$}, %legend style={at={(0.5,0.97)},
+	%   anchor=north, legend columns=-1},
+	domain=0:1,
+	minor y tick num = 3,
+	minor x tick num = 4,
+	xmin=0,
+	xmax=1,
+	ymin=0,
+	ymax=1,
+	%xtick={}
+	%ytick={0,20,40,60,80,100,120},
+	%grid style={line width=.2pt,draw=gray!20},
+	%major grid style={line width=.3pt,draw=gray!50},
+	%grid=both
+]
+\addplot[%
+smooth,domain=0:1,color=black,mark=none,samples=500,line width=1.2pt
+%] {-x*ln(x)-(1-x)*ln(1-x)};
+%] {x*ln((1-x)/x)-ln(1-x)};
+% {ln(((1-x)/x)^x)-ln(1-x)};
+] {ln((((1-x)/x)^x)/(1-x))};
+\end{axis}
+\end{tikzpicture}
+\caption{Representación gráfica de la entropía de la máquina que produce
+  treses y sietes, en función de la probabilidad de obtener un tres.
+  Se observa que es máxima cuando $p_1=0,5$.}
+\label{fig:entr-p1-S}
+\end{figure}
+
+
+Generalizando a $N$ sucesos probables, la entropía sería máxima cuando
+\[
+  p_1=p_2=\cdots=p_N = 1/N
+\]
+\[
+  S_{\text{máx}}
+  = -\sum_{i} \frac{1}{N} \ln\frac{1}{N}
+  = -\frac{1}{N}\,(-\ln N) \sum_i 1
+  =  \cancelout{N} \frac{1}{\cancelout{N}}\,\ln N
+  = \ln N
+\]
+
+Este resultado tiene cierta lógica, porque cuando todos los sucesos fueran
+equiprobables, nuestra ignorancia sería máxima. Y si uno de los sucesos
+tuviera algo más de probabilidad de ocurrir que otro, entonces tendríamos
+mayor grado de conocimiento de lo que se obtendría, y la entropía disminuiría.
+
+El problema de esta conclusión radica en que sólo es válida cuando los sucesos
+que se consideren sean disjuntos (u ortogonales). Más adelante se analizará
+de una forma más completa.
+
+\section{Traza de una matriz}
+La traza de una matriz es la suma de sus elementos diagonales
+\[
+  \Tr\mmm{A} = \sum_n A_{nn}
+\]
+
+\subsection{Propiedades importantes}
+Podemos destacar dos propiedades de la traza de matrices:
+\begin{enumerate}
+\item La traza de la suma de dos matrices es la suma de la traza de
+  cada una de ellas
+  \begin{equation}\label{eq:entr-traza-de-suma}
+    \Tr(\mmm{A} + \mmm{B})
+    = \Tr\mmm{A} + \Tr\mmm{B}
+  \end{equation}
+
+\item La traza de un escalar por una matriz es el escalar por la traza
+  de la matriz
+  \begin{equation}\label{eq:entr-traza-escalar-matriz}
+    \Tr{(\lambda\mmm{A})}
+    = \lambda \Tr\mmm{A}
+  \end{equation}
+  
+\end{enumerate}
+
+\subsection{Traza del producto de dos matrices}
+El producto de dos matrices $\mmm{D} = \mmm{A}$ y $\mmm{B}$ se podría
+escribir en forma compacta como
+\[
+  D_{ij} = (AB)_{ij} = \sum_k A_{ik} B_{kj}
+\]
+
+Los elementos diagonales de esta matriz serían
+\[
+  D_{nn} = (AB)_{nn}
+\]
+
+
+La forma compacta de la traza de una matriz $\mmm{D}$ sería la suma
+de sus elementos diagonales
+\[
+  \Tr{\mmm{D}} = \sum_n D_{nn}
+\]
+
+La traza del producto de dos matrices sería
+\[
+  \Tr{(\mmm{A}\mmm{B})} = \sum_n (AB)_{nn} = \sum_n \sum_k A_{nk} B_{kn}
+  = \sum_{n,k} A_{nk} B_{kn}
+\]
+
+\section{Matriz densidad}
+Para estudiar la \emph{matriz densidad} en mecánica cuántica, consideraremos
+estados cuánticos con dos grados de libertad, que podremos generalizar
+fácilmente a cualquier número $N$ de grados de libertad. No trataremos aquí
+con estados con infinitos grados de libertad, que complicarían los cálculos
+pero no añadirían nada conceptualmente.
+
+La matriz densidad se utiliza cuando hay \emph{estados mezcla}, que se
+estudiarán más adelante.
+
+\subsection{Producto exterior y proyectores}
+Sabemos que el producto interno o escalar de dos vectores produce un número
+real
+\[
+  \ket{\phi}\cdot\ket{\psi}
+  = \braket{\phi|\psi} \in \symbb{R}
+\]
+
+Ahora definimos un producto exterior de dos vectores como
+\[
+  \ket{\phi}\otimes\ket{\psi}
+  = \ket{\phi}\bra{\psi}
+\]
+que se representa mediante una matriz $N\times N$ en el caso de vectores de un
+espacio vectorial de dimensión finita $N$.
+
+Normalmente el producto externo se puede aplicar a un vector columna $\ket{A}$
+por la derecha
+\[
+  \ket{\phi}\bra{\psi} \ket{A}
+  = \ket{\phi}\braket{\psi|A}
+\]
+o bien a un vector fila por la izquierda
+\[
+  \bra{A} \ket{\phi}\bra{\psi}
+  = \braket{A|\phi}\bra{\psi}
+\]
+
+El producto externo de un vector de módulo unidad $\ket{\psi}$ por sí mismo se
+denomina \emph{proyector} $\ket{\psi}\bra{\psi}$, cuyo resultado al aplicarlo
+a un vector $\ket{A}$ es un vector proporcional a $\ket{\psi}$
+\[
+  \ket{\psi}\bra{\psi} \ket{A}
+  = \ket{\psi} \braket{\psi|A}
+\]
+esto es, proyecta un vector $\ket{A}$ en la dirección definida por
+$\ket{\psi}$.
+
+El proyector tiene ciertas propiedades que escribimos sin demostrar:
+\begin{itemize}
+\item El proyector $\ket{\psi}\bra{\psi}$ es un operador hermítico.
+\item El vector $\ket{\psi}$ es un autovector del proyector, con autovalor
+  igual a uno
+  \[
+    \ket{\psi}\bra{\psi} \ket{\psi} = 1 \ket{\psi}
+  \]
+\item Cualquier vector ortogonal a $\psi$ es autovector del proyector con
+  autovalor cero.
+
+  Si $\braket{\psi|\phi} = 0$, entonces
+  \[
+    \ket{\psi}\bra{\psi} \ket{\phi} = 0 \ket{\phi}
+  \]
+
+\item El cuadrado del operador proyector es igual al operador proyector
+  \[
+    (\ket{\psi}\bra{\psi})^2 = \ket{\psi}\bra{\psi}
+  \]
+
+\item La traza de un operador proyector es la suma de sus autovalores
+  \[
+    \Tr(\ket{\psi}\bra{\psi}) = 1
+  \]
+
+\item La suma de los operadores proyección de todos los vectores
+  de una base ortonormal es la matriz unidad
+  \[
+    \sum_{i} \ket{i}\bra{i} = \mmm{I} 
+  \]
+
+\item El valor esperado del operador $\mmm{F}$ en el estado $\ket{\psi}$
+  es la traza del proyector del vector de estado por el operador $\mmm{F}$
+  \begin{equation}\label{eq:entr-valoresperado-como-traza}
+    \braket{\mmm{F}} = \braket{\psi|\mmm{F}|\psi}
+    = \Tr(\ket{\psi}\bra{\psi} \mmm{F})
+  \end{equation}
+
+  Lo demostramos a continuación, recordando que la traza de una matriz es
+  la suma de sus elementos diagonales
+  $\Tr\mmm{F} = \sum_i \mmm{F}_{ii} = \sum_i \braket{i|\mmm{F}|i}$
+  \begin{align*}
+    \Tr(\ket{\psi}\bra{\psi} \mmm{F})
+    &=
+      \sum_i \braket{i|\psi} \braket{\psi|\mmm{F}|i}
+      = \sum_i \braket{\psi|\mmm{F}|i} \braket{i|\psi}
+      = \sum_i \braket{\psi|\mmm{F}} \ket{i}\bra{i} \ket{\psi}\\
+    &=
+      \braket{\psi|\mmm{F}} \left(\sum_i\ket{i}\bra{i}\right) \ket{\psi}
+      = \braket{\psi|\mmm{F}} \mmm{I} \ket{\psi}
+      = \braket{\psi|\mmm{F}|\psi}
+      = \braket{\mmm{F}}
+  \end{align*}
+  
+\end{itemize}
+
+
+\subsection{Definición de matriz densidad}
+El estado de un sistema cuántico queda completamente especificado mediante un
+vector de estado $\ket{\psi}$, que contiene toda la información que podemos
+obtener de él.
+Una forma equivalente de especificar el estado de un sistema cuántico
+sería mediante la matriz densidad $\mmmg{\rho}$, que se define como
+el proyector
+\begin{equation}\label{eq:entr-matriz-densidad}
+  \mmmg{\rho} = \ket{\psi}\bra{\psi}
+\end{equation}
+
+Se puede seguir la evolución dinámica de ambos $\ket{\psi}$ y $\mmmg{\rho}$,
+es decir, su evolución con el tiempo.
+
+Una consecuencia de la definición es que la matriz densidad no depende de la
+fase global. Supongamos que el vector de estado se escribe como
+\[
+  \ket{\psi'} = \ket{e^{i\phi}\psi} = e^{i\phi}\ket{\psi}
+\]
+
+La matriz densidad no tiene en cuenta la fase global
+\[
+  \mmmg{\rho}
+  = \ket{\psi'}\bra{\psi'}
+  = \ket{e^{i\phi}\psi}\bra{e^{i\phi}\psi}
+  = e^{i\phi} e^{-i\phi} \ket{\psi}\bra{\psi}
+  = \ket{\psi}\bra{\psi}
+\]
+
+\subsection{Valor esperado de un observable mecano-cuántico}
+Imaginemos que tenemos un sistema cuántico finito\footnotemark{} en un estado
+$\ket{\psi}$
+\footnotetext{Podríamos considerar también sistemas con infinitas dimensiones,
+  en cuyo caso habría que escribir la combinación lineal como una integral
+  del tipo $\ket{\psi} = \int dx\,\psi(x) \ket{x}$, pero como no aportaría
+  profundidad y sólo se complicaría la notación matemática, nos limitaremos
+  a sistemas de dimensiones finitas.}
+\[
+  \ket{\psi} = a_0 \ket{0} + a_1 \ket{1}
+\]
+donde hemos representado los vectores de estado que forman la base, $\ket{0}$
+y $\ket{1}$, como si fueran \emph{qbits}.
+
+Un \emph{observable} se representa mediante un operador hermítico, que en
+el caso de sistemas cuánticos de un número finito de grados de libertad,
+se materializan como matrices cuadradas hermíticas
+\[
+  \mmm{F}^\dagger = \mmm{F}
+\]
+
+Hay un teorema que dice que toda matriz hermítica es diagonalizable,
+sus valores propios $F_i$ son reales y sus vectores propios
+asociados $\ket{F_i}$ forman una base ortonormal.
+
+Además, el \emph{postulado de la medida} establece que al medir $\mmm{F}$,
+los valores que se podrán obtener serán los valores propios, con unas ciertas
+probabilidades. Y después de obtener uno de ellos $F_i$, el sistema
+quedará definido por el estado $\ket{F_i}$ asociado. Las probabilidades de
+obtener cada uno de los valores propios en la medida sería
+\[
+  p_i = |\braket{\psi|F_i}|^2
+\]
+
+Como este observable es una matriz, en dos dimensiones sería
+\[
+  \mmm{F}
+  = \begin{pNiceMatrix}
+    F_{00} & F_{01}\\
+    F_{10} & F_{11}
+  \end{pNiceMatrix}
+\]
+
+El valor esperado del observable en un estado cuántico $\ket{\psi}$ es
+\[
+  \braket{\mmm{F}} = \braket{\psi|\mmm{F}|\psi}
+\]
+que se interpreta como el valor promedio de todos los posibles resultados de
+la medida $F_i$, teniendo en cuenta sus probabilidades $p_i$.
+
+Desarrollamos la expresión anterior
+\begin{align*}
+  \braket{\mmm{F}}
+  &=
+    \braket{\psi|\mmm{F}|\psi}
+    = \begin{pNiceMatrix}
+      a_0^* & a_1^*
+      \end{pNiceMatrix}
+    \begin{pNiceMatrix}
+      F_{00} & F_{01}\\
+      F_{10} & F_{11}
+    \end{pNiceMatrix}
+    \begin{pNiceMatrix}
+      a_0\\
+      a_1
+    \end{pNiceMatrix}
+    = \begin{pNiceMatrix}
+      a_0^* & a_1^*
+      \end{pNiceMatrix}
+    \begin{pNiceMatrix}
+      F_{00} a_0 + F_{01} a_1\\
+      F_{10} a_0 + F_{11} a_1
+    \end{pNiceMatrix}\\
+  &=
+    F_{00} a_0 a_0^* + F_{01} a_1 a_0^* + F_{10} a_0 a_1^* + F_{11} a_1 a_1^*\\
+  &=
+    a_0 a_0^* F_{00} + a_1 a_0^* F_{01} + a_0 a_1^* F_{10} + a_1 a_1^* F_{11}
+\end{align*}
+
+Si abreviamos con $\rho_{ij}\equiv a_i a_j^*$, el valor esperado puede
+escribirse como
+\[
+  \braket{\mmm{F}}
+  =
+  \rho_{00} F_{00} + \rho_{10} F_{01} + \rho_{01} F_{10} + \rho_{11} F_{11}
+  = \sum_{n,k} \rho_{nk} F_{kn}
+  = \Tr{(\mmmg{\rho}\mmm{F})}
+\]
+
+Nótese que el primer factor del producto de matrices depende de las $a_i$,
+\begin{equation}\label{eq:entr-elementos-matriz-densidad}
+  \rho_{ij} = a_i a_j^*
+\end{equation}
+que, a su vez, dependen únicamente del estado cuántico del sistema,
+$\ket{\psi}$, y que equivale a los elementos de la matriz densidad.
+Por otro lado, el segundo factor es la matriz del observable $\mmmg{F}$
+que queremos medir, que es independiente del estado.
+
+Por tanto, el valor esperado del observable $\mmm{F}$ es la traza de un
+producto de matrices
+\begin{equation}\label{eq:entr-valor-esperado-traza}
+  \braket{\mmm{F}}
+  = \braket{\psi|\mmm{F}|\psi}
+  = \Tr{(\mmmg{\rho}\mmm{F})}
+\end{equation}
+Esto también se puede deducir de la
+propiedad~\eqref{eq:entr-valoresperado-como-traza} de los proyectores.
+
+\section{Entropía}
+En esta sección utilizaremos una forma más general de calcular la entropía,
+la utilizaremos para calcular la en estados puros y mezcla\footnotemark{}
+\footnotetext{En el desarrollo de esta sección se pondrán ejemplos de
+  estados puros y estados mezcla.}
+\begin{equation}\label{eq:entr-def-entropia-general}
+  S = -\Tr(\mmmg{\rho}\ln\mmmg{\rho})
+\end{equation}
+y aprenderemos cuándo equivale a la definición
+básica~\eqref{eq:entr-def-entropia-basica}
+\[
+  S = -\sum_{i} p_i \ln p_i
+\]
+
+Empezamos haciendo una serie de consideraciones sobre las implicaciones
+acerca del uso de la expresión~\eqref{eq:entr-def-entropia-general}:
+\begin{itemize}
+\item Hay que destacar que a una misma matriz densidad se puede llegar
+  desde infinitos estados mezcla diferentes
+  \[
+    \mmmg{\rho} = \sum_i w_i \ket{\psi_i}\bra{\psi_i}
+  \]
+  donde $w_i$ es el peso con que participa cada estado puro
+  $\ket{\psi_i}\bra{\psi_i}$, en el estado mezcla.
+  
+  Pero de esos infinitos estados mezcla sólo hay uno, que escribiremos
+  como
+  \begin{equation}\label{eq:entr-estados-ortogonales}
+    \mmmg{\rho} = \sum_i \lambda_i \ket{u_i}\bra{u_i}
+  \end{equation}
+  en el que se puede utilizar la definición básica
+  ~\eqref{eq:entr-def-entropia-basica}
+  \[
+    S = -\sum_i\lambda_i\ln\lambda_i
+  \]
+  y es aquél en el que los estados puros $\ket{u_i}$ que se mezclan
+  son \emph{ortogonales}.
+  
+  Además, cuado los que se mezclan son ortogonales,
+  la expresión~\eqref{eq:entr-def-entropia-basica} se minimiza, esto es
+  \[
+    S < -\sum_i w_i\ln w_i
+  \]
+
+  Para obtener la mezcla de estados
+  ortogonales~\eqref{eq:entr-estados-ortogonales} a partir de cualquier
+  matriz densidad $\mmmg{\rho}$, hay que escribir esta última en su base
+  propia, es decir, hay que diagonalizarla.
+  Por tanto debemos hallar los valores propios $\lambda_i$ de la matriz.
+  Esto se debe a que
+  \emph{los vectores propios} $\ket{u_i}$ \emph{son ortogonales} y se
+  corresponden con los estados que se mezclan.
+
+\item Lo anterior se puede explicar matemáticamente, en parte, debido a la
+  necesidad de calcular el logaritmo de la matriz densidad. El logaritmo de
+  una matriz $\mmmg{\rho}$ se puede desarrollar en serie de potencias de
+  $\mmmg{\rho} - \mmm{I}$, siempre que la serie sea convergente
+  \begin{align*}
+    \ln\mmmg{\rho}
+    &=
+      \mmmg{I}
+      + \frac{\mmmg{\rho} - \mmmg{I}}{1!}
+      + \frac{(\mmmg{\rho} - \mmmg{I})^2}{2!}
+      + \frac{(\mmmg{\rho} - \mmmg{I})^3}{3!}
+      + \cdots
+  \end{align*}
+  
+  El logaritmo de una matriz cuadrada se puede hallar en la práctica utilizando
+  la propiedad de que el logaritmo de una matriz diagonal es la matriz de los
+  logaritmos de sus elementos diagonales.
+  Por ejemplo, diagonalizando $\mmmg{\rho}$ en dos dimensiones
+  \[
+    \mmmg{\rho}
+    = \begin{pNiceMatrix}
+      \lambda_0 & 0\\
+      0 & \lambda_1
+    \end{pNiceMatrix}
+    \hspace{.5em}\longrightarrow\hspace{.5em}
+    \ln\mmmg{\rho}
+    = \begin{pNiceMatrix}
+      \ln\lambda_0 & 0\\
+      0 & \ln\lambda_1
+    \end{pNiceMatrix}
+  \]
+  y como resulta que la matriz densidad es hermítica, tenemos la seguridad de
+  que se puede diagonalizar.
+  
+  Entonces, y sólo entonces
+  \[
+    \mmmg{\rho}\ln\mmmg{\rho}
+    = \begin{pNiceMatrix}
+      \lambda_0 & 0\\
+      0 & \lambda_1
+    \end{pNiceMatrix}
+    \begin{pNiceMatrix}
+      \ln\lambda_0 & 0\\
+      0 & \ln\lambda_1
+    \end{pNiceMatrix}
+    = \begin{pNiceMatrix}
+      \lambda_0\ln\lambda_0 & 0\\
+      0 & \lambda_1\ln\lambda_1
+      \end{pNiceMatrix}
+    \]
+    la entropía se podría expresar mediante la fórmula
+    básica~\eqref{eq:entr-def-entropia-basica}
+    \[
+      S = -\Tr(\mmmg{\rho}\ln\mmmg{\rho})
+      = -\lambda_0\ln\lambda_0 - \lambda_1\ln\lambda_1
+    \]
+    donde las $\lambda_i$ son los pesos de los estados mezcla ortogonales
+    $\ket{u_0}$ y $\ket{u_1}$.
+\end{itemize}
+
+
+\subsection{Estados puros}
+Se dice que un sistema se encuentra en un \emph{estado puro} cuando se
+conoce perfectamente. Esto tiene distintas consecuencias según el sistema
+sea clásico o cuántico.
+
+La entropía de estos sistemas vale cero porque nuestro grado de desconocimiento
+es nulo
+\[
+  S = 0
+\]
+
+\subsubsection{Mecánica clásica}
+En mecánica clásica, un estado puro se representa mediante un punto en el
+espacio de las fases. El estado, en un instante $t$, de una partícula queda
+completamente determinado mediante sus coordenadas $\vvv{r}$ y su momento
+lineal $\vvv{p}$.
+Conocer el estado de un sistema clásico en un tiempo $t$, implica conocerlo
+en cualquier instante posterior siempre que tengamos en cuenta las fuerzas que
+actúan sobre el sistema y las ligaduras que constriñen su movimiento.
+
+Los estados posibles que resultan de lanzar una moneda\footnotemark{} son dos
+puntos en el espacio de fases: \emph{cara} y \emph{cruz}, que podríamos
+describir por $0$ y $1$, respectivamente.
+\footnotetext{Descartando la posibilidad de que quede de canto.}
+Estos dos estados son mútuamente excluyentes en el sentido de que si una
+moneda se encuentra, por ejemplo, en el estado \emph{cara}, es imposible
+que la veamos como \emph{cruz}, y viceversa. Diremos que estos estados
+son ortogonales.
+
+Si una persona lanza una moneda y nos comunica el resultado, por ejemplo,
+\emph{cara} o $0$, la moneda se encontrará en un estado puro que no cambiará
+mientras no se interactúe con la moneda para cambiarlo.
+Así, cada vez que midamos su estado, encontraremos que está de cara o $0$
+siempre, con una probabilidad $p=1$.
+
+La entropía se puede calcular de las dos formas:
+\begin{itemize}
+\item En estas condiciones, la entropía de la moneda será cero
+\[
+  S = -p_0\ln p_0 - p_1\ln p_1 = -1 \ln 1 - 0\ln 0 = 0
+\]
+lo que significa que nuestro grado de desconocimiento de su estado es cero,
+lo que implica que está en un estado clásico puro.
+
+\item Por otro lado, como al lanzar la moneda son posibles los valores,
+cara $(1, 0)$ y cruz $(0,1)$.
+Si sale cara, por ejemplo, el vector de estado de la moneda será
+\[
+  \ket{0} =
+  \begin{pNiceMatrix}
+    1\\
+    0
+  \end{pNiceMatrix}
+\]
+
+La matriz de densidad es
+\[
+  \mmmg{\rho}
+  = \ket{0}\bra{0}
+  = \begin{pNiceMatrix}
+    1\\
+    0
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    1 & 0
+  \end{pNiceMatrix}
+  = \begin{pNiceMatrix}
+    1 & 0\\
+    0 & 0
+  \end{pNiceMatrix}
+\]
+
+Esta matriz es diagonal, calculamos su logaritmo directamente y lo
+multiplicamos por la matriz.
+Pero no intentamos resolver el logaritmo de cada elemento hasta que no
+multipliquemos las matrices
+\[
+  \mmmg{\rho}\ln\mmmg{\rho}
+  =
+  \begin{pNiceMatrix}
+    1 & 0\\
+    0 & 0
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    \ln 1 & 0\\
+    0 & \ln 0
+  \end{pNiceMatrix}
+  =
+  \begin{pNiceMatrix}
+    1\ln 1 & 0\\
+    0 & 0\ln 0
+  \end{pNiceMatrix}
+\]
+
+La entropía será la traza de la matriz
+\[
+  S
+  = -\Tr(\mmmg{\rho}\ln\mmmg{\rho})
+  = -1\ln 1 - 0\ln 0
+  = 0
+\]
+\end{itemize}
+
+
+\subsubsection{Mecánica cuántica}
+Consideraremos, por sencillez, un sistema cuántico de dos dimensiones, como
+puede ser el spin 1/2. Si se mide el spin de una partícula en una
+cierta dirección, que llamaremos eje $z$, el resultado será un spin
+\emph{hacia arriba} o \emph{hacia abajo}, de acuerdo con el postulado
+de la medida. En el primer caso, la partícula quedará en el estado que
+representaremos como $\ket{0}=\ket{z_+}$, y en el segundo en
+$\ket{1}=\ket{z_-}$, donde hemos utilizado esta vez el $0$ y el $1$ por
+analogía con los \emph{qbits}, y porque además, al representarlos mediante
+números se podrían utilizar como índices de sumatorios en fórmulas.
+
+Según este postulado, los posibles valores que se pueden obtener (en este
+ejemplo dos) se corresponden con estados que son ortogonales entre sí,
+esto es, su producto interno es nulo
+\[
+  \braket{0|1} = \braket{1|0} = 0
+\]
+Esto se puede interpretar como que los dos estados son
+\emph{mútuamente excluyentes},
+es decir, si una partícula estuviera en un instante en uno de los dos estados,
+por ejemplo $\ket{0}$, sería imposible encontrarla con spin hacia abajo en el
+mismo instante\footnotemark{}.
+\footnotetext{Si su estado cambiara con el tiempo, sí podría ser posible
+  encontrarla más tarde con el spin opuesto.}
+
+La entropía de un sistema cuántico se define en función de la matriz densidad
+\[
+  S = -\Tr(\mmmg{\rho}\ln\mmmg{\rho})
+\]
+
+Cuando consideramos el spin 1/2, la matriz densidad será una matriz
+cuadrada $2\times 2$. Un \emph{estado puro} genérico de spin 1/2 de un sistema,
+tendría la forma
+\[
+  \ket{\psi} = a_0\ket{0} + a_1\ket{1}
+  = a_0
+  \begin{pNiceMatrix}
+    1\\
+    0
+  \end{pNiceMatrix}
+  + a_1
+  \begin{pNiceMatrix}
+    0\\
+    1
+  \end{pNiceMatrix}
+  = \begin{pNiceMatrix}
+    a_0\\
+    a_1
+  \end{pNiceMatrix}
+\]
+
+Las amplitudes de probabilidad $a_0$ y $a_1$ nos permiten calcular las
+probabilidades de obtener los dos valores posibles del spin en la dirección del
+eje $z$, asociados a los estados $\ket{0}$ y $\ket{1}$
+\begin{align*}
+  p_0 &= a_0 a_0^* = |a_0|^2\\
+  p_1 &= a_1 a_1^* = |a_1|^2
+\end{align*}
+
+La matriz densidad sería
+\begin{equation}\label{eq:entr-matriz-densidad-spin1/2}
+  \mmmg{\rho}
+  =
+  \ket{\psi}\bra{\psi}
+  = \begin{pNiceMatrix}
+    a_0\\
+    a_1
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    a_0^* & a_1^*
+  \end{pNiceMatrix}
+  = \begin{pNiceMatrix}
+    a_0 a_0^* & a_0 a_1^*\\
+    a_1 a_0^* & a_1 a_1^*
+  \end{pNiceMatrix}
+  = \begin{pNiceMatrix}
+    p_0 & a_0 a_1^*\\
+    a_1 a_0^* & p_1
+    \end{pNiceMatrix}
+\end{equation}
+
+Para calcular el logaritmo de la matriz densidad, aprovechamos que
+la matriz densidad es hermítica, por lo que sus valores propios serán números
+reales no negativos debido a que los valores diagonales son probabilidades.
+Una vez diagonalizada, el logaritmo de la matriz sería la matriz de los
+logaritmos de los elementos diagonales\footnotemark{}.
+\footnotetext{Posteriormente habría que reescribir esta matriz diagonal con
+  logaritmos en la base original y multiplicarla por la matriz densidad
+  original, pero no necesitaremos hacerlo porque para calcular la entropía
+  necesitamos la traza, que sería igual en las dos matrices.}
+
+Supongamos que la hemos diagonalizado y la representamos en la base de
+los vectores propios
+\[
+  \mmmg{\rho}'
+  = \begin{pNiceMatrix}
+    \lambda_0 & 0\\
+    0 & \lambda_1
+  \end{pNiceMatrix}
+\]
+
+Entonces el logaritmo de la matriz sería
+\[
+  \ln\mmmg{\rho}'
+  = \begin{pNiceMatrix}
+    \ln\lambda_0 & 0\\
+    0 & \ln\lambda_1
+  \end{pNiceMatrix}
+\]
+
+Si alguna de las probabilidades $\lambda_i$ fuera cero, su logaritmo no
+estaría definido. Pero como lo que necesitamos es $\mmmg{\rho}'\ln\mmmg{\rho}'$,
+entonces podremos suponer, como se vió en la
+sección~\ref{subsect:entr-entropia-basica} que
+\begin{equation}\label{eq:entr-0ln0}
+  "0\ln 0" = \lim_{p_i\to 0} p_i\ln p_i = 0
+\end{equation}
+
+Por tanto escribimos $\mmmg{\rho}'\ln\mmmg{\rho}'$, obviando de momento
+el que algún $p_i'$ fuera cero
+\[
+  \mmmg{\rho}'\ln\mmmg{\rho}'
+  = \begin{pNiceMatrix}
+    \lambda_0 & 0\\
+    0 & \lambda_1  
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    \ln \lambda_0 & 0\\
+    0 & \ln \lambda_1
+  \end{pNiceMatrix}
+  = \begin{pNiceMatrix}
+    \lambda_0\ln \lambda_0 & 0\\
+    0 & \lambda_1\ln \lambda_1
+  \end{pNiceMatrix}
+\]
+
+El opuesto de la traza de esta matriz sería
+\[
+  -\Tr(\mmmg{\rho}'\ln\mmmg{\rho}')
+  = -\lambda_0\ln \lambda_0 - \lambda_1\ln \lambda_1
+\]
+
+Aprovechando que al diagonalizar una matriz se conserva la traza,
+la entropía del sistema sería, finalmente
+\begin{equation}\label{eq:entr-entropia-cuantica-p0'-p1'}
+  S = -\Tr(\mmmg{\rho}\ln\mmmg{\rho})
+  = -\Tr(\mmmg{\rho}'\ln\mmmg{\rho}')
+  = -\lambda_0\ln \lambda_0 - \lambda_1\ln \lambda_1
+\end{equation}
+
+Para nuestro sistema de spin 1/2, diagonalizamos la matriz
+densidad~\eqref{eq:entr-matriz-densidad-spin1/2}, planteando su ecuación
+de autovalores y autovectores
+\[
+  \mmmg{\rho} \vvv{u} = \lambda \vvv{u}
+\]
+\[
+  \mmmg{\rho} \vvv{u} - \lambda \vvv{u} = \vvv{0}
+\]
+\[
+  (\mmmg{\rho} - \lambda\mmm{I}) \vvv{u} = \vvv{0}
+\]
+\begin{align*}
+  \begin{pNiceMatrix}
+    p_0 - \lambda & a_0 a_1^*\\
+    a_1 a_0^* & p_1 - \lambda
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    u\\
+    v
+  \end{pNiceMatrix}
+  =
+  \begin{pNiceMatrix}
+    0\\
+    0
+  \end{pNiceMatrix}
+\end{align*}
+
+Para obtener los valores propios, el determinante de la matriz debe anularse,
+ya que el sistema de ecuaciones tiene que ser compatible indeterminado
+\[
+  \begin{vNiceMatrix}
+    p_0 - \lambda & a_0 a_1^*\\
+    a_1 a_0^* & p_1 - \lambda
+  \end{vNiceMatrix}
+  = 0
+\]
+
+Desarrollando el determinante, obtenemos la ecuación característica, y
+teniendo en cuenta que $p_0 + p_1 = 1$
+\[
+  \left(p_0-\lambda\right) \left(p_1-\lambda\right) -
+  a_0 a_1^* a_1 a_0^*
+  = 0
+\]
+\[
+  \cancelout{p_0 p_1} - (p_0 + p_1)\lambda + \lambda^2 - \cancelout{p_0 p_1} = 0
+\]
+\[
+  \lambda^2 - \lambda = 0
+\]
+\[
+  \lambda(\lambda - 1) = 0
+\]
+de donde $\lambda_0 = 1$ y $\lambda_1 = 0$.
+La matriz densidad diagonalizada será
+\[
+  \mmmg{\rho}
+  = \begin{pNiceMatrix}
+    1 & 0\\
+    0 & 0
+  \end{pNiceMatrix}
+\]
+
+Y según~\eqref{eq:entr-entropia-cuantica-p0'-p1'}, junto
+con~\eqref{eq:entr-0ln0}, la entropía del sistema puro $\ket{\psi}$ será cero
+\[
+  S = -\lambda_0\ln \lambda_0 - \lambda_1\ln \lambda_1
+  = -1\ln 1 - 0\ln 0
+  = 0
+\]
+lo que implica que se el estado está completamente determinado por el
+vector de estado $\ket{\psi}$. Nótese que el hecho de que no sepamos
+con seguridad el resultado de una medida del spin en la dirección $z$,
+\emph{es inherente a la mecánica cuántica} y no se debe a ningún
+desconocimiento achacable a nosotros.
+
+
+\subsection{Estados mezcla}
+Los \emph{estados mezcla} surgen debido a un \emph{conocimiento incompleto}
+del estado de un sistema. Suelen aparecer en mecánica estadística, tanto
+clásica como cuántica, porque debido al gran número de partículas implicadas
+resulta del todo imposible conocer el estado de todas y cada una de ellas.
+También se tienen que tener en cuenta los estados mezcla cuando un sistema
+cuántico conocido interacciona con el ambiente de forma incontrolable y por
+decoherencia nos hace perder información.
+
+En mecánica cuántica hay solapamientos, y por solapamiento nos referimos a
+que no hay un experimento que pueda distinguir entre dos estados no
+ortogonales.
+Una medida en un estado mezcla nos permite distinguir sólo entre estados
+ortogonales; recuérdese que el resultado de la medida de un observable da como
+resultado uno de los valores propios de éste.
+Pero estos valores propios están asociados a vectores propios ortogonales entre
+sí, que se corresponden a estados ortogonales\footnotemark{}.
+\footnotetext{Hay técnicas que intentan minimizar el error que se produce al
+  intentar distinguir entre estados solapados
+  (\emph{quantum measure discrimination}).}
+
+\begin{quote}
+  ``Para caracterizar estados mezcla debemos utilizar la matriz densidad
+  $\mmmg{\rho}$, pues ya no se puede utilizar el rayo en el espacio de Hilbert
+  que representa a un estado puro $\ket{\psi}$''
+\end{quote}
+
+Hay infinitas mezclas de estados que producen la misma matriz densidad
+(mismo estado), y así, todas ellas son \emph{físicamente indistiguibles}.
+Además ocurre que ningún experimento puede discriminar entre estados no
+ortogonales.
+De éstas, sólo hay una mezcla que implica estados ortogonales $\ket{u_i}$
+y sus probabilidades $\lambda_i$, que reproduce la matriz densidad.
+Entonces, al realizar una medida en ese estado $\mmmg{\rho}$, en realidad
+estamos disciminando entre estos estados ortogonales.
+
+¿Cómo podemos encontrar los estados $\ket{u_i}$ y sus probabilidades
+asociadas $\lambda_i$?
+Diagonalizando la matriz, esto es, expresándola en función de la
+base formada por sus vectores propios.
+
+Además se produce la circunstancia de que el cálculo con los valores propios
+es el que produce el menor valor, y éste valor es la entropía
+\[
+  S = -\sum_i \lambda_i\ln\lambda_i
+\]
+mientras que si tomáramos los pesos de cualquiera de los otros posibles
+estados mezcla que reproducen $\mmmg{\rho}$, el valor sería mayor que la
+entropía
+\[
+  -\sum_i w_i\ln w_i > S
+\]
+
+Como en esta sección nos interesa la entropía, tendremos que
+calcularla mediante
+\[
+  S = - \Tr(\mmmg{\rho}\ln\mmmg{\rho})
+\]
+
+Cuando los estados que se mezclan son ortonormales, la fórmula anterior
+es equivalente a
+\[
+  S = -\sum_i \lambda_i\ln \lambda_i
+\]
+    
+\subsubsection{Construcción de la matriz densidad de un estado mezcla}
+Supongamos una mezcla de dos estados que no tienen porqué ser ortogonales,
+\begin{align*}
+  \ket{\psi_0} &= a_0 \ket{0} + a_1 \ket{1}\\
+  \ket{\psi_1} &= b_0 \ket{0} + b_1 \ket{1}
+\end{align*}
+donde $\ket{0}$ y $\ket{1}$ forman una base ortonormal.
+
+El valor esperado del observable $\mmm{F}$ en cada uno de los estados sería,
+según~\eqref{eq:entr-valor-esperado-traza}
+\begin{align*}
+  \braket{\mmm{F}}_0
+  &=
+    \braket{\psi_0|\mmm{F}|\psi_0} = \Tr{(\mmmg{\rho_0} \mmm{F})}\\
+  \braket{\mmm{F}}_1
+  &=
+    \braket{\psi_1|\mmm{F}|\psi_1} = \Tr{(\mmmg{\rho_1} \mmm{F})}
+\end{align*}
+Como $\mmmg{\rho}$ depende del estado, le ponemos un subíndice $\mmmg{\rho_i}$
+para indicar el estado $\ket{\psi_i}$ con el que se corresponde.
+
+Si alguien nos dice que el sistema está descrito por $\ket{\psi_0}$ con
+un peso\footnotemark{} $w_0$ y por $\ket{\psi_1}$ con un peso $w_1$,
+donde los estados no son necesariamente ortogonales, entonces el valor
+esperado de $\mmm{F}$ para el sistema en esta situación sería
+\footnotetext{Le podemos llamar probabilidad, pero como no se refiere
+  a un estado puro preferimos utilizar otro nombre.}
+\[
+  \braket{\mmm{F}}
+  = w_0 \braket{\mmm{F}}_0 + w_1 \braket{\mmm{F}}_1
+  = w_0 \braket{\psi_0|\mmm{F}|\psi_0} + w_1 \braket{\psi_1|\mmm{F}|\psi_1}
+\]
+y esto es así porque al incluir los valores esperados para cada posible estado
+del sistema $\braket{\mmm{F}}_i = \braket{\psi_i|\mmm{F}|\psi_i}$ ya se han
+promediado las incertidumbres cuánticas y estamos trabajando de forma
+estadística normal, \emph{por encima de lo cuántico}.
+
+Vayamos un poco más alla a ver si llegamos a alguna conclusión que implique
+a la matriz densidad. Aplicamos las
+propiedades~\eqref{eq:entr-traza-de-suma}
+y~\eqref{eq:entr-traza-escalar-matriz}
+de la traza de matrices
+\begin{align*}
+  \braket{\mmm{F}}
+  &=
+    w_0 \braket{\psi_0|\mmm{F}|\psi_0} + w_1 \braket{\psi_1|\mmm{F}|\psi_1}
+    = w_0 \Tr{(\mmmg{\rho_0}\mmm{F})} + w_1 \Tr{(\mmmg{\rho_1}\mmm{F})}\\
+  &=
+    \Tr{(w_0 \mmmg{\rho_0}\mmm{F})} + \Tr{(w_0 \mmmg{\rho_1}\mmm{F})}
+    = \Tr{\left[w_0\mmmg{\rho_0}\mmm{F} + w_1\mmmg{\rho_1}\mmm{F}\right]}\\
+  &=
+    \Tr{\left[(w_0\mmmg{\rho_0} + w_1\mmmg{\rho_1}) \mmm{F}\right]}
+\end{align*}
+
+Comparando el segundo miembro de la expresión anterior
+con~\eqref{eq:entr-valor-esperado-traza}, vemos que
+$w_0\mmmg{\rho_0} + w_1\mmmg{\rho_1}$ sería la matriz densidad de un
+\emph{estado mezcla} formado por varios estados puros $\ket{\psi_0}$ y
+$\ket{\psi_1}$, con pesos respectivos $w_0$ y $w_1$.
+
+Por tanto definimos un estado mezcla $\mmmg{\rho}$ como
+\begin{equation}\label{eq:entr-estado-mezcla-rho}
+  \mmmg{\rho} = w_0\mmmg{\rho_0} + w_1\mmmg{\rho_1}
+\end{equation}
+
+Con estados puros no se necesita el formalismo de la matriz densidad, pero
+con estados mezclas es obligatorio.
+
+Estos estados mezcla pueden surgir en física estadística, por ejemplo, donde
+existe la posibilidad de haya distintos estados de energía posibles,
+como $\ket{E_0}$, $\ket{E_1}$, etc., que se pueden ocupar por las partículas
+del sistema con unos ciertos pesos o probabilidades $w_0$, $w_1$, etc.,
+que dependen de la temperatura. La energía total del sistema contempla esa
+mezcla de estados $\ket{E_i}$ (que se llaman estados de Gibbs).
+Por tanto, para describir la termodinámica y la cuántica se necesitan estados
+mezcla. También se necesitan los estados mezcla en cosas tan avanzadas como
+entrelazamiento en el espacio-tiempo.
+
+\subsubsection{Experimentos clásicos}
+Vamos a proponer dos experimentos clásicos:
+\begin{enumerate}
+\item El primer experimento se mezclan estados ortogonales.
+  
+    Supongamos que alguien a quien no vemos, quizás por estar tras una
+    pantalla, utiliza un sistema clásico que podría ser una moneda o cualquier
+    otro dispositivo. Prepara un juego que pueda producir dos resultados, que
+    llamaremos cara y cruz, y que denotaremos como 0 o 1. Supongamos que se
+    trata de una moneda trucada que produce cara en un cuarto de los
+    lanzamientos y cruz en tres cuartos de ellos, circunstancia de la que
+    nos informa de antemano.
+
+    Entonces, lanza la moneda y produce un resultado que nosotros no podemos
+    ver y por tanto tenemos un cierto grado de ignorancia, aunque cualquier
+    otra persona que estuviera con la anterior podrá conocerlo.
+    Este es un ejemplo de ignoracia clásica, debido a que no conocemos el
+    resultado del lanzamiento de la moneda.
+
+    Como los dos estados posibles del experimento son ortogonales, lo
+    resolveremos de dos formas:
+    \begin{itemize}
+    \item Calculamos mediante~\eqref{eq:entr-def-entropia-basica}
+      nuestro grado de desconocimiento del estado de la moneda
+      \[
+        S
+        = -p_0\ln p_0 - p_1\ln p_1
+        = -\frac{1}{4}\,\ln\frac{1}{4} - \frac{3}{4}\ln\frac{3}{4}
+        = 0,5623\cdots
+      \]
+
+    \item Seguimos el camino más elaborado que utiliza la matriz densidad.
+
+      Los dos estados que se mezclan son
+      \[
+        \ket{\psi_0}
+        =
+        \ket{0}
+        =
+        \begin{pNiceMatrix}
+          1\\
+          0
+        \end{pNiceMatrix}
+        \hspace{.5em}\text{y}\hspace{.5em}
+        \ket{\psi_1}
+        =
+        \ket{1}
+        =
+        \begin{pNiceMatrix}
+          0\\
+          1
+        \end{pNiceMatrix}
+      \]
+      donde $\ket{0}$ representa cara y $\ket{1}$ cruz.
+
+      La matriz densidad que describe la mezcla es
+      \begin{align*}
+        \mmmg{\rho}
+        &=
+          w_0\mmmg{\rho_0} + w_1\mmmg{\rho_1}
+          = w_0\ket{0}\bra{0} + w_1\ket{1}\bra{1}\\
+        &=
+          \frac{1}{4}
+          \begin{pNiceMatrix}
+            1\\
+            0
+          \end{pNiceMatrix}
+        \begin{pNiceMatrix}
+          1 & 0
+        \end{pNiceMatrix}
+        + \frac{3}{4}
+        \begin{pNiceMatrix}
+          0\\
+          1
+        \end{pNiceMatrix}
+        \begin{pNiceMatrix}
+          0 & 1
+        \end{pNiceMatrix}
+        =
+          \begin{pNiceMatrix}
+            1/4 & 0\\
+            0 & 3/4
+          \end{pNiceMatrix}
+      \end{align*}
+
+      La matriz densidad es diagonal, por lo que se puede calcular
+      fácilmente el logaritmo de la matriz, multiplicarlo por la matriz
+      densidad, hallar la traza y calcular su entropía
+      \[
+        S
+        = -\Tr(\mmmg{\rho}\ln\mmmg{\rho})
+        = -\frac{1}{4}\ln\frac{1}{4} - \frac{3}{4}\ln\frac{3}{4}
+        = 0,5623\cdots
+      \]
+    \end{itemize}
+
+  \item Un ejemplo de mezcla de estados no ortogonales consiste en el
+    lanzamiento de un dado, el primer estado es que salga un dos
+    y el otro que salga un número par. Obviamente los dos estados no
+    son disjuntos, por lo que no se puede utilizar la fórmula básica.
+
+    La probabilidad de que salga un dos es $1/6$, mientras
+    la de que salga un número par es $3/6 = 1/2$.
+    El estado mezcla sería algo así
+    \[
+      \begin{array}{lll}
+        \ket{\psi_1} && w_1 = 1/6\\[4pt]
+        \ket{\psi_2} && w_2 = 1/2\\
+      \end{array}
+    \]
+    
+    Los vectores normalizados implicados son
+    {\small
+      \[
+        \ket{\psi_1}
+        = \begin{pNiceMatrix}
+          0\\
+          1\\
+          0\\
+          0\\
+          0\\
+          0
+        \end{pNiceMatrix}
+        \hspace{1.5em}\text{y}\hspace{1.5em}
+        \ket{\psi_2}
+        = \frac{1}{\sqrt{3}}
+        \begin{pNiceMatrix}
+          0\\
+          1\\
+          0\\
+          1\\
+          0\\
+          1
+        \end{pNiceMatrix}      
+      \]
+    }
+    
+    Construimos la matriz densidad de los estados individuales
+    {\small
+      \begin{align*}
+        \mmmg{\rho_1}
+        &=
+          \ket{\psi_1}\bra{\psi_1}
+          = \begin{pNiceMatrix}
+            0\\
+            1\\
+            0\\
+            0\\
+            0\\
+            0
+          \end{pNiceMatrix}
+        \begin{pNiceMatrix}
+          0 & 1 & 0 & 0 & 0 & 0
+        \end{pNiceMatrix}
+      = \begin{pNiceMatrix}
+        0 & 0 & 0 & 0 & 0 & 0\\
+        0 & 1 & 0 & 0 & 0 & 0\\
+        0 & 0 & 0 & 0 & 0 & 0\\
+        0 & 0 & 0 & 0 & 0 & 0\\
+        0 & 0 & 0 & 0 & 0 & 0\\
+        0 & 0 & 0 & 0 & 0 & 0
+      \end{pNiceMatrix}\\
+        \mmmg{\rho_2}
+        &=
+          \ket{\psi_2}\bra{\psi_2}
+          = \frac{1}{\sqrt{3}}
+          \begin{pNiceMatrix}
+            0\\
+            1\\
+            0\\
+            1\\
+            0\\
+            1
+          \end{pNiceMatrix}
+        \frac{1}{\sqrt{3}}
+        \begin{pNiceMatrix}
+          0 & 1 & 0 & 1 & 0 & 1
+        \end{pNiceMatrix}
+        = \frac{1}{3}
+        \begin{pNiceMatrix}
+          0 & 0 & 0 & 0 & 0 & 0\\
+          0 & 1 & 0 & 1 & 0 & 1\\
+          0 & 0 & 0 & 0 & 0 & 0\\
+          0 & 1 & 0 & 1 & 0 & 1\\
+          0 & 0 & 0 & 0 & 0 & 0\\
+          0 & 1 & 0 & 1 & 0 & 1
+        \end{pNiceMatrix}                      
+      \end{align*}
+    }
+    
+    La matriz densidad del estado mezcla sería
+    {\small
+      \begin{align*}
+        \mmmg{\rho}
+        &=
+          w_0\mmmg{\rho_1} + w_1\mmmg{\rho_2}
+          = \frac{1}{6}\mmmg{\rho_1} + \frac{1}{2}\mmmg{\rho_2}\\
+        &=
+          \frac{1}{6}
+          \begin{pNiceMatrix}
+            0 & 0 & 0 & 0 & 0 & 0\\
+            0 & 1 & 0 & 0 & 0 & 0\\
+            0 & 0 & 0 & 0 & 0 & 0\\
+            0 & 0 & 0 & 0 & 0 & 0\\
+            0 & 0 & 0 & 0 & 0 & 0\\
+            0 & 0 & 0 & 0 & 0 & 0
+          \end{pNiceMatrix}
+        + \frac{1}{2}\cdot\frac{1}{3}
+        \begin{pNiceMatrix}
+          0 & 0 & 0 & 0 & 0 & 0\\
+          0 & 1 & 0 & 1 & 0 & 1\\
+          0 & 0 & 0 & 0 & 0 & 0\\
+          0 & 1 & 0 & 1 & 0 & 1\\
+          0 & 0 & 0 & 0 & 0 & 0\\
+          0 & 1 & 0 & 1 & 0 & 1
+        \end{pNiceMatrix}\\
+        &= \frac{1}{6}
+          \begin{pNiceMatrix}
+            0 & 0 & 0 & 0 & 0 & 0\\
+            0 & 2 & 0 & 1 & 0 & 1\\
+            0 & 0 & 0 & 0 & 0 & 0\\
+            0 & 1 & 0 & 1 & 0 & 1\\
+            0 & 0 & 0 & 0 & 0 & 0\\
+            0 & 1 & 0 & 1 & 0 & 1
+          \end{pNiceMatrix}
+      \end{align*}
+    }
+    
+    Los valores propios son
+    \[
+      \lambda_1 = \frac{2-\sqrt{2}}{6}
+      ;\hspace{.25em} \lambda_2 = \frac{2+\sqrt{2}}{6}
+      ;\hspace{.25em} \lambda_3 = \lambda_4 = \lambda_5 = \lambda_6 = 0
+    \]
+    
+    Por tanto, la entropía sería
+    \begin{align*}
+      S
+      &=
+      -\Tr(\mmmg{\rho}\ln\mmmg{\rho})
+      = -\sum_{i=1}^6 \lambda_i \ln\lambda_i\\
+      &= - \frac{2-\sqrt{2}}{6}\ln\frac{2-\sqrt{2}}{6}
+        - \frac{2+\sqrt{2}}{6}\ln\frac{2+\sqrt{2}}{6}
+        + 0 + 0 + 0 + 0\\
+      &=
+        0,54797\cdots
+    \end{align*}
+
+    Obsérvese que si hubiéramos realizado el cálculo incorrecto, hubiera
+    dado un resultado mayor
+    \[
+      -w_1\ln w_1 - w_2\ln w_2
+      = -\frac{1}{6} \ln\frac{1}{6} - \frac{1}{2}\ln\frac{1}{2}
+      = 0,57762\cdots
+    \]
+    
+    En la sección~\ref{sect:apcua-estadomezcla-dado} del
+    apéndice~\ref{chapt:apcua-matriz-densidad-codigo} se lista el código
+    para calcular los valores de este ejemplo.
+\end{enumerate}
+
+
+
+%%% Local Variables:
+%%% coding: utf-8
+%%% mode: latex
+%%% TeX-engine: luatex
+%%% TeX-master: "../cuarentena.tex"
+%%% End:
+

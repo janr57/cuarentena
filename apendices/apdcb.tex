@@ -1,0 +1,289 @@
+% apendiceA.tex
+%
+% Copyright (C) 2022 José A. Navarro Ramón <janr.devel@gmail.com>
+% 1) Código LuaLatex:
+%    Licencia GPL-2.
+% 2) Producto en pdf, postscript, etc.:
+%    Licencia Creative Commons Recognition Share alike. (CC-BY-SA)
+
+\chapter{Matriz densidad: Código fuente}
+\label{chapt:apcua-matriz-densidad-codigo}
+
+\section{Estado mezcla: lanzamiento de dado}
+\label{sect:apcua-estadomezcla-dado}
+
+\subsection{Código de \texttt{maxima}:
+  fichero './soft/dado-dos-par.wxmx'.}
+\label{subsect:apcua-estadomezcla-dado-maxima}
+
+El siguiente código se encuentra en el fichero './soft/dado-dos-par.wxmx'
+% \lstset{maxima}
+%\begin{tcblisting}{listing only, listing options={language=python}, title=Titulo}
+%  /* Carga de módulos */
+%  load("eigen")$
+%  load("nchrpl")$
+%
+%  /* Función que construye la matriz densidad diagonalizada */
+%  matdiagonalizada(matriz, EVs) := block(
+%     [i, n, mtrzdiag, es, ms],
+%     i: 1; n: length(matriz), mtrzdiag: zeromatrix(n,n),
+%     es: EVs[1][1], ms: EVs[1][2],
+%     for is: 1 thru length(ms) do
+%        for c: 1 thru ms[is] do (
+%           mtrzdiag[i,i]: es[is], i: i + 1
+%        ),
+%     mtrzdiag
+%  )$
+%     
+%  /* Vectores de estado |2> y |p> */
+%  v2: matrix([0],[1],[0],[0],[0],[0])$
+%  vp: matrix([0],[1],[0],[1],[0],[1])$
+%  vp: unitvector(vp)$
+%   
+%  /* Producto escalar no nulo: vectores no ortogonales */
+%  v2 . vp;
+% 
+%  /* Matrices densidad de los estados puros y de la mezcla.
+%     Rango de la matriz densidad:
+%       - Igual a uno:   estado puro.
+%       - Mayor que uno: estado mezcla. */
+%  rho1: v2 . conjugate(transpose(v2))$
+%  rho2: vp . conjugate(transpose(vp))$
+%  rho: 1/6 * rho1 + 1/2 * rho2$ rank(rho);
+% 
+%/* Matriz diagonalizada */
+%  EVs: uniteigenvectors(rho)$
+%  D: matdiagonalizada(rho, EVs)$
+% 
+% /* Entropía (S)
+%     es:   lista de autovalores.
+%     nums: lista de autovalores distintos de cero. */
+%  es: EVS[1][1]$
+%  nums: delete(0, es)$
+%  S: - apply("+", nums * log(nums))$
+%  float(s);
+%\end{tcblisting}
+
+\vbox{
+}
+\begin{tcblisting}{%
+   colback=yellow!10,colframe=black!50,left=1.8em,listing only,
+   hbox,enhanced, drop fuzzy shadow,
+   listing options={%
+     language=c,
+     numbers=left,
+     numberstyle=\scriptsize\color{red!50},
+     basicstyle=\footnotesize,
+   },
+   every listing line={\ttfamily}
+ }
+ /* Carga de módulos */
+ load("eigen")$ load("nchrpl")$
+
+ /* Función que construye la matriz densidad diagonalizada */
+ matdiagonalizada(matriz, EVs) := block(
+    [i, n, mtrzdiag, es, ms],
+    i: 1; n: length(matriz), mtrzdiag: zeromatrix(n,n),
+    es: EVs[1][1], ms: EVs[1][2],
+    for is: 1 thru length(ms) do
+       for c: 1 thru ms[is] do (
+          mtrzdiag[i,i]: es[is], i: i + 1
+       ),
+       mtrzdiag
+ )$
+ 
+ /* Vectores de estado |2> y |p> */
+ v2: matrix([0],[1],[0],[0],[0],[0])$
+ vp: matrix([0],[1],[0],[1],[0],[1])$
+ vp: unitvector(vp)$
+
+ /* Producto escalar no nulo: vectores no ortogonales */
+ v2 . vp;
+
+ /* Matrices densidad de los estados puros y de la mezcla.
+    Rango de la matriz densidad:
+      - Igual a uno:   estado puro.
+      - Mayor que uno: estado mezcla. */
+ rho1: v2 . conjugate(transpose(v2))$
+ rho2: vp . conjugate(transpose(vp))$
+ rho: 1/6 * rho1 + 1/2 * rho2$ rank(rho);
+
+ /* Matriz diagonalizada */
+ EVs: uniteigenvectors(rho)$
+ D: matdiagonalizada(rho, EVs)$
+ 
+ /* Entropía (S)
+    es:   lista de autovalores.
+    nums: lista de autovalores distintos de cero. */
+ es: EVS[1][1]$
+ nums: delete(0, es)$
+ S: - apply("+", nums * log(nums))$
+ float(s);
+\end{tcblisting}
+
+%\begin{tcblisting}{%
+%    colback=yellow!10,colframe=black!50,left=1.8em,listing only,
+%    hbox,enhanced, drop fuzzy shadow, breakable,
+%    listing options={%
+%      language=c,
+%      numbers=left,
+%      numberstyle=\scriptsize\color{red!50},
+%      basicstyle=\footnotesize,
+%    },
+%    every listing line={\ttfamily}
+%  }
+%  /* Carga de módulos */
+%  load("eigen")$ load("nchrpl")$
+%%
+%  /* Función que construye la matriz densidad diagonalizada */
+%  matdiagonalizada(matriz, EVs) := block(
+%     [i, n, mtrzdiag, es, ms],
+%     i: 1; n: length(matriz), mtrzdiag: zeromatrix(n,n),
+%     es: EVs[1][1], ms: EVs[1][2],
+%     for is: 1 thru length(ms) do
+%        for c: 1 thru ms[is] do (
+%           mtrzdiag[i,i]: es[is], i: i + 1
+%        ),
+%     mtrzdiag
+%  )$
+%%     
+%  /* Vectores de estado |2> y |p> */
+%  v2: matrix([0],[1],[0],[0],[0],[0])$
+%  vp: matrix([0],[1],[0],[1],[0],[1])$
+%  vp: unitvector(vp)$
+%%   
+%  /* Producto escalar no nulo: vectores no ortogonales */
+%  v2 . vp;
+%% 
+%  /* Matrices densidad de los estados puros y de la mezcla.
+%     Rango de la matriz densidad:
+%       - Igual a uno:   estado puro.
+%       - Mayor que uno: estado mezcla. */
+%  rho1: v2 . conjugate(transpose(v2))$
+%  rho2: vp . conjugate(transpose(vp))$
+%  rho: 1/6 * rho1 + 1/2 * rho2$ rank(rho);
+%% 
+%%/* Matriz diagonalizada */
+%%  EVs: uniteigenvectors(rho)$
+%%  D: matdiagonalizada(rho, EVs)$
+%% 
+%% /* Entropía (S)
+%%     es:   lista de autovalores.
+%%     nums: lista de autovalores distintos de cero. */
+%%  es: EVS[1][1]$
+%%  nums: delete(0, es)$
+%%  S: - apply("+", nums * log(nums))$
+%%  float(s);
+%\end{tcblisting}
+
+%\begin{tcblisting}{%
+%   colback=yellow!10,colframe=black!50,left=1.8em,listing only,
+%   hbox,enhanced, drop fuzzy shadow, breakable,
+%   listing options={%
+%     language=c,
+%     numbers=left,
+%     numberstyle=\scriptsize\color{red!50},
+%     basicstyle=\footnotesize,
+%   },
+%   every listing line={\ttfamily}
+% }
+% /* Carga de módulos */
+% load("eigen")$ load("nchrpl")$
+%
+% /* Función que construye la matriz densidad diagonalizada */
+% matdiagonalizada(matriz, EVs) := block(
+%    [i, n, mtrzdiag, es, ms],
+%    i: 1; n: length(matriz), mtrzdiag: zeromatrix(n,n),
+%    es: EVs[1][1], ms: EVs[1][2],
+%    for is: 1 thru length(ms) do
+%       for c: 1 thru ms[is] do (
+%          mtrzdiag[i,i]: es[is], i: i + 1
+%       ),
+%    mtrzdiag
+% )$
+%    
+% /* Vectores de estado |2> y |p> */
+% v2: matrix([0],[1],[0],[0],[0],[0])$
+% vp: matrix([0],[1],[0],[1],[0],[1])$
+% vp: unitvector(vp)$
+%
+% /* Producto escalar no nulo: vectores no ortogonales */
+% v2 . vp;
+%
+% /* Matrices densidad de los estados puros y de la mezcla.
+%    Rango de la matriz densidad:
+%      - Igual a uno:   estado puro.
+%      - Mayor que uno: estado mezcla. */
+% rho1: v2 . conjugate(transpose(v2))$
+% rho2: vp . conjugate(transpose(vp))$
+% rho: 1/6 * rho1 + 1/2 * rho2$ rank(rho);
+%
+% /* Matriz diagonalizada */
+% EVs: uniteigenvectors(rho)$
+% D: matdiagonalizada(rho, EVs)$
+% 
+% /* Entropía (S)
+%    es:   lista de autovalores.
+%    nums: lista de autovalores distintos de cero. */
+% es: EVS[1][1]$
+% nums: delete(0, es)$
+% S: - apply("+", nums * log(nums))$
+% float(s);
+%\end{tcblisting}
+
+\subsection{Código de \texttt{sagemath}}
+\label{subsect:apcua-estadomezcla-dado-sagemath}
+El siguiente código se encuentra en el fichero './soft/dado-dos-par.sage'
+%\lstset{maxima}
+\begin{tcblisting}{%
+   colback=yellow!10,colframe=black!50,left=1.8em,listing only,
+   hbox,enhanced, drop fuzzy shadow,
+   listing options={%
+     language=c,
+     numbers=left,
+     numberstyle=\scriptsize\color{red!50},
+     basicstyle=\footnotesize,
+   },
+   every listing line={\ttfamily}
+ }
+ # Vectores
+ v1 = vector([0,1,0,0,0,0])
+ v2 = vector([0,1,0,1,0,1])
+ v1 = (v1/v1.norm()).column()
+ v2 = (v2/v2.norm()).column()
+ # Matriz densidad
+ rho1 = v1 * v1.transpose().conjugate()
+ rho2 = v2 * v2.transpose().conjugate()
+ rho = 1/6 * rho1 + 1/2 * rho2
+ # Matriz diagonalizada: 'diag'
+ # Matriz de vectores propios: 'vect'
+ D = rho.eigenmatrix_right()
+ diag = D[0]; vect = D[1]
+ # Obtenemos la lista de valores propios.
+ # (Si fuera un proceso computacionalmente costoso,
+ # sería preferible extraer los elementos de la
+ # matriz diagonal 'D')
+ eigenvals = rho.eigenvalues()
+ S = -sum([eig*log(eig) for eig in eigenvals if eig != 0])
+ print(S.n(digits=20))
+\end{tcblisting}
+
+
+%\section{Problema con el desarrollo original de
+%  \mathinhead{ \tilde{\Psi}(\vvv{\tilde{r}})}{ddpsir}
+%en los vídeos}
+
+
+
+
+
+
+
+
+%%% Local Variables:
+%%% coding: utf-8
+%%% mode: latex
+%%% TeX-engine: luatex
+%%% TeX-master: "../cuarentena.tex"
+%%% End:
+

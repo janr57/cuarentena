@@ -4,7 +4,12 @@ FILES =	cuarentena.pkg.sty\
 	cuarentena.defs.sty\
 	portada/portada.tex\
 	tablacontenidos/tablacontenidos.tex\
-	prologo/prologo.tex
+	prologo/prologo.tex\
+	apendices/apdca.tex\
+	apendices/apdcb.tex\
+	texto/rotaciones.tex\
+	texto/spin12.tex\
+	texto/entropia-sc.tex
 
 cuarentena.pdf: cuarentena.tex $(FILES)
 

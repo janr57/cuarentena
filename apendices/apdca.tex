@@ -1,0 +1,568 @@
+% apendiceA.tex
+%
+% Copyright (C) 2022 José A. Navarro Ramón <janr.devel@gmail.com>
+% 1) Código LuaLatex:
+%    Licencia GPL-2.
+% 2) Producto en pdf, postscript, etc.:
+%    Licencia Creative Commons Recognition Share alike. (CC-BY-SA)
+
+\chapter{Vectores y valores propios de las matrices de Pauli}
+\label{chapt:apcA-eigenvalues-eigenvectors-Pauli}
+
+\section{Procedimiento para obtener vectores y valores propios}
+Supongamos la matriz genérica $\mmm{\sigma_i}$, $i=1,2,3$.
+La ecuación de autovalores y autovectores es
+\[
+  \mmm{\sigma_i} \vvv{v} = \lambda \vvv{v}
+\]
+\[
+  \mmm{\sigma_i} \vvv{v} - \lambda \mmm{I}\vvv{v} = \vvv{0}
+\]
+\begin{equation}\label{eq:apcA-eigen-general}
+  [\mmm{\sigma_i} -\lambda\mmm{I}] \vvv{v} = \vvv{0}
+\end{equation}
+
+A continuación aplicamos esta ecuación a cada matriz de Pauli.
+
+\subsection{Primera matriz de Pauli}
+\label{sect:apcA-Pauli-sigma1}
+Desarrollamos la expresión \eqref{eq:apcA-eigen-general} para la primera
+matriz de Pauli, $\mmm{\sigma_1}$
+\[
+  \left[
+  \begin{pNiceMatrix}
+    0 & 1\\
+    1 & 0
+  \end{pNiceMatrix}
+  -
+  \begin{pNiceMatrix}
+    \lambda & 0\\
+    0 & \lambda
+  \end{pNiceMatrix}
+\right]
+\begin{pNiceMatrix}
+  v_1\\
+  v_2
+\end{pNiceMatrix}
+=
+\begin{pNiceMatrix}
+  0\\
+  0
+\end{pNiceMatrix}
+\]
+\[
+  \begin{pNiceMatrix}
+    -\lambda & 1\\
+    1 & -\lambda
+  \end{pNiceMatrix}
+\begin{pNiceMatrix}
+  v_1\\
+  v_2
+\end{pNiceMatrix}
+=
+\begin{pNiceMatrix}
+  0\\
+  0
+\end{pNiceMatrix}
+\]
+\[
+  \begin{pNiceMatrix}
+    -\lambda v_1 + v_2\\
+    v_1 - \lambda v_2
+  \end{pNiceMatrix}
+  =
+\begin{pNiceMatrix}
+  0\\
+  0
+\end{pNiceMatrix}
+\]
+Tenemos dos ecuaciones con tres incógnitas
+\begin{equation}\label{eq:apcA-ecs-sigma1}
+  \left\{
+    \begin{array}{r@{}r@{}r@{}r@{}}
+      -\lambda v_1 & {} + {} & v_2 & {} = 0\\
+      v_1 & {} - {} & \lambda v_2 & {} = 0
+    \end{array}
+    \right.
+\end{equation}
+
+De la segunda ecuación despejamos $v_1 = \lambda v_2$ y sustituimos
+en la primera, obteniendo
+\[
+  -\lambda^2 v_2 = v_2
+\]
+y
+\[
+  \lambda^2 = 1
+\]
+Como resultado, tenemos dos valores propios posibles $\lambda = -1$ y
+$\lambda = +1$
+
+\begin{itemize}
+\item Si $\lambda = -1$
+
+  Sustituimos este valor de $\lambda$ en \eqref{eq:apcA-ecs-sigma1}
+  \[
+    v_1 + v_2 = 0
+  \]
+
+  Si hacemos $v_1 = N$, entonces $v_2 = -N$ y el vector $\vvv{v}$
+  \[
+    \vvv{v} =
+    \begin{pNiceMatrix}
+      N \\
+      -N
+    \end{pNiceMatrix}
+    = N
+    \begin{pNiceMatrix}
+      1\\
+      -1
+    \end{pNiceMatrix}
+  \]
+
+  Normalizando
+  \[
+    \vvv{v}
+    =
+    \frac{1}{\sqrt{2}}
+    \begin{pNiceMatrix}
+      1\\
+      -1
+    \end{pNiceMatrix}
+  \]
+  
+  \item Si $\lambda = +1$
+
+  Sustituimos este valor de $\lambda$ en \eqref{eq:apcA-ecs-sigma1}
+  \[
+   -v_1 + v_2 = 0
+  \]
+
+  Si hacemos $v_1 = N$, entonces $v_2 = N$ y el vector $\vvv{v}$
+  \[
+    \vvv{v} =
+    \begin{pNiceMatrix}
+      N \\
+      N
+    \end{pNiceMatrix}
+    = N
+    \begin{pNiceMatrix}
+      1\\
+      1
+    \end{pNiceMatrix}
+  \]
+
+  Si normalizamos
+  \[
+    \vvv{v}
+    =
+    \frac{1}{\sqrt{2}}
+    \begin{pNiceMatrix}
+      1\\
+      1
+    \end{pNiceMatrix}
+  \]
+
+\end{itemize}
+
+Las dos soluciones son (sin normalización)
+\[
+  \begin{pNiceMatrix}
+    0 & 1\\
+    1 & 0
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    1\\
+    -1
+  \end{pNiceMatrix}
+  = -1
+  \begin{pNiceMatrix}
+    1\\
+    -1
+  \end{pNiceMatrix}
+\]
+\[
+  \begin{pNiceMatrix}
+    0 & 1\\
+    1 & 0
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    1\\
+    1
+  \end{pNiceMatrix}
+  = +1
+  \begin{pNiceMatrix}
+    1\\
+    1
+  \end{pNiceMatrix}
+\]
+
+\subsection{Segunda matriz de Pauli}
+\label{sect:apcA-Pauli-sigma2}
+Desarrollamos la expresión \eqref{eq:apcA-eigen-general} para la segunda
+matriz de Pauli, $\mmm{\sigma_2}$
+\[
+  \left[
+  \begin{pNiceMatrix}
+    0 & -i\\
+    i & 0
+  \end{pNiceMatrix}
+  -
+  \begin{pNiceMatrix}
+    \lambda & 0\\
+    0 & \lambda
+  \end{pNiceMatrix}
+\right]
+\begin{pNiceMatrix}
+  v_1\\
+  v_2
+\end{pNiceMatrix}
+=
+\begin{pNiceMatrix}
+  0\\
+  0
+\end{pNiceMatrix}
+\]
+\[
+  \begin{pNiceMatrix}
+    -\lambda & -i\\
+    i & -\lambda
+  \end{pNiceMatrix}
+\begin{pNiceMatrix}
+  v_1\\
+  v_2
+\end{pNiceMatrix}
+=
+\begin{pNiceMatrix}
+  0\\
+  0
+\end{pNiceMatrix}
+\]
+\[
+  \begin{pNiceMatrix}
+    -\lambda v_1 -i v_2\\
+    iv_1 - \lambda v_2
+  \end{pNiceMatrix}
+  =
+\begin{pNiceMatrix}
+  0\\
+  0
+\end{pNiceMatrix}
+\]
+Tenemos dos ecuaciones con tres incógnitas
+\begin{equation}\label{eq:apcA-ecs-sigma2}
+  \left\{
+    \begin{array}{r@{}r@{}r@{}r@{}}
+      -\lambda v_1 & {} - {} & iv_2 & {} = 0\\
+      iv_1 & {} - {} & \lambda v_2 & {} = 0
+    \end{array}
+    \right.
+\end{equation}
+
+De la segunda ecuación despejamos $v_2 = iv_1/\lambda$ y sustituimos
+en la primera, obteniendo
+\[
+  \lambda v_1 + i(iv_1/\lambda)= 0
+\]
+\[
+  \lambda^2 v_1 - v_1 = 0
+\]
+y
+\[
+  \lambda^2 = 1
+\]
+Como resultado, tenemos dos valores propios posibles $\lambda = -1$ y
+$\lambda = +1$
+
+\begin{itemize}
+\item Si $\lambda = -1$
+
+  Sustituimos este valor de $\lambda$ en \eqref{eq:apcA-ecs-sigma1}
+  \[
+    v_1 = iv_2
+  \]
+
+  Si hacemos $v_2 = N$, entonces $v_1 = iN$ y el vector $\vvv{v}$
+  \[
+    \vvv{v} =
+    \begin{pNiceMatrix}
+      iN \\
+      N
+    \end{pNiceMatrix}
+    = N
+    \begin{pNiceMatrix}
+      i\\
+      1
+    \end{pNiceMatrix}
+  \]
+
+  
+  Normalizando
+  \[
+    \vvv{v}
+    =
+    \frac{1}{\sqrt{2}}
+    \begin{pNiceMatrix}
+      i\\
+      1
+    \end{pNiceMatrix}
+  \]
+
+  \item Si $\lambda = +1$
+
+  Sustituimos este valor de $\lambda$ en \eqref{eq:apcA-ecs-sigma1}
+  \[
+   v_2 = iv_1
+  \]
+
+  Si hacemos $v_1 = N$, entonces $v_2 = iN$ y el vector $\vvv{v}$
+  \[
+    \vvv{v} =
+    \begin{pNiceMatrix}
+      N \\
+      iN
+    \end{pNiceMatrix}
+    = N
+    \begin{pNiceMatrix}
+      1\\
+      i
+    \end{pNiceMatrix}
+  \]
+
+  Si normalizamos
+  \[
+    \vvv{v}
+    =
+    \frac{1}{\sqrt{2}}
+    \begin{pNiceMatrix}
+      1\\
+      i
+    \end{pNiceMatrix}
+  \]
+
+\end{itemize}
+
+Las dos soluciones son (sin normalización)
+\[
+  \begin{pNiceMatrix}
+    0 & 1\\
+    1 & 0
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    i\\
+    1
+  \end{pNiceMatrix}
+  = -1
+  \begin{pNiceMatrix}
+    i\\
+    1
+  \end{pNiceMatrix}
+\]
+\[
+  \begin{pNiceMatrix}
+    0 & 1\\
+    1 & 0
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    1\\
+    i
+  \end{pNiceMatrix}
+  = +1
+  \begin{pNiceMatrix}
+    1\\
+    i
+  \end{pNiceMatrix}
+\]
+
+\subsection{Tercera matriz de Pauli}
+\label{sect:apcA-Pauli-sigma3}
+Desarrollamos la expresión \eqref{eq:apcA-eigen-general} para la primera
+matriz de Pauli, $\mmm{\sigma_3}$
+\[
+  \left[
+  \begin{pNiceMatrix}
+    1 & 0\\
+    0 & -1
+  \end{pNiceMatrix}
+  -
+  \begin{pNiceMatrix}
+    \lambda & 0\\
+    0 & \lambda
+  \end{pNiceMatrix}
+\right]
+\begin{pNiceMatrix}
+  v_1\\
+  v_2
+\end{pNiceMatrix}
+=
+\begin{pNiceMatrix}
+  0\\
+  0
+\end{pNiceMatrix}
+\]
+\[
+  \begin{pNiceMatrix}
+    1-\lambda & 0\\
+    0 & -1-\lambda
+  \end{pNiceMatrix}
+\begin{pNiceMatrix}
+  v_1\\
+  v_2
+\end{pNiceMatrix}
+=
+\begin{pNiceMatrix}
+  0\\
+  0
+\end{pNiceMatrix}
+\]
+\[
+  \begin{pNiceMatrix}
+    (1-\lambda) v_1 = 0\\
+    (1+\lambda) v_2 = 0
+  \end{pNiceMatrix}
+  =
+\begin{pNiceMatrix}
+  0\\
+  0
+\end{pNiceMatrix}
+\]
+Tenemos dos ecuaciones con tres incógnitas
+\begin{equation}\label{eq:apcA-ecs-sigma1}
+  \left\{
+    \begin{array}{r@{}r@{}r@{}r@{}}
+      (1-\lambda) v_1 & {}  {} &  & {} = 0\\
+       & {}  {} & (1+\lambda) v_2 & {} = 0
+    \end{array}
+    \right.
+\end{equation}
+
+De la segunda ecuación despejamos $v_1 = \lambda v_2$ y sustituimos
+en la primera, obteniendo
+\[
+  -\lambda^2 v_2 = v_2
+\]
+y
+\[
+  \lambda^2 = 1
+\]
+Como resultado, tenemos dos valores propios posibles $\lambda = -1$ y
+$\lambda = +1$
+
+\begin{itemize}
+\item Si $\lambda = -1$
+
+  Sustituimos este valor de $\lambda$ en \eqref{eq:apcA-ecs-sigma1}
+  \[
+    v_1 + v_2 = 0
+  \]
+
+  Si hacemos $v_1 = N$, entonces $v_2 = -N$ y el vector $\vvv{v}$
+  \[
+    \vvv{v} =
+    \begin{pNiceMatrix}
+      N \\
+      -N
+    \end{pNiceMatrix}
+    = N
+    \begin{pNiceMatrix}
+      1\\
+      -1
+    \end{pNiceMatrix}
+  \]
+
+  Normalizando
+  \[
+    \vvv{v}
+    =
+    \frac{1}{\sqrt{2}}
+    \begin{pNiceMatrix}
+      1\\
+      -1
+    \end{pNiceMatrix}
+  \]
+  
+  \item Si $\lambda = +1$
+
+  Sustituimos este valor de $\lambda$ en \eqref{eq:apcA-ecs-sigma1}
+  \[
+   -v_1 + v_2 = 0
+  \]
+
+  Si hacemos $v_1 = N$, entonces $v_2 = N$ y el vector $\vvv{v}$
+  \[
+    \vvv{v} =
+    \begin{pNiceMatrix}
+      N \\
+      N
+    \end{pNiceMatrix}
+    = N
+    \begin{pNiceMatrix}
+      1\\
+      1
+    \end{pNiceMatrix}
+  \]
+
+  Si normalizamos
+  \[
+    \vvv{v}
+    =
+    \frac{1}{\sqrt{2}}
+    \begin{pNiceMatrix}
+      1\\
+      1
+    \end{pNiceMatrix}
+  \]
+
+\end{itemize}
+
+Las dos soluciones son (sin normalización)
+\[
+  \begin{pNiceMatrix}
+    0 & 1\\
+    1 & 0
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    1\\
+    -1
+  \end{pNiceMatrix}
+  = -1
+  \begin{pNiceMatrix}
+    1\\
+    -1
+  \end{pNiceMatrix}
+\]
+\[
+  \begin{pNiceMatrix}
+    0 & 1\\
+    1 & 0
+  \end{pNiceMatrix}
+  \begin{pNiceMatrix}
+    1\\
+    1
+  \end{pNiceMatrix}
+  = +1
+  \begin{pNiceMatrix}
+    1\\
+    1
+  \end{pNiceMatrix}
+\]
+
+
+%\section{Problema con el desarrollo original de
+%  \mathinhead{ \tilde{\Psi}(\vvv{\tilde{r}})}{ddpsir}
+%en los vídeos}
+
+
+
+
+
+
+
+
+%%% Local Variables:
+%%% coding: utf-8
+%%% mode: latex
+%%% TeX-engine: luatex
+%%% TeX-master: "../cuarentena.tex"
+%%% End:
+
