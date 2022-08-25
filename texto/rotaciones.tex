@@ -19,14 +19,24 @@ $\theta=0$
 \begin{align*} 
   e^{i\theta}
   &=
-    1
-    + i\theta
+    \frac{(i\theta)^0}{0!}
+    + \frac{(i\theta)^1}{1!}
     + \frac{(i\theta)^2}{2!}
     + \frac{(i\theta)^3}{3!}
     + \frac{(i\theta)^4}{4!}
     + \frac{(i\theta)^5}{5!}
     + \frac{(i\theta)^6}{6!}
     + \frac{(i\theta)^7}{7!}
+    + \cdots\\
+  &=
+    1
+    + i\theta
+    - \frac{\theta^2}{2!}
+    - i\,\frac{\theta^3}{3!}
+    + \frac{\theta^4}{4!}
+    + i\,\frac{\theta^5}{5!}
+    - \frac{\theta^6}{6!}
+    - i\,\frac{\theta^7}{7!}
     + \cdots\\
   &=
     \left(
@@ -46,9 +56,9 @@ En esta sección veremos que para rotar un número complejo $z\in\symbb{C}$,
 hay que multiplicarlo por otro de módulo unidad
 $w\in\symbb{C}$, $|w|=1$, que en forma exponencial sería
 $w=e^{i\theta}$
-\[
+\begin{equation}\label{eq:rot-rotacion-complejo}
   z' = w z = e^{i\theta} z
-\]
+\end{equation}
 
 Se puede intuir esta propiedad expresando el complejo $z$ en forma
 exponencial, con módulo $r$ y argumento $\alpha$,
@@ -255,6 +265,18 @@ Escribimos la rotación activa\footnotemark{} anterior en forma matricial
   \end{pNiceMatrix}
 \]
 
+Si comparamos la ecuación anterior con \eqref{eq:rot-rotacion-complejo}
+llegamos a la conclusión de que $e^{i\theta}$ se puede expresar en forma
+matricial
+\begin{equation}\label{eq:rot-complejos-matriz}
+  e^{i\theta}
+  =
+  \begin{pNiceMatrix}
+    \cos\theta & -\sin\theta\\
+    \sin\theta & \cos\theta
+  \end{pNiceMatrix}
+\end{equation}
+
 ¿Por qué $e^{i\theta}$ describe una rotación?
 La clave radica en que el módulo de $i$ vale la unidad
 \begin{equation}\label{eq:rot-modi}
@@ -356,7 +378,21 @@ sección~\ref{sect:rot-taylor}
     + \cdots
     \right)\mmm{A}
 \end{align*}
-y obtenemos una relación que se comparara con la identidad de
+donde hemos calculado y generalizado las potencias de la matriz $\mmm{A}$
+\begin{align*}
+  \mmm{A}^3
+  &= \mmm{A}^2 \mmm{A} = -\mmm{I} \mmm{A} = -\mmm{A}\\
+  \mmm{A}^4
+  &= \mmm{A}^2 \mmm{A}^2 = -\mmm{I} (-\mmm{I}) = \mmm{I}\\
+  \mmm{A}^5
+  &= \mmm{A}^4 \mmm{A} = \mmm{I} \mmm{A} = \mmm{A}\\
+  \mmm{A}^6
+  &= \mmm{A}^5 \mmm{A} = \mmm{A} \mmm{A} = \mmm{A}^2 = -\mmm{I}\\
+  \mmm{A}^7
+  &= \mmm{A}^6 \mmm{A} = -\mmm{I} \mmm{A} = -\mmm{A}\\
+  \cdots
+\end{align*}
+de manera que obtenemos una relación que se comparara con la identidad de
 Euler~\eqref{eq:rot-Euler}
 \begin{equation}\label{eq:rot-ethetaA-abr}
   e^{\theta\!\mmm{A}}
@@ -390,17 +426,18 @@ Desarrollamos las matrices $\mmm{A}$ e $\mmm{I}$ en la expresión
 \]
 
 Al final obtenemos
-\begin{equation}\label{eq:rot-ethetaA}
+\begin{equation}\label{eq:rot-vectores-matriz}
   e^{\theta\!\mmm{A}}
   = \begin{pNiceMatrix}
     \cos\theta & -\sin\theta\\
     \sin\theta & \cos\theta
   \end{pNiceMatrix}
 \end{equation}
-y llegamos a la conclusión de que ambas exponenciales describen una
+y llegamos a la conclusión de que ambas exponenciales,
+\eqref{eq:rot-complejos-matriz} y \eqref{eq:rot-vectores-matriz} describen una
 rotación en dos dimensiones. Una de ellas, $e^{i\theta}$, rota números
-complejos en el plano complejo y la otra, $e^{\theta\!\mmm{A}}$, vectores en el
-plano euclídeo $\symbb{R}^2$
+complejos en el plano complejo y la otra, $e^{\theta\!\mmm{A}}$, vectores de dos
+dimensiones en el plano euclídeo $\symbb{R}^2$
 \[
   e^{\theta\!\mmm{A}} = e^{i\theta}
   = \begin{pNiceMatrix}
@@ -673,7 +710,9 @@ Calculamos el cuadrado de las componentes del vector transformado
 \end{align*}
 
 Si sumáramos $(x')^2 + (y')^2$ no nos daría un invariante porque
-el resultado dependería del parámetro $\eta$.
+el resultado dependería del parámetro $\eta$, de manera que
+$e^{\eta\mmm{B}}$ no describe una rotación, como la de las secciones
+anteriores (rotación en un espacio euclídeo).
 
 Si los restamos sí obtendríamos un invariante
 \begin{align*}
@@ -686,6 +725,9 @@ Si los restamos sí obtendríamos un invariante
 \end{align*}
 porque el resultado solo depende de las componentes del vector original $(x,y)$
 y no del parámetro $\eta$.
+Este \emph{tipo de rotación} no se da en un espacio euclídeo, sino en otro
+tipo de espacio. Representa una transformación de Lorentz que tiene lugar en
+relatividad especial.
 
 Como conclusión de este capítulo vemos que:
 \begin{itemize}
