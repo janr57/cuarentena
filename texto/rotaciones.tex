@@ -6,7 +6,6 @@
 % 2) Producto en pdf, postscript, etc.:
 %    Licencia Creative Commons Recognition Share alike. (CC-BY-SA)
 
-
 \chapter{Rotaciones}
 
 \section{Fórmula de Euler}\label{sect:rot-taylor}
@@ -61,18 +60,45 @@ $w=e^{i\theta}$
 \end{equation}
 
 Se puede intuir esta propiedad expresando el complejo $z$ en forma
-exponencial, con módulo $r$ y argumento $\alpha$,
+exponencial, con módulo $|z| = r$ y argumento $\alpha$,
 $z=e^{i\alpha}$ (ver figuras~\ref{fig:rot-z} y~\ref{fig:rot-z-rotado}),
-lo que también permite  deducir que el módulo $r$ del complejo $z$
-se conserva en la rotación
 \begin{equation}\label{eq:rot-moduloconservado}
   z' = e^{i\theta} z
-  = e^{i\theta} re^{i\alpha}
+  = e^{i\theta} \,re^{i\alpha}
   = r e^{i(\alpha+\theta)}
 \end{equation}
+Sabemos además, que en toda rotación hay un invariante (una magnitud que se
+conserva). En el caso de la rotación en el plano complejo se conserva el módulo
+del complejo. Esto se puede comprobar en \eqref{eq:rot-moduloconservado},
+pues $|z'| = |z| = r$.
 
-Lo anterior permite deducir también que el módulo $r$ del complejo $z$ se
-conserva en la rotación.
+Vamos a volver a demostrar esta propiedad de una forma algo más elaborada,
+calculando el módulo de un complejo genérico expresado como parte real e
+imaginaria, $z = x + iy$
+\[
+  |z|^2 = z^* z = (x+iy)^* (x+iy) = (x-iy) (x+iy) = x^2 + y^2
+\]
+
+Y vemos que es el mismo que el del complejo rotado mediante $e^{i\theta}$,
+calculado en~\eqref{eq:rot-modulo-z'},
+$z'=(x\cos\theta-y\sin\theta) + i(x\sin\theta + y\cos\theta)$
+{\small
+\begin{align*}
+  |z'|^2
+  &= (z')^{*} z'\\
+  &=
+    \left[(x\cos\theta - y\sin\theta) - i(x\sin\theta + y\cos\theta)\right]
+    \left[(x\cos\theta - y\sin\theta) + i(x\sin\theta + y\cos\theta)\right]\\
+  &=
+    x^2\cos^2\theta + y^2\sin^2\theta - \cancelout{2xy\sin\theta\cos\theta}
+    +x^2\sin^2\theta + y^2\cos^2\theta + \cancelout{2xy\sin\theta\cos\theta}\\
+  &=
+    x^2 (\sin^2\theta + \cos^2\theta) + y^2 (\sin^2\theta + \cos^2\theta)
+  =
+    x^2 + y^2
+\end{align*}
+}
+
 \begin{figure}[ht]
   \centering
   \begin{minipage}{0.40\linewidth}
@@ -139,7 +165,7 @@ conserva en la rotación.
         \node [background, fit= (O) (letraejex) (letraejey)] {};
       \end{scope}
     \end{tikzpicture}
-    \caption{Número complejo $z$ de módulo $r$ y argumento $\alpha$ en el
+    \caption{Número complejo $z$ de módulo $|z| = r$ y argumento $\alpha$ en el
       plano complejo.}
     \label{fig:rot-z}
   \end{minipage}
@@ -222,13 +248,14 @@ conserva en la rotación.
       \end{scope}
     \end{tikzpicture}
     \caption{Vector $z=re^{i\alpha}$ rotado un ángulo $\theta$ al
-      multiplicarlo por $e^{i\theta}$. Obsérvese que el módulo $r$ se
+      multiplicarlo por $e^{i\theta}$. Obsérvese que el módulo $|z| = r$ se
       mantiene constante.}
     \label{fig:rot-z-rotado}
   \end{minipage}
 \end{figure}
 
-Ahora escribimos el complejo con su parte real e imaginaria, $z=x+iy$
+Ahora volvemos a escribir el complejo con su parte real e imaginaria, $z=x+iy$
+y le aplicamos una rotación
 \[
   x'+iy'
   = e^{i\theta} (x+iy)
@@ -239,6 +266,7 @@ Ahora escribimos el complejo con su parte real e imaginaria, $z=x+iy$
    = (x\cos\theta - y\sin\theta) + i (x\sin\theta + y\cos\theta)
 \end{equation}
 
+Obtenemos la parte real e imaginaria del complejo rotado
 \begin{align*}
   x' &= x\cos\theta - y\sin\theta\\
   y' &= x\sin\theta + y\cos\theta
@@ -446,39 +474,10 @@ dimensiones en el plano euclídeo $\symbb{R}^2$
   \end{pNiceMatrix}
 \]
 
-Sabemos que en toda rotación hay un invariante (una magnitud que se conserva).
-En el caso de la rotación en el plano complejo, vimos que se conservaba
-el módulo del complejo, ver~\eqref{eq:rot-moduloconservado}
-\[
-  |z'| = |z| 
-\]
-
-Esta propiedad la vamos a demostrar a continuación de otra forma.
-Calculamos el módulo de un complejo genérico $z = x + iy$
-\[
-  |z|^2 = z^* z = (x-iy) (x+iy) = x^2 + y^2
-\]
-
-Y vemos que es el mismo que el del complejo rotado mediante $e^{i\theta}$,
-calculado en~\eqref{eq:rot-modulo-z'},
-$z'=(x\cos\theta-y\sin\theta) + i(x\sin\theta + y\cos\theta)$
-{\small
-\begin{align*}
-  |z'|^2
-  &= (z')^{*} z'\\
-  &=
-    \left[(x\cos\theta - y\sin\theta) - i(x\sin\theta + y\cos\theta)\right]
-    \left[(x\cos\theta - y\sin\theta) + i(x\sin\theta + y\cos\theta)\right]\\
-  &=
-    x^2\cos^2\theta + y^2\sin^2\theta - \cancelout{2xy\sin\theta\cos\theta}
-    +x^2\sin^2\theta + y^2\cos^2\theta + \cancelout{2xy\sin\theta\cos\theta}\\
-  &=
-    x^2 (\sin^2\theta + \cos^2\theta) + y^2 (\sin^2\theta + \cos^2\theta)
-  =
-    x^2 + y^2
-\end{align*}
-}
-
+Ya dijimos anteriormente que en toda rotación hay un invariante (una magnitud
+que se conserva).
+En el caso de la rotación en el plano complejo, vimos que se conservaba,
+$|z'| = |z|$.
 De forma similar, se puede demostrar que el módulo de un vector se mantiene
 invariante cuando se rota mediante la exponencial $\exp\{\theta\mmm{A}\}$
 de la matriz antisimétrica $\mmm{A}$.
