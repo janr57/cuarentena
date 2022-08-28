@@ -371,7 +371,8 @@ con~\eqref{eq:rot-i2}
 \end{equation}
 
 Lo anterior nos sugiere poder representar una rotación de algún tipo mediante
-$e^{\theta\!\mmm{A}}$.
+$e^{\theta\!\mmm{A}}$ de forma parecida a la rotación de complejos
+\eqref{eq:rot-complejos-matriz}.
 Por tanto, desarrollamos $e^{\theta\!\mmm{A}}$ en serie de potencias en un
 entorno de $\theta = 0$, tal y como hicimos en la
 sección~\ref{sect:rot-taylor}
@@ -407,28 +408,41 @@ sección~\ref{sect:rot-taylor}
     \right)\mmm{A}
 \end{align*}
 donde hemos calculado y generalizado las potencias de la matriz $\mmm{A}$
-\begin{align*}
-  \mmm{A}^3
-  &= \mmm{A}^2 \mmm{A} = -\mmm{I} \mmm{A} = -\mmm{A}\\
-  \mmm{A}^4
-  &= \mmm{A}^2 \mmm{A}^2 = -\mmm{I} (-\mmm{I}) = \mmm{I}\\
-  \mmm{A}^5
-  &= \mmm{A}^4 \mmm{A} = \mmm{I} \mmm{A} = \mmm{A}\\
-  \mmm{A}^6
-  &= \mmm{A}^5 \mmm{A} = \mmm{A} \mmm{A} = \mmm{A}^2 = -\mmm{I}\\
-  \mmm{A}^7
-  &= \mmm{A}^6 \mmm{A} = -\mmm{I} \mmm{A} = -\mmm{A}\\
-  \cdots
-\end{align*}
-de manera que obtenemos una relación que se comparara con la identidad de
+\begin{multicols}{2}
+  \noindent
+  \begin{align*}
+    \mmm{A}^0
+    &= \mmm{I}\\
+    \mmm{A}^1
+    &= \mmm{A}\\
+    \mmm{A}^2
+    &= \mmm{A}^2 = -\mmm{I}\\
+    \mmm{A}^3
+    &= \mmm{A}^2 \mmm{A} = -\mmm{I} \mmm{A} = -\mmm{A}\\
+    \mmm{A}^4
+    &= \mmm{A}^2 \mmm{A}^2 = -\mmm{I} (-\mmm{I}) = \mmm{I}\\
+  \end{align*}
+  \begin{align*}
+    \mmm{A}^5
+    &= \mmm{A}^4 \mmm{A} = \mmm{I} \mmm{A} = \mmm{A}\\
+    \mmm{A}^6
+    &= \mmm{A}^5 \mmm{A} = \mmm{A} \mmm{A} = \mmm{A}^2 = -\mmm{I}\\
+    \mmm{A}^7
+    &= \mmm{A}^6 \mmm{A} = -\mmm{I} \mmm{A} = -\mmm{A}\\
+    \mmm{A}^8
+    &= \mmm{A}^7 \mmm{A} = -\mmm{A} \mmm{A} = -\mmm{A}^2 = \mmm{I}\\
+    \cdots
+  \end{align*}
+\end{multicols}
+obteniendo una relación que se comparara con la identidad de
 Euler~\eqref{eq:rot-Euler}
 \begin{equation}\label{eq:rot-ethetaA-abr}
   e^{\theta\!\mmm{A}}
   = \mmm{I} \cos\theta + \mmm{A} \sin\theta
 \end{equation}
 
-Desarrollamos las matrices $\mmm{A}$ e $\mmm{I}$ en la expresión
-\eqref{eq:rot-ethetaA-abr}
+Para obtener la expresión matricial explícita, desarrollamos las matrices
+$\mmm{A}$ e $\mmm{I}$ en la expresión \eqref{eq:rot-ethetaA-abr}
 \[
   e^{\theta\!\mmm{A}}
   = \cos\theta
@@ -463,9 +477,9 @@ Al final obtenemos
 \end{equation}
 y llegamos a la conclusión de que ambas exponenciales,
 \eqref{eq:rot-complejos-matriz} y \eqref{eq:rot-vectores-matriz} describen una
-rotación en dos dimensiones. Una de ellas, $e^{i\theta}$, rota números
-complejos en el plano complejo y la otra, $e^{\theta\!\mmm{A}}$, vectores de dos
-dimensiones en el plano euclídeo $\symbb{R}^2$
+rotación en dos dimensiones. La primera, $e^{i\theta}$, rota números en el
+plano complejo y la otra, $e^{\theta\!\mmm{A}}$, vectores de dos dimensiones en
+el plano euclídeo $\symbb{R}^2$
 \[
   e^{\theta\!\mmm{A}} = e^{i\theta}
   = \begin{pNiceMatrix}
@@ -476,8 +490,7 @@ dimensiones en el plano euclídeo $\symbb{R}^2$
 
 Ya dijimos anteriormente que en toda rotación hay un invariante (una magnitud
 que se conserva).
-En el caso de la rotación en el plano complejo, vimos que se conservaba,
-$|z'| = |z|$.
+En el caso de la rotación en el plano complejo se conservaba $|z'| = |z|$.
 De forma similar, se puede demostrar que el módulo de un vector se mantiene
 invariante cuando se rota mediante la exponencial $\exp\{\theta\mmm{A}\}$
 de la matriz antisimétrica $\mmm{A}$.
@@ -582,7 +595,7 @@ Vamos a intentar ir un poco más allá. ¿Y si buscamos una matriz $\mmm{B}$,
 cuyo cuadrado no sea $-\mmm{I}$, sino $+\mmm{I}$?
 
 Tomamos una matriz $\mmm{B}$ simétrica, $\mmm{B}^\trasp = \mmm{B}$, cuyo
-determinante valga -1. No nos sirve la matriz unidad, porque su determinante
+determinante valga -1. No nos interesa la matriz unidad, porque su determinante
 vale +1. Hagamos
 \[
   \mmm{B}
@@ -621,7 +634,7 @@ Y comprobamos que su cuadrado vale $\mmm{I}$
 \]
 
 Ahora podríamos construir un operador de transformación como $e^{\eta\!\mmm{B}}$,
-donde $\eta\in\symbb{R}$ y la Desarrollamos en serie de Taylor alrededor $\eta=0$
+donde $\eta\in\symbb{R}$ y la desarrollamos, en serie de Taylor, alrededor $\eta=0$
 \begin{align*}
   e^{\eta\!\mmm{B}}
   &=
@@ -709,11 +722,10 @@ Calculamos el cuadrado de las componentes del vector transformado
 \end{align*}
 
 Si sumáramos $(x')^2 + (y')^2$ no nos daría un invariante porque
-el resultado dependería del parámetro $\eta$, de manera que
-$e^{\eta\mmm{B}}$ no describe una rotación, como la de las secciones
-anteriores (rotación en un espacio euclídeo).
+el resultado dependería del parámetro $\eta$ y no sería un invariante, y
+$e^{\eta\mmm{B}}$ no describiría una rotación.
 
-Si los restamos sí obtendríamos un invariante
+Si los restamos, sí obtendríamos un invariante
 \begin{align*}
   (x')^2 - (y')^2
   &=
@@ -723,7 +735,7 @@ Si los restamos sí obtendríamos un invariante
   = x^2 - y^2
 \end{align*}
 porque el resultado solo depende de las componentes del vector original $(x,y)$
-y no del parámetro $\eta$.
+y no del parámetro $\eta$. Esta invariante es el intervalo relativista.
 Este \emph{tipo de rotación} no se da en un espacio euclídeo, sino en otro
 tipo de espacio. Representa una transformación de Lorentz que tiene lugar en
 relatividad especial.
