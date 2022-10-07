@@ -6,7 +6,7 @@
 % 2) Producto en pdf, postscript, etc.:
 %    Licencia Creative Commons Recognition Share alike. (CC-BY-SA)
 
-\chapter{Spin 1/2}
+\chapter{Las matrices  de Pauli y el spin}
 El spin $S$ es \emph{un momento angular} que \emph{rota} estados cuánticos
 de spin alrededor de una cierta dirección espacial. Se trata de un observable
 mecanocuántico que \emph{vive} en nuestro mundo $\symbb{R}^3$, con tres
@@ -220,16 +220,7 @@ propiedades~\eqref{eq:spin12-sigmai-sigmai} y~\eqref{eq:spin12-sigmai-sigmaj}
 
 La propiedad se cumple si elegimos un vector unitario como
 $\xhat{n} = (n_1, n_2, n_3)$, con $|\xhat{n}|^2 = n_1^2 + n_2^2 + n_3^2 = 1$.
-Entonces
-\[
-  \mmm{A}^2
-  = (n_1\mmm{\sigma_1} + n_2\mmm{\sigma_2} + n_3\mmm{\sigma_3})^2
-  = \left(n_1^2 + n_2^2 + n_3^2\right)^2 \mmm{I}
-  = |\xhat{n}|^2 \mmm{I}
-  = \mmm{I}
-\]
-
-Además, el determinante de $\mmm{A}$ vale -1
+De manera que $\mmm{A}$ quedaría
 \[
   \mmm{A}
   = \left[%
@@ -242,6 +233,17 @@ Además, el determinante de $\mmm{A}$ vale -1
     n_1+in_2 & -n_3
     \end{pNiceMatrix}
 \]
+
+Calculamos su cuadrado
+\[
+  \mmm{A}^2
+  = (n_1\mmm{\sigma_1} + n_2\mmm{\sigma_2} + n_3\mmm{\sigma_3})^2
+  = \left(n_1^2 + n_2^2 + n_3^2\right)^2 \mmm{I}
+  = |\xhat{n}|^2 \mmm{I}
+  = \mmm{I}
+\]
+
+Además, calculamos su determinante
 \[
   \det(\mmm{A})
   = \begin{vNiceMatrix}
