@@ -14,32 +14,34 @@
 
 # Subdirectorios
 ## 'auto' folder when using emacs and auctex
-./auto/*
+auto
+auto/*
 *.el
 bak
 
-./portada/*.aux
-./portada/*~
+portada/*.aux
+portada/*~
+portada/auto
 
-./tablacontenidos/*.aux
-./tablacontenidos/*~
-./tablacontenidos/auto/*
+tablacontenidos/*.aux
+tablacontenidos/*~
+tablacontenidos/auto/*
 
-./prologo/*.aux
-./prologo/*~
-./prologo/auto/*
+prologo/*.aux
+prologo/*~
+prologo/auto/*
 
-./teoria/*.aux
-./teoria/*~
-./teoria/auto/*
+teoria/*.aux
+teoria/*~
+teoria/auto/*
 
-./texto/*.aux
-./texto/*~
-./texto/auto/*
+texto/*.aux
+texto/*~
+texto/auto/*
 
-./apendices/*.aux
-./apendices/*~
-./apendices/auto/*
+apendices/*.aux
+apendices/*~
+apendices/auto/*
 
-./img/*.pdf
+img/*.pdf
 
