@@ -61,7 +61,7 @@ $w=e^{i\theta}$
 
 Se puede intuir esta propiedad expresando el complejo $z$ en forma
 exponencial, con módulo $|z| = r$ y argumento $\alpha$,
-$z=e^{i\alpha}$ (ver figuras~\ref{fig:rot-z} y~\ref{fig:rot-z-rotado}),
+$z=e^{i\alpha}$ (ver figuras~\ref{fig:rot-z} y~\ref{fig:rot-z-rotado})
 \begin{equation}\label{eq:rot-moduloconservado}
   z' = e^{i\theta} z
   = e^{i\theta} \,re^{i\alpha}
@@ -69,8 +69,8 @@ $z=e^{i\alpha}$ (ver figuras~\ref{fig:rot-z} y~\ref{fig:rot-z-rotado}),
 \end{equation}
 Sabemos además, que en toda rotación hay un invariante (una magnitud que se
 conserva). En el caso de la rotación en el plano complejo se conserva el módulo
-del complejo. Esto se puede comprobar en \eqref{eq:rot-moduloconservado},
-pues $|z'| = |z| = r$.
+del número complejo. Esto se puede comprobar en
+\eqref{eq:rot-moduloconservado}, pues $|z'| = |z| = r$.
 
 Vamos a volver a demostrar esta propiedad de una forma algo más elaborada,
 calculando el módulo de un complejo genérico expresado como parte real e
@@ -79,9 +79,20 @@ imaginaria, $z = x + iy$
   |z|^2 = z^* z = (x+iy)^* (x+iy) = (x-iy) (x+iy) = x^2 + y^2
 \]
 
-Y vemos que es el mismo que el del complejo rotado mediante $e^{i\theta}$,
-calculado en~\eqref{eq:rot-modulo-z'},
-$z'=(x\cos\theta-y\sin\theta) + i(x\sin\theta + y\cos\theta)$
+Y vemos que es el mismo que el del complejo rotado mediante $e^{i\theta}$
+%calculado en~\eqref{eq:rot-modulo-z'},
+%Ahora volvemos a escribir el complejo con su parte real e imaginaria, $z=x+iy$
+%y le aplicamos una rotación
+\[
+  z'
+  = e^{i\theta} (x+iy)
+  = (\cos\theta + i\sin\theta) (x + iy)
+\]
+\begin{equation}\label{eq:rot-z'}
+  z'
+  = x'+iy'
+  = (x\cos\theta-y\sin\theta) + i(x\sin\theta + y\cos\theta)
+\end{equation}
 {\small
 \begin{align*}
   |z'|^2
@@ -254,25 +265,13 @@ $z'=(x\cos\theta-y\sin\theta) + i(x\sin\theta + y\cos\theta)$
   \end{minipage}
 \end{figure}
 
-Ahora volvemos a escribir el complejo con su parte real e imaginaria, $z=x+iy$
-y le aplicamos una rotación
-\[
-  x'+iy'
-  = e^{i\theta} (x+iy)
-    = (\cos\theta + i\sin\theta) (x + iy)
-\]
-\begin{equation}\label{eq:rot-modulo-z'}
-  x'+iy'
-   = (x\cos\theta - y\sin\theta) + i (x\sin\theta + y\cos\theta)
-\end{equation}
-
-Obtenemos la parte real e imaginaria del complejo rotado
+De \eqref{eq:rot-z'}, obtenemos la parte real e imaginaria del complejo rotado
 \begin{align*}
   x' &= x\cos\theta - y\sin\theta\\
   y' &= x\sin\theta + y\cos\theta
 \end{align*}
-
-Escribimos la rotación activa\footnotemark{} anterior en forma matricial
+lo que nos permite escribir la rotación activa\footnotemark{} anterior en forma
+matricial
 \footnotetext{En una rotación activa se gira el objeto, mientras que en
   una  pasiva los que se transforman son los ejes de coordenadas.
   Cada una es inversa de la otra. Una rotación pasiva en un sentido
