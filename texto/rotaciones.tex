@@ -311,7 +311,7 @@ y su cuadrado es \emph{menos uno}
 \end{equation}
 
 \section{Rotación de vectores}
-Haremos algo parecido con matrices, en lugar de la unidad imaginaria $i$.
+Haremos algo parecido con matrices, en lugar de con la unidad imaginaria $i$.
 En este caso, nos centramos en matrices reales $2\times 2$.
 Nos \emph{inventaremos} una matriz $\mmm{A}$ antisimétrica, con
 determinante unidad
@@ -327,11 +327,11 @@ Que sea antisimétrica significa que su traspuesta es igual a su opuesta
   \mmm{A}^\trasp = -\mmm{A}
 \]
 Según esta propiedad, toda matriz antisimétrica debe tener sus elementos
-diagonales nulos, y los no diagonales, con índices $i\neq j$ den ser opuestos:
-$a_{ij} = -a_{ji}$.
+diagonales nulos, y los no diagonales (con índices $i\neq j$) deben ser
+opuestos: $a_{ij} = -a_{ji}$.
 
-El que una matriz sea antisimétrica y tenga determinante unidad, guarda una
-cierta similitud con~\eqref{eq:rot-modi}
+La matriz que hemos escrito, además de ser antisimétrica, tiene determinante
+unidad
 \begin{equation}\label{eq:rot-detA}
   \det\mmm{A}
   = \begin{vNiceMatrix}
@@ -341,8 +341,11 @@ cierta similitud con~\eqref{eq:rot-modi}
   = 1
 \end{equation}
 
+El que una matriz sea antisimétrica y tenga determinante unidad, guarda una
+cierta similitud con~\eqref{eq:rot-modi}
+
 Además, al calcular el cuadrado de la matriz observaremos el parecido
-con~\eqref{eq:rot-i2}
+con~\eqref{eq:rot-i2}.
 \begin{equation}\label{eq:rot-A2}
   \mmm{A}^2
   = \begin{pNiceMatrix}
@@ -365,12 +368,44 @@ con~\eqref{eq:rot-i2}
   = -\mmm{I}
 \end{equation}
 
-Lo anterior nos sugiere poder representar una rotación de algún tipo mediante
-$e^{\theta\!\mmm{A}}$ de forma parecida a la rotación de complejos
+Lo anterior sugiere la posibilidad de representar rotaciones de algún tipo
+mediante $e^{\theta\!\mmm{A}}$ de forma parecida a la rotación de complejos
 \eqref{eq:rot-complejos-matriz}.
-Por tanto, desarrollamos $e^{\theta\!\mmm{A}}$ en serie de potencias en un
+Por tanto, desarrollaremos $e^{\theta\!\mmm{A}}$ en serie de potencias en un
 entorno de $\theta = 0$, tal y como hicimos en la
-sección~\ref{sect:rot-taylor}
+sección~\ref{sect:rot-taylor}.
+Primero calculamos y generalizamos las potencias de la matriz $\mmm{A}$
+\begin{multicols}{2}
+  \noindent
+  \begin{align*}
+    \mmm{A}^0
+    &= \mmm{I}\\
+    \mmm{A}^1
+    &= \mmm{A}\\
+    \mmm{A}^2
+    &= \mmm{A}^2 = -\mmm{I}\\
+    \mmm{A}^3
+    &= \mmm{A}^2 \mmm{A} = -\mmm{I} \mmm{A} = -\mmm{A}\\
+  \end{align*}
+  \begin{align*}
+    \mmm{A}^4
+    &= \mmm{A}^2 \mmm{A}^2 = -\mmm{I} (-\mmm{I}) = \mmm{I}\\
+    \mmm{A}^5
+    &= \mmm{A}^4 \mmm{A} = \mmm{I} \mmm{A} = \mmm{A}\\
+    \mmm{A}^6
+    &= \mmm{A}^5 \mmm{A} = \mmm{A} \mmm{A} = \mmm{A}^2 = -\mmm{I}\\
+    \mmm{A}^7
+    &= \mmm{A}^6 \mmm{A} = -\mmm{I} \mmm{A} = -\mmm{A}\\
+    \cdots
+  \end{align*}
+\end{multicols}
+Simplificando, para $n=0, 1, 2, 3, \cdots$
+\begin{align*}
+  &\mmm{A}^{2n} = (-1)^n\mmm{I}\\
+  &\mmm{A}^{2n+1} = (-1)^n\mmm{A}
+\end{align*}
+
+A continuación realizamos el desarrollo en serie $e^{\theta\mmm{A}}$
 \begin{align*}
   e^{\theta\!\mmm{A}}
   &=
@@ -402,33 +437,6 @@ sección~\ref{sect:rot-taylor}
     + \cdots
     \right)\mmm{A}
 \end{align*}
-donde hemos calculado y generalizado las potencias de la matriz $\mmm{A}$
-\begin{multicols}{2}
-  \noindent
-  \begin{align*}
-    \mmm{A}^0
-    &= \mmm{I}\\
-    \mmm{A}^1
-    &= \mmm{A}\\
-    \mmm{A}^2
-    &= \mmm{A}^2 = -\mmm{I}\\
-    \mmm{A}^3
-    &= \mmm{A}^2 \mmm{A} = -\mmm{I} \mmm{A} = -\mmm{A}\\
-    \mmm{A}^4
-    &= \mmm{A}^2 \mmm{A}^2 = -\mmm{I} (-\mmm{I}) = \mmm{I}\\
-  \end{align*}
-  \begin{align*}
-    \mmm{A}^5
-    &= \mmm{A}^4 \mmm{A} = \mmm{I} \mmm{A} = \mmm{A}\\
-    \mmm{A}^6
-    &= \mmm{A}^5 \mmm{A} = \mmm{A} \mmm{A} = \mmm{A}^2 = -\mmm{I}\\
-    \mmm{A}^7
-    &= \mmm{A}^6 \mmm{A} = -\mmm{I} \mmm{A} = -\mmm{A}\\
-    \mmm{A}^8
-    &= \mmm{A}^7 \mmm{A} = -\mmm{A} \mmm{A} = -\mmm{A}^2 = \mmm{I}\\
-    \cdots
-  \end{align*}
-\end{multicols}
 obteniendo una relación que se comparara con la identidad de
 Euler~\eqref{eq:rot-Euler}
 \begin{equation}\label{eq:rot-ethetaA-abr}
@@ -572,10 +580,10 @@ del generador  de rotaciones pasivas\footnotemark{}
 \footnotetext{Una rotación pasiva de números complejos se representaría como
   $e^{-i\theta}$.}
 \[
-  \mmm{R}(\theta) = e^{\theta\!\mmm{A}}
+  e^{\theta\!\mmm{A}}
   = e^{-\theta\!\mmm{G}}
 \]
-donde el generador de la rotación pasiva es
+donde el generador de una rotación pasiva en $\symbb{R}^2$ es
 \[
   \mmm{G}
   = \begin{pNiceMatrix}
@@ -583,7 +591,7 @@ donde el generador de la rotación pasiva es
     -1 & 0
     \end{pNiceMatrix}
 \]
-y la rotación pasiva se representa como $e^{\theta\!\mmm{G}}$.
+y la rotación pasiva se representa como $\mmm{R}(\theta) = e^{\theta\!\mmm{G}}$.
 
 \section{Transformaciones de Lorentz}
 Vamos a intentar ir un poco más allá. ¿Y si buscamos una matriz $\mmm{B}$,
